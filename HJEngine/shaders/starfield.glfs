@@ -1,0 +1,18 @@
+in vec4 tex_color;
+in vec4 fs_tex_color;
+in vec2 fs_tex_coord;
+varying out vec4 finalColor;
+
+float GreaterThanOrEqualTo(float value1, float value2)
+{
+	//Return 1 if value1 >= value2
+	return min(floor(value1/value2),1);
+}
+
+void main() {
+	float radius = 0.2f;
+	float dist = distance(fs_tex_coord,vec2(0.5,0.5));
+	//If radius >= dist return 1 else return 0
+	int fact = GreaterThanOrEqualTo( radius, dist );
+	finalColor = vec4( (fs_tex_color.x/255)*fact, (fs_tex_color.y/255)*fact, (fs_tex_color.z/255)*fact, (fs_tex_color.w/255)*fact );
+}

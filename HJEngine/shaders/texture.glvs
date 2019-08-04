@@ -1,0 +1,21 @@
+//Vertex position attribute
+in vec2 LVertexPos2D;
+uniform vec4 LTransVector;
+uniform mat4 LModelViewMatrix;
+uniform mat4 LProjectionMatrix;
+uniform float angle;
+//Texture coordinate attribute;
+in vec2 LTexCoord;
+varying out vec2 texCoord;
+
+
+void main()
+{
+	//Process texCoord
+	texCoord = LTexCoord;
+	float new_x = LVertexPos2D.x*cos(angle) + LVertexPos2D.x*sin(angle) + LTransVector.x;
+	float new_y = LVertexPos2D.x*sin(angle) + LVertexPos2D.y*cos(angle) + LTransVector.y;
+	//Process vertex
+	gl_Position = LProjectionMatrix * LModelViewMatrix * 
+	(vec4( new_x, new_y, 0.0, 1.0 ));
+}

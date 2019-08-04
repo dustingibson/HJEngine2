@@ -1,0 +1,9 @@
+//Vertex position attribute
+in vec2 vertex_data;
+uniform mat4 LModelViewMatrix;
+uniform mat4 LProjectionMatrix;
+
+void main()
+{
+	gl_Position =  LProjectionMatrix * LModelViewMatrix *vec4( vertex_data, 0.0, 1.0 );
+}

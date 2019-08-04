@@ -1,0 +1,18 @@
+uniform vec4 tex_color;
+uniform vec2 border_size;
+uniform vec4 border_color;
+varying out vec4 finalColor;
+in vec2 texCoord;
+
+void main() {
+    //finalColor = texture(LTextureUnit, texCoord);
+	//finalColor = tex_color;
+	if( (texCoord.x >= 0.0f && texCoord.x <= border_size.x) ||
+	(texCoord.y >= 0.0f && texCoord.y <= border_size.y) ||
+	(texCoord.x >= 1.0f-border_size.x && texCoord.x <= 1.0f) ||
+	(texCoord.y >= 1.0f-border_size.y && texCoord.y <= 1.0f) ) {
+		finalColor = vec4( border_color.x/255, border_color.y/255, border_color.z/255, border_color.w/255 );
+	}
+	else
+		finalColor = vec4( tex_color.x/255, tex_color.y/255, tex_color.z/255, tex_color.w/255 );
+}

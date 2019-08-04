@@ -1,0 +1,8 @@
+uniform vec3 color_vector;
+
+out vec4 finalColor;
+
+void main() {
+    //finalColor = texture(LTextureUnit, texCoord);
+	finalColor = vec4(color_vector, alpha);
+}

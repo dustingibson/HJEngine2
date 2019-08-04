@@ -1,0 +1,21 @@
+//Vertex position attribute
+in vec2 LVertexPos2D;
+in vec4 tex_color;
+in vec2 tex_coord;
+uniform vec2 size;
+uniform vec2 trans_vector;
+uniform mat4 LModelViewMatrix;
+uniform mat4 LProjectionMatrix;
+varying out vec4 fs_tex_color;
+varying out vec2 fs_tex_coord;
+
+void main()
+{
+	fs_tex_coord = tex_coord;
+	float conv_x = LVertexPos2D.x / size.x;
+	float conv_y = LVertexPos2D.y / size.y;
+	float tx = trans_vector.x / size.x;
+	float ty = trans_vector.y / size.y;
+	gl_Position = LProjectionMatrix * LModelViewMatrix * (vec4( vec2(conv_x,conv_y), 0.0, 1.0 ));
+	fs_tex_color = tex_color;
+}

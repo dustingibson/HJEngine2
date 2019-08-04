@@ -1,0 +1,11 @@
+
+uniform sampler2D LTextureUnit;
+
+in vec2 texCoord;
+
+varying out vec4 finalColor;
+
+void main() {
+    finalColor = texture(LTextureUnit, texCoord);
+	//finalColor = vec4(1.0, 0.0, 0.0, 1.0);
+}
