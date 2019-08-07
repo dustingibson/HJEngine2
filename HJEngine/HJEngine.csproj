@@ -78,6 +78,7 @@
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Core" />
+    <Reference Include="System.Drawing" />
     <Reference Include="System.Xml.Linq" />
     <Reference Include="System.Data.DataSetExtensions" />
     <Reference Include="Microsoft.CSharp" />
@@ -87,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Display.cs" />
+    <Compile Include="gfx\Graphics.cs" />
     <Compile Include="gfx\Shader.cs" />
     <Compile Include="gfx\Texture.cs" />
     <Compile Include="prim\Point.cs" />
@@ -129,7 +131,7 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\main.xml" />
-    <Content Include="config\menus\main.xml" />
+    <Content Include="config\menu.xml" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

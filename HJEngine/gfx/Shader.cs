@@ -9,11 +9,38 @@ using OpenTK.Graphics.OpenGL4;
 
 namespace HJEngine.gfx
 {
+
+    class ShaderFactory
+    {
+        private Dictionary<string, Shader> shaders;
+
+        public ShaderFactory()
+        {
+            shaders = new Dictionary<string, Shader>();
+            shaders.Add("texture", new gfx.Shader("texture"));
+            shaders.Add("triangle", new gfx.Shader("triangle"));
+        }
+
+        public Shader GetShader(string name)
+        {
+            if (shaders.ContainsKey(name))
+                return shaders[name];
+            else
+                return null;
+        }
+
+        public void Use(string name)
+        {
+            shaders[name].Use();
+        }
+    }
+
     class Shader
     {
         public int vertexShader;
         public int fragmentShader;
         public int handle;
+        public string name;
         private Dictionary<string, int> uniforms;
 
         public Shader(string name)
@@ -21,6 +48,7 @@ namespace HJEngine.gfx
             string vertexShaderSrc;
             string fragmentShaderSrc;
             uniforms = new Dictionary<string, int>();
+            this.name = name;
             using (StreamReader reader = new StreamReader("shaders/" + name + ".glvs", Encoding.UTF8))
             {
                 vertexShaderSrc = reader.ReadToEnd();
@@ -56,6 +84,11 @@ namespace HJEngine.gfx
 
         }
 
+        public int GetAttributeLocation(string name)
+        {
+            return GL.GetAttribLocation(handle, name);
+        }
+
         private int CompileShader(int shader)
         {
             GL.CompileShader(shader);
@@ -77,9 +110,20 @@ namespace HJEngine.gfx
             }
         }
 
-        public void Run()
+        public void SetInt(string name, int value)
+        {
+            int location = GL.GetUniformLocation(handle, name);
+            GL.Uniform1(location, value);
+        }
+
+        public void Use()
         {
             GL.UseProgram(handle);
+        }
+        
+        public void Stop()
+        {
+            GL.UseProgram(0);
         }
 
         ~Shader()

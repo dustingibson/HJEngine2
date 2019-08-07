@@ -3,7 +3,9 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using OpenTK.Graphics.OpenGL;
+using System.Drawing;
+using System.Drawing.Imaging;
+using OpenTK.Graphics.OpenGL4;
 
 namespace HJEngine.gfx
 {
@@ -14,15 +16,49 @@ namespace HJEngine.gfx
         public int vertexBuffer;
         public int arrayObj;
         public int elementBuffer;
+        public int texHandle;
+        public string shaderName;
+        private gfx.Graphics graphics;
 
-        private int t;
-
-        public Texture(float[] vertices, uint[] indices)
+        public Texture(gfx.Graphics graphics, string shaderName, float[] vertices, uint[] indices)
         {
             this.vertices = vertices;
             this.indices = indices;
-            this.t = 0;
+            this.graphics = graphics;
+            this.shaderName = shaderName;
+            ToVAO();
+            texHandle = -1;
+        }
 
+        public Texture(Bitmap bitmap, gfx.Graphics graphics, string shaderName, float[] vertices, uint[] indices)
+        {
+            this.vertices = vertices;
+            this.indices = indices;
+            this.graphics = graphics;
+            this.shaderName = shaderName;
+            this.texHandle = GL.GenTexture();
+            this.Use();
+            GL.BindTexture(TextureTarget.Texture2D, texHandle);
+            BitmapData bitmapData = bitmap.LockBits(new Rectangle(0, 0, 
+                bitmap.Width, bitmap.Height), ImageLockMode.ReadOnly, 
+                System.Drawing.Imaging.PixelFormat.Format32bppArgb);
+            GL.TexImage2D(TextureTarget.Texture2D, 0, PixelInternalFormat.Rgba, bitmapData.Width,
+                bitmapData.Height, 0, OpenTK.Graphics.OpenGL4.PixelFormat.Bgra, PixelType.UnsignedByte, bitmapData.Scan0);
+            bitmap.UnlockBits(bitmapData);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMinFilter, (int)TextureMinFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureMagFilter, (int)TextureMagFilter.Linear);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
+            GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
+            GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
+
+            ToVAO();
+        }
+
+
+        private void ToVAO()
+        {
+            Shader shader = graphics.shaders.GetShader(shaderName);
+            int stride = shader.name == "texture" ? 5 : 3;
             vertexBuffer = GL.GenBuffer();
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
             GL.BufferData(BufferTarget.ArrayBuffer,
@@ -33,43 +69,65 @@ namespace HJEngine.gfx
             GL.BufferData(BufferTarget.ElementArrayBuffer,
                 indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
+            shader.Use();
+            this.Use();
 
-            //shader.Run();
             arrayObj = GL.GenVertexArray();
             GL.BindVertexArray(arrayObj);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
             GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBuffer);
 
-            GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
+            var vertexLocation = shader.GetAttributeLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, stride * sizeof(float), 0);
 
-            GL.EnableVertexArrayAttrib(arrayObj, 0);
+            if (shader.name == "texture")
+            {
+                var texCoordLocation = shader.GetAttributeLocation("aTexCoord");
+                GL.EnableVertexAttribArray(texCoordLocation);
+                GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
+            }
+            //shader.Stop();
+            //GL.VertexAttribPointer(0, 3, VertexAttribPointerType.Float, false, 3 * sizeof(float), 0);
 
+            //GL.EnableVertexArrayAttrib(arrayObj, 0);
         }
+
 
         public void UpdateVertices()
         {
-            if (this.t > 365)
-                this.t = 0;
             for(int i = 0; i < 3; i++)
             {
-                float x = this.vertices[i * 3] * (float)Math.Cos(t*0.01745);
-                float y = this.vertices[(i * 3) + 1] + (float)Math.Cos(t * 0.01745);
+                //float x = this.vertices[i * 3] * (float)Math.Cos(t*0.01745);
+                //float y = this.vertices[(i * 3) + 1] + (float)Math.Cos(t * 0.01745);
 
-                this.vertices[i * 3] = x;
-                this.vertices[i * 3 + 1] = y;
+                //this.vertices[i * 3] = x;
+                //this.vertices[i * 3 + 1] = y;
             }
-            this.t++;
         }
 
         public void Draw()
         {
-            //Console.WriteLine(string.Join(",",this.vertices));
-            //UpdateVertices();
-            GL.BindVertexArray(vertexBuffer);
+            Shader shader = graphics.shaders.GetShader(shaderName);
+            if (shader.name == "texture")
+            {
+                this.Use();
+            }
+            shader.Use();
+            GL.BindVertexArray(arrayObj);
             GL.BufferData(BufferTarget.ArrayBuffer,
                 vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+            GL.BufferData(BufferTarget.ElementArrayBuffer,
+                indices.Length * sizeof(float), indices, BufferUsageHint.StaticDraw);
             GL.DrawElements(PrimitiveType.Triangles, this.indices.Length,
                 DrawElementsType.UnsignedInt, 0);
+            //GL.BindVertexArray(0);
+        }
+
+        public void Use(TextureUnit unit = TextureUnit.Texture0)
+        {
+            GL.ActiveTexture(unit);
+            GL.BindTexture(TextureTarget.Texture2D, texHandle);
         }
     }
 }
