@@ -33,7 +33,8 @@ namespace HJEngine.ui
 
                     if(type == "button")
                     {
-                        components.Add(new Button(graphics, text, new prim.Point(x, y), new prim.Size(w, h)));
+                        components.Add(new Button(graphics, text, 
+                            new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
                     }
 
                 }

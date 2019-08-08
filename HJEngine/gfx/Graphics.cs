@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK;
+using System.Drawing.Text;
 
 namespace HJEngine.gfx
 {
@@ -13,6 +14,7 @@ namespace HJEngine.gfx
         public Shader shader;
         public prim.Size size;
         public gfx.ShaderFactory shaders;
+        public PrivateFontCollection fonts;
 
 
         private Matrix4 Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -32,7 +34,7 @@ namespace HJEngine.gfx
             shaders = new gfx.ShaderFactory();
 
             Matrix4 model = Matrix4.Identity;
-            Matrix4 proj = Ortho(0f, 1f, 0f, 1f, 0f, 1f);
+            Matrix4 proj = Ortho(0f, 1f, 1f, 0f, 0f, 1f);
 
             shaders.GetShader("triangle").SetMatrix4("projection", proj);
             shaders.GetShader("triangle").SetMatrix4("model", model);
@@ -41,6 +43,9 @@ namespace HJEngine.gfx
             shaders.GetShader("texture").SetMatrix4("model", model);
 
             this.size = size;
+            fonts = new PrivateFontCollection();
+            fonts.AddFontFile("res/fonts/system.ttf");
+
         }
     }
 }

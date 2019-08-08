@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
 
+
 namespace HJEngine.ui
 {
     class Component
@@ -32,6 +33,11 @@ namespace HJEngine.ui
         public Component(gfx.Shader shader, XmlNode node)
         {
 
+        }
+
+        public float getCenter(float size)
+        {
+            return 0.5f - (size / 2.0f);
         }
 
         public virtual void Draw()

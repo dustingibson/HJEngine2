@@ -10,11 +10,16 @@ namespace HJEngine.prim
     {
         public float x;
         public float y;
+        public bool cx;
+        public bool cy;
 
-        public Point(float x, float y)
+        public Point(float x, float y, bool cx=false, bool cy=false)
         {
             this.x = x;
             this.y = y;
+            this.cx = cx;
+            this.cy = cy;
         }
+
     }
 }
