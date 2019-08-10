@@ -30,20 +30,22 @@ namespace HJEngine
 
             float[] vertices = {
                 // Position         Texture coordinates
-                 0.5f,  0.5f, 0.0f, // top right
-                 0.5f, -0.5f, 0.0f, // bottom right
-                -0.5f, -0.5f, 0.0f
+                 1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
+                 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
+                 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,// bottom right
+                0.0f, 1.0f, 0.0f, 0.0f, 1.0f
             };
 
             uint[] indices =
             {
-                0, 2, 1
+                0, 1, 3,
+                1, 2, 3
             };
 
             gfx.Graphics graphics = new gfx.Graphics(new prim.Size(Width, Height));
 
             testMenu = new ui.Menu("main menu", graphics);
-            texture = new gfx.Texture(graphics, "triangle", vertices, indices);
+            texture = new gfx.ColorTexture(graphics, System.Drawing.Color.Red, System.Drawing.Color.Blue, new prim.Size(10,10), vertices, indices);
 
             base.OnLoad(e);
         }

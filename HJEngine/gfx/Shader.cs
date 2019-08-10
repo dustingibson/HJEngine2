@@ -81,7 +81,6 @@ namespace HJEngine.gfx
                 var loc = GL.GetUniformLocation(handle, key);
                 uniforms.Add(key, loc);
             }
-
         }
 
         public int GetAttributeLocation(string name)
@@ -107,6 +106,24 @@ namespace HJEngine.gfx
             if (uniforms.ContainsKey(name))
             {
                 GL.UniformMatrix4(uniforms[name], true, ref data);
+            }
+        }
+
+        public void SetVec2(string name, Vector2 data)
+        {
+            GL.UseProgram(handle);
+            if (uniforms.ContainsKey(name))
+            {
+                GL.Uniform2(uniforms[name], ref data);
+            }
+        }
+
+        public void SetVec4(string name, Vector4 data)
+        {
+            GL.UseProgram(handle);
+            if (uniforms.ContainsKey(name))
+            {
+                GL.Uniform4(uniforms[name], ref data);
             }
         }
 

@@ -1,8 +1,18 @@
-#version 330
-
+#version 410
+in vec2 texCoord;
+uniform vec4 fillColor;
+uniform vec2 borderSize;
+uniform vec4 borderColor;
 out vec4 outputColor;
 
 void main()
 {
-    outputColor = vec4(1.0, 1.0, 0.0, 1.0);
+	vec2 border_size = borderSize;
+	if( (texCoord.x >= 0.0f && texCoord.x <= border_size.x) ||
+	(texCoord.y >= 0.0f && texCoord.y <= border_size.y) ||
+	(texCoord.x >= 1.0f-border_size.x && texCoord.x <= 1.0f) ||
+	(texCoord.y >= 1.0f-border_size.y && texCoord.y <= 1.0f) ) 
+		outputColor = borderColor;
+	else
+		outputColor = fillColor;
 }

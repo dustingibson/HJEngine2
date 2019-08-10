@@ -18,7 +18,7 @@ namespace HJEngine.ui
         {
             SizeF textSize = new SizeF();
             Bitmap somebitmap = new Bitmap(32, 32);
-            Font font = new Font(graphics.fonts.Families[0], 26, FontStyle.Regular);
+            Font font = new Font(graphics.fonts["system"].Families[0], 26, FontStyle.Regular);
 
             using (Graphics g = Graphics.FromImage(somebitmap))
             {
@@ -50,8 +50,6 @@ namespace HJEngine.ui
             point.x = point.cx ? getCenter(size.w) : point.x;
             point.y = point.cy ? getCenter(size.h) : point.y;
 
-
-
             float[] vertices = {
                  point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
                  point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
@@ -64,7 +62,7 @@ namespace HJEngine.ui
                 1, 2, 3    // second triangle
             };
 
-            labelTexture = new gfx.Texture(bitmap, graphics, "texture", vertices, indices);
+            labelTexture = new gfx.ImageTexture( graphics, bitmap, vertices, indices);
         }
 
         public override void Draw()

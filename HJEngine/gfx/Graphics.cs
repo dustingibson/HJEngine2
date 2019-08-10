@@ -4,6 +4,8 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using OpenTK.Graphics.OpenGL4;
+using System.Drawing;
+using System.IO;
 using OpenTK;
 using System.Drawing.Text;
 
@@ -14,38 +16,38 @@ namespace HJEngine.gfx
         public Shader shader;
         public prim.Size size;
         public gfx.ShaderFactory shaders;
-        public PrivateFontCollection fonts;
+        public Dictionary<string,PrivateFontCollection> fonts;
 
-
-        private Matrix4 Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
-        {
-            Matrix4 result = Matrix4.Identity;
-            result[0, 0] = 2f / (right - left);
-            result[1, 1] = 2f / (top - bottom);
-            result[2, 2] = -2f / (zFar - zNear);
-            result[0, 3] = -(right + left) / (right - left);
-            result[1, 3] = -(top + bottom) / (top - bottom);
-            result[2, 3] = -(zFar + zNear) / (zFar - zNear);
-            return result;
-        }
 
         public Graphics(prim.Size size)
         {
             shaders = new gfx.ShaderFactory();
 
-            Matrix4 model = Matrix4.Identity;
-            Matrix4 proj = Ortho(0f, 1f, 1f, 0f, 0f, 1f);
-
-            shaders.GetShader("triangle").SetMatrix4("projection", proj);
-            shaders.GetShader("triangle").SetMatrix4("model", model);
-
-            shaders.GetShader("texture").SetMatrix4("projection", proj);
-            shaders.GetShader("texture").SetMatrix4("model", model);
-
             this.size = size;
-            fonts = new PrivateFontCollection();
-            fonts.AddFontFile("res/fonts/system.ttf");
+            fonts = new Dictionary<string, PrivateFontCollection>();
 
+            foreach (string fname in Directory.GetFiles("res/fonts"))
+            {
+                PrivateFontCollection curFonts = new PrivateFontCollection();
+                curFonts.AddFontFile(fname);
+                fonts.Add(Path.GetFileNameWithoutExtension(fname), curFonts);
+            }
+
+        }
+
+        public Vector2 normalizeSize(prim.Size curSize)
+        {
+            //float aspect = this.size.w / this.size.h;
+            return new Vector2(curSize.w / this.size.w, curSize.h / this.size.h);
+        }
+
+        public Vector4 ColorToVec4(Color color)
+        {
+            float r = (float)color.R / 255f;
+            float g = (float)color.G / 255f;
+            float b = (float)color.B / 255f;
+            float a = (float)color.A / 255f;
+            return new Vector4(r, g, b, a);
         }
     }
 }
