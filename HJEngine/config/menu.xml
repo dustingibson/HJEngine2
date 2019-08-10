@@ -9,7 +9,11 @@
 		<item name="credits" type="button" text="Credits" x="center" y="0.66313" w="0.05" h="0.05" border_size="0" action="none" link="none" />
 		<item name="editor" type="button" text="Editor" x="center" y="0.736045" w="0.05" h="0.05" border_size="0" action="change state" link="new map" />
 		<item name="quit" type="button" text="Quit" x="center" y="0.80896" w="0.05" h="0.05" border_size="0" action="quit" link="none" />
-	</menu>
+
+    <item name="options pane" type="pane" text="" x="0.14453" y="0.2368" w="0.3333" h="0.4375" border_size="5" pane_color="128,128,128,128" />
+
+
+  </menu>
 	<menu name="options"  bg_color="120,135,171,0" font_color="58,141,255,255" border_color="58,141,255,255" brightness="1.6" font="system" font_size="15" >
 		<item name="options pane" type="pane" text="" x="0.14453" y="0.2368" w="0.3333" h="0.4375" border_size="5" pane_color="128,128,128,192" />
 		<item name="cancel" type="button" text="Cancel" x="0.49219" y="0.85417" w="1.00" h="1.00" border_size="0" action="change menu" link="main menu" />

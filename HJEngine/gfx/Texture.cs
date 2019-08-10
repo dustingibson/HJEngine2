@@ -185,7 +185,8 @@ namespace HJEngine.gfx
         protected override void ToVAO(Shader shader)
         {
             base.ToVAO(shader);
-            shader.SetVec4("fillColor", new Vector4(1.0f, 0.0f, 0.0f, 1.0f));
+            //shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
+            shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
             shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
             shader.SetVec2("borderSize", borderSize);
         }

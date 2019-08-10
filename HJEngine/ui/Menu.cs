@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Xml;
+using System.Drawing;
 
 namespace HJEngine.ui
 {
@@ -17,6 +18,11 @@ namespace HJEngine.ui
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("config/menu.xml");
             XmlNode menuNode = xmlDoc.SelectSingleNode(string.Format("//menu[@name='{0}']", menuName));
+            string fontType = menuNode.Attributes["font"].Value;
+            Color fontColor = stringToColor(menuNode.Attributes["font_color"].Value);
+            Color bgColor = stringToColor(menuNode.Attributes["bg_color"].Value);
+            Color borderColor = stringToColor(menuNode.Attributes["border_color"].Value);
+            int fontSize = int.Parse(menuNode.Attributes["font_size"].Value);
             foreach (XmlNode itemNode in menuNode.ChildNodes)
             {
                 if (itemNode.Name == "item")
@@ -33,12 +39,31 @@ namespace HJEngine.ui
 
                     if(type == "button")
                     {
-                        components.Add(new Button(graphics, text, 
+                        components.Add(new Button(graphics, text, fontSize, fontType, fontColor,
+                            new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
+                    }
+
+                    if(type == "pane")
+                    {
+                        Color paneColor = stringToColor(itemNode.Attributes["pane_color"].Value);
+                        float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
+                        prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
+                        components.Add(new Pane(graphics, paneColor, borderColor, borderSizeObj, 
                             new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
                     }
 
                 }
             }
+        }
+
+        private Color stringToColor(string colorStr)
+        {
+            string[] rgba = colorStr.Split(',');
+            int r = int.Parse(rgba[0]);
+            int g = int.Parse(rgba[1]);
+            int b = int.Parse(rgba[2]);
+            int a = int.Parse(rgba[3]);
+            return Color.FromArgb(a, r, g, b);
         }
 
         public void Draw()

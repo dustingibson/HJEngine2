@@ -13,12 +13,12 @@ namespace HJEngine.ui
     {
         private gfx.Texture labelTexture;
 
-        public Label(gfx.Graphics graphics, string text, prim.Point point, prim.Size size) 
+        public Label(gfx.Graphics graphics, string text, int fontSize, string fontType, Color fontColor, prim.Point point, prim.Size size) 
             : base(graphics, "label", text, point, size)
         {
             SizeF textSize = new SizeF();
             Bitmap somebitmap = new Bitmap(32, 32);
-            Font font = new Font(graphics.fonts["system"].Families[0], 26, FontStyle.Regular);
+            Font font = new Font(graphics.fonts[fontType].Families[0], fontSize, FontStyle.Regular);
 
             using (Graphics g = Graphics.FromImage(somebitmap))
             {
@@ -32,7 +32,7 @@ namespace HJEngine.ui
             using (Graphics g = Graphics.FromImage(bitmap))
             {
                 //textSize = g.MeasureString(text, font);
-                using (Brush brush = new SolidBrush(Color.Blue))
+                using (Brush brush = new SolidBrush(fontColor))
                 {
                     g.SmoothingMode = SmoothingMode.AntiAlias;
                     g.CompositingQuality = CompositingQuality.HighQuality;

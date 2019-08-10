@@ -12,7 +12,7 @@ namespace HJEngine
     {
         static void Main(string[] args)
         {
-            using (Display display = new Display(800,600,"Blah"))
+            using (Display display = new Display(1600,900,"Blah"))
             {
                 display.Run(60);
             }

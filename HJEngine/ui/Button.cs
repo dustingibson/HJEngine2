@@ -13,10 +13,10 @@ namespace HJEngine.ui
     {
         private ui.Label label;
 
-        public Button(gfx.Graphics graphics, string text, prim.Point point, prim.Size size) 
+        public Button(gfx.Graphics graphics, string text, int fontSize,  string fontType, Color fontColor, prim.Point point, prim.Size size) 
             : base(graphics, "button", text, point, size)
         {
-            label = new Label(graphics, text, point, size);
+            label = new Label(graphics, text, fontSize, fontType, fontColor, point, size);
         }
 
         public override void Draw()

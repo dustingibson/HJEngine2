@@ -124,8 +124,6 @@
     <None Include="shaders\texture.glvs" />
     <None Include="shaders\triangle.glfs" />
     <None Include="shaders\triangle.glvs" />
-    <None Include="shaders\triangle_border.glfs" />
-    <None Include="shaders\triangle_border.glvs" />
     <None Include="shaders\vert.spv" />
   </ItemGroup>
   <ItemGroup>
@@ -133,7 +131,9 @@
   </ItemGroup>
   <ItemGroup>
     <Content Include="config\main.xml" />
-    <Content Include="config\menu.xml" />
+    <Content Include="config\menu.xml">
+      <SubType>Designer</SubType>
+    </Content>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

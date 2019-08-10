@@ -45,7 +45,7 @@ namespace HJEngine
             gfx.Graphics graphics = new gfx.Graphics(new prim.Size(Width, Height));
 
             testMenu = new ui.Menu("main menu", graphics);
-            texture = new gfx.ColorTexture(graphics, System.Drawing.Color.Red, System.Drawing.Color.Blue, new prim.Size(10,10), vertices, indices);
+            //texture = new gfx.ColorTexture(graphics, System.Drawing.Color.Red, System.Drawing.Color.Blue, new prim.Size(10,10), vertices, indices);
 
             base.OnLoad(e);
         }
@@ -53,7 +53,7 @@ namespace HJEngine
         protected override void OnRenderFrame(FrameEventArgs e)
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            texture.Draw();
+            //texture.Draw();
             testMenu.Draw();
             SwapBuffers();
             base.OnRenderFrame(e);
