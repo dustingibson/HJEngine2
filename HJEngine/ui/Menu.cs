@@ -52,6 +52,14 @@ namespace HJEngine.ui
                             new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
                     }
 
+                    if(type == "toggle box")
+                    {
+                        float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
+                        prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
+                        components.Add(new ToggleBox(graphics, bgColor, borderColor, borderSizeObj,
+                            text, fontSize, fontType, fontColor,
+                            new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
+                    }
                 }
             }
         }

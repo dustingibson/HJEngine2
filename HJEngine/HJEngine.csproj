@@ -102,6 +102,7 @@
     <Compile Include="ui\Menu.cs" />
     <Compile Include="ui\Pane.cs" />
     <Compile Include="ui\Select.cs" />
+    <Compile Include="ui\ToggleBox.cs" />
     <Compile Include="ui\Value.cs" />
   </ItemGroup>
   <ItemGroup>

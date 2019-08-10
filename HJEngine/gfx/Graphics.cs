@@ -41,6 +41,21 @@ namespace HJEngine.gfx
             return new Vector2(curSize.w / this.size.w, curSize.h / this.size.h);
         }
 
+        public Vector2 normalizeSize(prim.Size childSize, prim.Size parentSize)
+        {
+            Vector2 parentPixelSize = this.getPixelSize(parentSize);
+            return new Vector2(  childSize.w / parentPixelSize[0], 
+                                  childSize.h / parentPixelSize[1]);
+        }
+
+        public Vector2 getPixelSize(prim.Size curSize)
+        {
+            return new Vector2(
+                curSize.w * this.size.w,
+                curSize.h * this.size.h
+            );
+        }
+
         public Vector4 ColorToVec4(Color color)
         {
             float r = (float)color.R / 255f;

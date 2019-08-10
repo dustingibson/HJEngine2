@@ -171,12 +171,12 @@ namespace HJEngine.gfx
             ToVAO(shader);
         }
 
-        public ColorTexture(gfx.Graphics graphics, Color fillColor, Color borderColor, prim.Size borderSize, float[] vertices, uint[] indices)
+        public ColorTexture(gfx.Graphics graphics, Color fillColor, Color borderColor, Vector2 borderSize, float[] vertices, uint[] indices)
     : base(graphics, "triangle", vertices, indices)
         {
             this.texHandle = GL.GenTexture();
             this.fillColor = fillColor;
-            this.borderSize = graphics.normalizeSize(borderSize);
+            this.borderSize = borderSize;
             this.borderColor = borderColor;
             Shader shader = graphics.shaders.GetShader(shaderName);
             ToVAO(shader);

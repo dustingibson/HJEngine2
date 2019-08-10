@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Drawing;
+using OpenTK;
 
 namespace HJEngine.ui
 {
@@ -21,13 +22,12 @@ namespace HJEngine.ui
                 point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left
                 point.x,  point.y + size.h, 0.0f, 0.0f, 1.0f   // top left
             };
-
             uint[] indices = {  // note that we start from 0!
                 0, 1, 3,   // first triangle
                 1, 2, 3    // second triangle
             };
-
-            paneTexture = new gfx.ColorTexture(graphics, paneColor, borderColor, borderSize, vertices, indices);
+            Vector2 borderVec = graphics.normalizeSize(borderSize, this.size);
+            paneTexture = new gfx.ColorTexture(graphics, paneColor, borderColor, borderVec, vertices, indices);
         }
 
         public override void Draw()
