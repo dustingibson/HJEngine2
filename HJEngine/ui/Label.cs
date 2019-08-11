@@ -11,7 +11,7 @@ namespace HJEngine.ui
 {
     class Label : Component
     {
-        private gfx.Texture labelTexture;
+        private gfx.ImageTexture labelTexture;
 
         public Label(gfx.Graphics graphics, string text, int fontSize, string fontType, Color fontColor, prim.Point point, prim.Size size) 
             : base(graphics, "label", text, point, size)
@@ -63,6 +63,23 @@ namespace HJEngine.ui
             };
 
             labelTexture = new gfx.ImageTexture( graphics, bitmap, vertices, indices);
+        }
+
+        public void HighlightText()
+        {
+            labelTexture.ChangeColor(1.5f);
+        }
+
+        public override void Update()
+        {
+            float[] vertices = {
+                 point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
+                 point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
+                point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left
+                point.x,  point.y + size.h, 0.0f, 0.0f, 1.0f   // top left
+            };
+            labelTexture.Update(vertices);
+            base.Update();
         }
 
         public override void Draw()

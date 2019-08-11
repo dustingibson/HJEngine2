@@ -82,6 +82,14 @@ namespace HJEngine.ui
             }
         }
 
+        public void Update()
+        {
+            foreach(Component curComponent in this.components)
+            {
+                curComponent.Update();
+            }
+        }
+
         public float getCenter(float size)
         {
             return 0.5f - (size / 2.0f);

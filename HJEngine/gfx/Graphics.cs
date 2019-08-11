@@ -13,15 +13,15 @@ namespace HJEngine.gfx
 {
     class Graphics
     {
-        public Shader shader;
         public prim.Size size;
-        public gfx.ShaderFactory shaders;
+        //public gfx.ShaderFactory shaders;
         public Dictionary<string,PrivateFontCollection> fonts;
-
+        public prim.Point mousePoint;
 
         public Graphics(prim.Size size)
         {
-            shaders = new gfx.ShaderFactory();
+            //shaders = new gfx.ShaderFactory();
+            mousePoint = new prim.Point(0,0);
 
             this.size = size;
             fonts = new Dictionary<string, PrivateFontCollection>();
@@ -54,6 +54,21 @@ namespace HJEngine.gfx
                 curSize.w * this.size.w,
                 curSize.h * this.size.h
             );
+        }
+        
+        public float getWSquareSize(float hSize )
+        {
+            return (this.size.h * hSize) / this.size.w;
+        }
+
+        public prim.Point getNormalPoint(prim.Point point)
+        {
+            return new prim.Point(point.x / this.size.w, point.y / this.size.h);
+        }
+
+        public void updateMousePoint(int x, int y)
+        {
+            mousePoint = getNormalPoint(new prim.Point(x,y));
         }
 
         public Vector4 ColorToVec4(Color color)

@@ -7,6 +7,7 @@ using OpenTK;
 using OpenTK.Graphics;
 using OpenTK.Input;
 using OpenTK.Graphics.OpenGL4;
+using System.Drawing;
 
 namespace HJEngine
 {
@@ -14,10 +15,11 @@ namespace HJEngine
     {
         private gfx.Texture texture;
         private ui.Menu testMenu;
+        private gfx.Graphics graphics;
 
         public Display(int width, int height, string title) : base(width, height, GraphicsMode.Default, title)
         {
-
+            
         }
 
         protected override void OnLoad(EventArgs e)
@@ -28,26 +30,17 @@ namespace HJEngine
 
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
-            float[] vertices = {
-                // Position         Texture coordinates
-                 1.0f,  1.0f, 0.0f, 1.0f, 1.0f, // top right
-                 1.0f, 0.0f, 0.0f, 1.0f, 0.0f,
-                 0.0f, 0.0f, 0.0f, 0.0f, 0.0f,// bottom right
-                0.0f, 1.0f, 0.0f, 0.0f, 1.0f
-            };
 
-            uint[] indices =
-            {
-                0, 1, 3,
-                1, 2, 3
-            };
-
-            gfx.Graphics graphics = new gfx.Graphics(new prim.Size(Width, Height));
+            graphics = new gfx.Graphics(new prim.Size(Width, Height));
 
             testMenu = new ui.Menu("main menu", graphics);
-            //texture = new gfx.ColorTexture(graphics, System.Drawing.Color.Red, System.Drawing.Color.Blue, new prim.Size(10,10), vertices, indices);
 
             base.OnLoad(e);
+        }
+
+        protected override void OnMouseMove(MouseMoveEventArgs e)
+        {
+            base.OnMouseMove(e);
         }
 
         protected override void OnRenderFrame(FrameEventArgs e)
@@ -62,6 +55,12 @@ namespace HJEngine
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             KeyboardState input = Keyboard.GetState();
+            MouseState mouseState = Mouse.GetCursorState();
+            Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));
+            graphics.updateMousePoint(cPoint.X, cPoint.Y);
+
+            testMenu.Update();
+
             if(input.IsKeyDown(Key.Escape))
             {
                 Exit();

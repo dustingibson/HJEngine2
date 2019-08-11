@@ -16,7 +16,7 @@ namespace HJEngine.ui
         public prim.Point point;
         public prim.Size size;
         private List<Component> subComponents;
-        private gfx.Graphics graphics;
+        protected gfx.Graphics graphics;
 
         public Component(gfx.Graphics graphics, string type, string text, prim.Point point, prim.Size size)
         {
@@ -41,6 +41,11 @@ namespace HJEngine.ui
         }
 
         public virtual void Draw()
+        {
+
+        }
+
+        public virtual void Update()
         {
 
         }

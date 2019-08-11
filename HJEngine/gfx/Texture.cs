@@ -20,13 +20,14 @@ namespace HJEngine.gfx
         public int texHandle;
         public string shaderName;
         protected gfx.Graphics graphics;
+        protected Shader shader;
 
         public Texture(gfx.Graphics graphics, string shaderName, float[] vertices, uint[] indices)
         {
             this.vertices = vertices;
             this.indices = indices;
             this.graphics = graphics;
-            this.shaderName = shaderName;
+            this.shader = new Shader(shaderName);
         }
 
         private Matrix4 Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -41,16 +42,16 @@ namespace HJEngine.gfx
             return result;
         }
 
-        protected void SetProjections(Shader shader)
+        protected void SetProjections()
         {
             Matrix4 model = Matrix4.Identity;
             Matrix4 proj = Ortho(0f, 1f, 1f, 0f, 0f, 1f);
 
-            shader.SetMatrix4("projection", proj);
-            shader.SetMatrix4("model", model);
+            this.shader.SetMatrix4("projection", proj);
+            this.shader.SetMatrix4("model", model);
         }
 
-        protected virtual void ToVAO(Shader shader)
+        protected virtual void ToVAO()
         {
 
             vertexBuffer = GL.GenBuffer();
@@ -66,13 +67,13 @@ namespace HJEngine.gfx
 
             int stride = 5;
             this.GenVertexArray();
-            var vertexLocation = shader.GetAttributeLocation("aPosition");
+            var vertexLocation = this.shader.GetAttributeLocation("aPosition");
             GL.EnableVertexAttribArray(vertexLocation);
             GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, stride * sizeof(float), 0);
-            var texCoordLocation = shader.GetAttributeLocation("aTexCoord");
+            var texCoordLocation = this.shader.GetAttributeLocation("aTexCoord");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
-            SetProjections(shader);
+            SetProjections();
         }
 
         public void GenVertexArray()
@@ -101,6 +102,11 @@ namespace HJEngine.gfx
 
         }
 
+        public virtual void Update(float[] vertices)
+        {
+            this.vertices = vertices;
+        }
+
         public void Use(TextureUnit unit = TextureUnit.Texture0)
         {
             GL.ActiveTexture(unit);
@@ -127,29 +133,41 @@ namespace HJEngine.gfx
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapS, (int)TextureWrapMode.Repeat);
             GL.TexParameter(TextureTarget.Texture2D, TextureParameterName.TextureWrapT, (int)TextureWrapMode.Repeat);
             GL.GenerateMipmap(GenerateMipmapTarget.Texture2D);
-            Shader shader = graphics.shaders.GetShader(shaderName);
-            ToVAO(shader);
+            ToVAO();
         }
 
-        protected override void ToVAO(Shader shader)
+        protected override void ToVAO()
         {
-            base.ToVAO(shader);
+            base.ToVAO();
+            this.shader.SetFloat("brightness", 1.0f);
+        }
+
+        public void ChangeColor(float m)
+        {
+            this.shader.SetFloat("brightness", m);
         }
 
         public override void Draw()
         {
             base.Draw();
-            Shader shader = graphics.shaders.GetShader(shaderName);
             this.Use();
-            shader.Use();
-            GL.BindVertexArray(arrayObj);
+            this.shader.Use();
+            //GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
             GL.BufferData(BufferTarget.ArrayBuffer,
                 vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBuffer);
             GL.BufferData(BufferTarget.ElementArrayBuffer,
-                indices.Length * sizeof(float), indices, BufferUsageHint.StaticDraw);
+                indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
+            
             GL.DrawElements(PrimitiveType.Triangles, this.indices.Length,
                 DrawElementsType.UnsignedInt, 0);
+            //GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
             //GL.BindVertexArray(0);
+        }
+
+        public override void Update(float[] vertices)
+        {
+            base.Update(vertices);
         }
 
     }
@@ -167,8 +185,7 @@ namespace HJEngine.gfx
             this.fillColor = fillColor;
             borderSize = new Vector2(0, 0);
             borderColor = Color.FromArgb(0);
-            Shader shader = graphics.shaders.GetShader(shaderName);
-            ToVAO(shader);
+            ToVAO();
         }
 
         public ColorTexture(gfx.Graphics graphics, Color fillColor, Color borderColor, Vector2 borderSize, float[] vertices, uint[] indices)
@@ -178,24 +195,32 @@ namespace HJEngine.gfx
             this.fillColor = fillColor;
             this.borderSize = borderSize;
             this.borderColor = borderColor;
-            Shader shader = graphics.shaders.GetShader(shaderName);
-            ToVAO(shader);
+            ToVAO();
         }
 
-        protected override void ToVAO(Shader shader)
+        protected override void ToVAO()
         {
-            base.ToVAO(shader);
+            base.ToVAO();
             //shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
-            shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
-            shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
-            shader.SetVec2("borderSize", borderSize);
+            this.shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
+            this.shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
+            this.shader.SetVec2("borderSize", borderSize);
+        }
+
+        public void ChangeColor(double m)
+        {
+            Color newColor = Color.FromArgb(this.fillColor.A,
+                (int)(this.fillColor.R * m),
+                (int)(this.fillColor.G * m),
+                (int)(this.fillColor.B * m)
+                );
+            this.shader.SetVec4("fillColor", graphics.ColorToVec4(newColor));
         }
 
         public override void Draw()
         {
             base.Draw();
-            Shader shader = graphics.shaders.GetShader(shaderName);
-            shader.Use();
+            this.shader.Use();
             GL.BindVertexArray(arrayObj);
             GL.BufferData(BufferTarget.ArrayBuffer,
                 vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
@@ -204,6 +229,11 @@ namespace HJEngine.gfx
             GL.DrawElements(PrimitiveType.Triangles, this.indices.Length,
                 DrawElementsType.UnsignedInt, 0);
             //GL.BindVertexArray(0);
+        }
+
+        public override void Update(float[] vertices)
+        {
+            base.Update(vertices);
         }
     }
 }

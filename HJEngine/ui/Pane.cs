@@ -30,6 +30,17 @@ namespace HJEngine.ui
             paneTexture = new gfx.ColorTexture(graphics, paneColor, borderColor, borderVec, vertices, indices);
         }
 
+        public override void Update()
+        {
+            float[] vertices = {
+                 point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
+                 point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
+                point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left
+                point.x,  point.y + size.h, 0.0f, 0.0f, 1.0f   // top left
+            };
+            base.Update();
+        }
+
         public override void Draw()
         {
             base.Draw();

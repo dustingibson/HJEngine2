@@ -131,7 +131,9 @@
     <Folder Include="util\" />
   </ItemGroup>
   <ItemGroup>
-    <Content Include="config\main.xml" />
+    <Content Include="config\main.xml">
+      <SubType>Designer</SubType>
+    </Content>
     <Content Include="config\menu.xml">
       <SubType>Designer</SubType>
     </Content>

@@ -24,5 +24,15 @@ namespace HJEngine.ui
             base.Draw();
             label.Draw();
         }
+
+        public override void Update()
+        {
+            if (graphics.mousePoint.x >= this.point.x
+                && graphics.mousePoint.x <= this.point.x + this.size.w
+                && graphics.mousePoint.y >= this.point.y
+                && graphics.mousePoint.y <= this.point.y + this.size.h)
+                    label.HighlightText();
+            label.Update();
+        }
     }
 }

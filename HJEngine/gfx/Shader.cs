@@ -109,6 +109,15 @@ namespace HJEngine.gfx
             }
         }
 
+        public void SetFloat(string name, float value)
+        {
+            GL.UseProgram(handle);
+            if (uniforms.ContainsKey(name))
+            {
+                GL.Uniform1(uniforms[name], value);
+            }
+        }
+
         public void SetVec2(string name, Vector2 data)
         {
             GL.UseProgram(handle);

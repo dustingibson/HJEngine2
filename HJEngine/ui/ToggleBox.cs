@@ -21,22 +21,31 @@ namespace HJEngine.ui
                 : base(graphics, "label", text, point, size)
         {
 
-            //label = new Label(graphics, text, fontSize, fontType, fontColor, point, new prim.Size(size.w, size.h));
+            float spacing = 0.025f;
+            label = new Label(graphics, text, fontSize, fontType, fontColor, point, new prim.Size(size.w, size.h));
 
-            //size.h = label.size.h;
-            //size.w = label.size.h;
+            size.h = label.size.h;
+            size.w = graphics.getWSquareSize(label.size.h);
 
-            //pane = new Pane(graphics, checkBoxColor, borderColor, borderSize, new prim.Point(point.x, point.y), new prim.Size(label.size.w, label.size.h));
-            
+            pane = new Pane(graphics, checkBoxColor, borderColor, borderSize, new prim.Point(point.x, point.y), new prim.Size(size.w, size.h));
+
+            label.point.x += pane.size.w;
+            this.Update();
             //pane = new Pane(graphics, checkBoxColor, borderColor, borderSize, new prim.Point(point.x, point.y), new prim.Size(size.w, size.h));
 
+        }
+
+        public override void Update()
+        {
+            label.Update();
+            base.Update();
         }
 
         public override void Draw()
         {
             base.Draw();
             pane.Draw();
-            //label.Draw();
+            label.Draw();
         }
     }
 }
