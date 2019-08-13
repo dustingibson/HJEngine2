@@ -12,10 +12,12 @@ namespace HJEngine.ui
     class Button : ui.Component
     {
         private ui.Label label;
+        public prim.MouseOverStateMachine mouseState;
 
         public Button(gfx.Graphics graphics, string text, int fontSize,  string fontType, Color fontColor, prim.Point point, prim.Size size) 
             : base(graphics, "button", text, point, size)
         {
+            mouseState = new prim.MouseOverStateMachine();
             label = new Label(graphics, text, fontSize, fontType, fontColor, point, size);
         }
 
@@ -31,7 +33,18 @@ namespace HJEngine.ui
                 && graphics.mousePoint.x <= this.point.x + this.size.w
                 && graphics.mousePoint.y >= this.point.y
                 && graphics.mousePoint.y <= this.point.y + this.size.h)
-                    label.HighlightText();
+            {
+                if (mouseState.currentState == "not hover")
+                {
+                    mouseState.TransitionState("on");
+                    label.HighlightText(1.5f);
+                }
+            }
+            else if (mouseState.currentState == "hover")
+            {
+                mouseState.TransitionState("off");
+                label.HighlightText(1.0f);
+            }
             label.Update();
         }
     }

@@ -65,9 +65,9 @@ namespace HJEngine.ui
             labelTexture = new gfx.ImageTexture( graphics, bitmap, vertices, indices);
         }
 
-        public void HighlightText()
+        public void HighlightText(float brightness)
         {
-            labelTexture.ChangeColor(1.5f);
+            labelTexture.ChangeColor(brightness);
         }
 
         public override void Update()

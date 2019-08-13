@@ -4,6 +4,7 @@ uniform vec4 fillColor;
 uniform vec2 borderSize;
 uniform vec4 borderColor;
 out vec4 outputColor;
+uniform float brightness;
 
 void main()
 {
@@ -12,7 +13,7 @@ void main()
 	(texCoord.y >= 0.0f && texCoord.y <= border_size.y) ||
 	(texCoord.x >= 1.0f-border_size.x && texCoord.x <= 1.0f) ||
 	(texCoord.y >= 1.0f-border_size.y && texCoord.y <= 1.0f) ) 
-		outputColor = borderColor;
+		outputColor = borderColor*brightness;
 	else
-		outputColor = fillColor;
+		outputColor = fillColor*brightness;
 }

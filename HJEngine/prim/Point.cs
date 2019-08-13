@@ -21,5 +21,12 @@ namespace HJEngine.prim
             this.cy = cy;
         }
 
+        public Point(Point p)
+        {
+            this.x = p.x;
+            this.y = p.y;
+            this.cx = p.cx;
+            this.cy = p.cy;
+        }
     }
 }

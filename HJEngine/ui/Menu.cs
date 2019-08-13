@@ -43,7 +43,13 @@ namespace HJEngine.ui
                             new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
                     }
 
-                    if(type == "pane")
+                    else if(type == "label")
+                    {
+                        components.Add(new Label(graphics, text, fontSize, fontType, fontColor,
+                            new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(0, 0)));
+                    }
+
+                    else if(type == "pane")
                     {
                         Color paneColor = stringToColor(itemNode.Attributes["pane_color"].Value);
                         float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
@@ -52,13 +58,23 @@ namespace HJEngine.ui
                             new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
                     }
 
-                    if(type == "toggle box")
+                    else if(type == "toggle box")
                     {
                         float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
                         prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
                         components.Add(new ToggleBox(graphics, bgColor, borderColor, borderSizeObj,
                             text, fontSize, fontType, fontColor,
                             new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
+                    }
+
+                    else if(type == "select box")
+                    {
+                        float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
+                        int selectFontSize = int.Parse(itemNode.Attributes["label_font_size"].Value);
+                        prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
+                        XmlNodeList choiceNodes = itemNode.SelectNodes("//choice");
+                        components.Add(new Select(graphics, borderColor, borderSizeObj, selectFontSize,
+                            fontType, fontColor, new prim.Point(x, y), new prim.Size(w, h), choiceNodes));
                     }
                 }
             }

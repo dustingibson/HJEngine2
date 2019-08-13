@@ -17,9 +17,9 @@ namespace HJEngine
         private ui.Menu testMenu;
         private gfx.Graphics graphics;
 
-        public Display(int width, int height, string title) : base(width, height, GraphicsMode.Default, title)
+        public Display(int width, int height, string title) : base(width, height, GraphicsMode.Default, title, GameWindowFlags.Default)
         {
-            
+
         }
 
         protected override void OnLoad(EventArgs e)
@@ -33,7 +33,7 @@ namespace HJEngine
 
             graphics = new gfx.Graphics(new prim.Size(Width, Height));
 
-            testMenu = new ui.Menu("main menu", graphics);
+            testMenu = new ui.Menu("options", graphics);
 
             base.OnLoad(e);
         }

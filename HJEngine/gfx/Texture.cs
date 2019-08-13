@@ -205,23 +205,19 @@ namespace HJEngine.gfx
             this.shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
             this.shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
             this.shader.SetVec2("borderSize", borderSize);
+            this.shader.SetFloat("brightness", 1.0f);
         }
 
-        public void ChangeColor(double m)
+        public void ChangeBrightness(float m)
         {
-            Color newColor = Color.FromArgb(this.fillColor.A,
-                (int)(this.fillColor.R * m),
-                (int)(this.fillColor.G * m),
-                (int)(this.fillColor.B * m)
-                );
-            this.shader.SetVec4("fillColor", graphics.ColorToVec4(newColor));
+            this.shader.SetFloat("brightness", m);
         }
 
         public override void Draw()
         {
             base.Draw();
             this.shader.Use();
-            GL.BindVertexArray(arrayObj);
+            //GL.BindVertexArray(arrayObj);
             GL.BufferData(BufferTarget.ArrayBuffer,
                 vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
             GL.BufferData(BufferTarget.ElementArrayBuffer,
