@@ -1,5 +1,6 @@
-#version 410
+#version 330 core
 in vec2 texCoord;
+in vec4 texColor;
 uniform vec4 fillColor;
 uniform vec2 borderSize;
 uniform vec4 borderColor;
@@ -8,6 +9,7 @@ uniform float brightness;
 
 void main()
 {
+	vec4 someBullshit = texColor;
 	vec2 border_size = borderSize;
 	if( (texCoord.x >= 0.0f && texCoord.x <= border_size.x) ||
 	(texCoord.y >= 0.0f && texCoord.y <= border_size.y) ||

@@ -90,7 +90,9 @@
     <Compile Include="Display.cs" />
     <Compile Include="gfx\Graphics.cs" />
     <Compile Include="gfx\Shader.cs" />
+    <Compile Include="gfx\StarField.cs" />
     <Compile Include="gfx\Texture.cs" />
+    <Compile Include="prim\GaussList.cs" />
     <Compile Include="prim\Point.cs" />
     <Compile Include="prim\Size.cs" />
     <Compile Include="prim\State.cs" />

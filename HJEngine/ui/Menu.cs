@@ -11,9 +11,12 @@ namespace HJEngine.ui
     class Menu
     {
         public List<Component> components;
+        public gfx.StarField starfield;
 
         public Menu(string menuName, gfx.Graphics graphics)
         {
+            starfield = new gfx.StarField(graphics);
+
             components = new List<Component>();
             XmlDocument xmlDoc = new XmlDocument();
             xmlDoc.Load("config/menu.xml");
@@ -96,6 +99,7 @@ namespace HJEngine.ui
             {
                 curComponent.Draw();
             }
+            starfield.Draw();
         }
 
         public void Update()

@@ -42,12 +42,14 @@ namespace HJEngine.gfx
         public int handle;
         public string name;
         private Dictionary<string, int> uniforms;
+        private Dictionary<string, int> attributes;
 
         public Shader(string name)
         {
             string vertexShaderSrc;
             string fragmentShaderSrc;
             uniforms = new Dictionary<string, int>();
+            attributes = new Dictionary<string, int>();
             this.name = name;
             using (StreamReader reader = new StreamReader("shaders/" + name + ".glvs", Encoding.UTF8))
             {
@@ -75,6 +77,15 @@ namespace HJEngine.gfx
 
 
             GL.GetProgram(handle, GetProgramParameterName.ActiveUniforms, out var numUniforms);
+            GL.GetProgram(handle, GetProgramParameterName.ActiveAttributes, out var numAttributes);
+
+            for ( var i = 0; i < numAttributes; i++)
+            {
+                var key = GL.GetActiveAttrib(handle, i, out _, out _);
+                var loc = GL.GetAttribLocation(handle, key);
+                attributes.Add(key, loc);
+            }
+
             for ( var i = 0; i < numUniforms; i++)
             {
                 var key  = GL.GetActiveUniform(handle, i, out _, out _);
@@ -107,6 +118,8 @@ namespace HJEngine.gfx
             {
                 GL.UniformMatrix4(uniforms[name], true, ref data);
             }
+            else
+                Console.WriteLine(name + " does not exist");
         }
 
         public void SetFloat(string name, float value)
@@ -116,6 +129,8 @@ namespace HJEngine.gfx
             {
                 GL.Uniform1(uniforms[name], value);
             }
+            else
+                Console.WriteLine(name + " does not exist");
         }
 
         public void SetVec2(string name, Vector2 data)
@@ -125,6 +140,8 @@ namespace HJEngine.gfx
             {
                 GL.Uniform2(uniforms[name], ref data);
             }
+            else
+                Console.WriteLine(name + " does not exist");
         }
 
         public void SetVec4(string name, Vector4 data)
@@ -134,6 +151,8 @@ namespace HJEngine.gfx
             {
                 GL.Uniform4(uniforms[name], ref data);
             }
+            else
+                Console.WriteLine(name + " does not exist");
         }
 
         public void SetInt(string name, int value)

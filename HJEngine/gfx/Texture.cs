@@ -64,16 +64,6 @@ namespace HJEngine.gfx
             GL.BufferData(BufferTarget.ElementArrayBuffer,
                 indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
 
-
-            int stride = 5;
-            this.GenVertexArray();
-            var vertexLocation = this.shader.GetAttributeLocation("aPosition");
-            GL.EnableVertexAttribArray(vertexLocation);
-            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, stride * sizeof(float), 0);
-            var texCoordLocation = this.shader.GetAttributeLocation("aTexCoord");
-            GL.EnableVertexAttribArray(texCoordLocation);
-            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
-            SetProjections();
         }
 
         public void GenVertexArray()
@@ -139,6 +129,16 @@ namespace HJEngine.gfx
         protected override void ToVAO()
         {
             base.ToVAO();
+            int stride = 5;
+            this.GenVertexArray();
+            var vertexLocation = this.shader.GetAttributeLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, stride * sizeof(float), 0);
+            var texCoordLocation = this.shader.GetAttributeLocation("aTexCoord");
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
+            GL.EnableVertexAttribArray(0);
+            SetProjections();
             this.shader.SetFloat("brightness", 1.0f);
         }
 
@@ -152,17 +152,18 @@ namespace HJEngine.gfx
             base.Draw();
             this.Use();
             this.shader.Use();
-            //GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
+            GL.BindVertexArray(arrayObj);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
             GL.BufferData(BufferTarget.ArrayBuffer,
                 vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
-            //GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBuffer);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBuffer);
             GL.BufferData(BufferTarget.ElementArrayBuffer,
                 indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             
             GL.DrawElements(PrimitiveType.Triangles, this.indices.Length,
                 DrawElementsType.UnsignedInt, 0);
             //GL.BindBuffer(BufferTarget.ArrayBuffer, 0);
-            //GL.BindVertexArray(0);
+            GL.BindVertexArray(0);
         }
 
         public override void Update(float[] vertices)
@@ -201,6 +202,19 @@ namespace HJEngine.gfx
         protected override void ToVAO()
         {
             base.ToVAO();
+            int stride = 5;
+            this.GenVertexArray();
+            var vertexLocation = this.shader.GetAttributeLocation("aPosition");
+            GL.EnableVertexAttribArray(vertexLocation);
+            GL.VertexAttribPointer(vertexLocation, 3, VertexAttribPointerType.Float, false, stride * sizeof(float), 0);
+            var texCoordLocation = this.shader.GetAttributeLocation("aTexCoord");
+            GL.EnableVertexAttribArray(texCoordLocation);
+            GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
+            //var texColorLocation = this.shader.GetAttributeLocation("aTexColor");
+            //GL.EnableVertexAttribArray(texColorLocation);
+            //GL.VertexAttribPointer(texColorLocation, 4, VertexAttribPointerType.Float, false, stride * sizeof(float), 5 * sizeof(float));
+            //GL.EnableVertexAttribArray(0);
+            SetProjections();
             //shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
             this.shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
             this.shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
@@ -217,11 +231,13 @@ namespace HJEngine.gfx
         {
             base.Draw();
             this.shader.Use();
-            //GL.BindVertexArray(arrayObj);
+            GL.BindVertexArray(arrayObj);
+            GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
             GL.BufferData(BufferTarget.ArrayBuffer,
                 vertices.Length * sizeof(float), vertices, BufferUsageHint.StaticDraw);
+            GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBuffer);
             GL.BufferData(BufferTarget.ElementArrayBuffer,
-                indices.Length * sizeof(float), indices, BufferUsageHint.StaticDraw);
+                indices.Length * sizeof(uint), indices, BufferUsageHint.StaticDraw);
             GL.DrawElements(PrimitiveType.Triangles, this.indices.Length,
                 DrawElementsType.UnsignedInt, 0);
             //GL.BindVertexArray(0);
