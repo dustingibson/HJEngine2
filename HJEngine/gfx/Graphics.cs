@@ -17,9 +17,12 @@ namespace HJEngine.gfx
         //public gfx.ShaderFactory shaders;
         public Dictionary<string,PrivateFontCollection> fonts;
         public prim.Point mousePoint;
+        public double fps;
+        public double sec;
 
         public Graphics(prim.Size size)
         {
+            fps = 0;
             //shaders = new gfx.ShaderFactory();
             mousePoint = new prim.Point(0,0);
 
@@ -33,6 +36,12 @@ namespace HJEngine.gfx
                 fonts.Add(Path.GetFileNameWithoutExtension(fname), curFonts);
             }
 
+        }
+
+        public void UpdateFPS(double displayFPS)
+        {
+            this.fps = displayFPS;
+            this.sec = 1.0 / displayFPS;
         }
 
         public Vector2 normalizeSize(prim.Size curSize)

@@ -65,12 +65,12 @@ namespace HJEngine
             return sum;
         }
 
-        public void AddValue(Random rand)
+        public double GetValue(Random rand)
         {
             int ps = 10000;
             double r = rand.NextDouble() * ps;
             //values.Add(binSearch(r, 0, this.n).v);
-            values.Add(search(r, ps).v);
+            return binSearch(r, 0, this.n).v;
             //Console.WriteLine(search(r,ps).v);
             //Console.WriteLine(binSearch(r, 0, this.n).v);
         }

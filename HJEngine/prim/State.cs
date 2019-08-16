@@ -35,6 +35,24 @@ namespace HJEngine.prim
 
     }
 
+    class RenderStateMachine : StateMachine
+    {
+        public RenderStateMachine() : base ()
+        {
+            this.currentState = "render";
+
+            State render = new State("render");
+            render.AddTransition("go", "no render");
+            State noRender = new State("no render");
+            noRender.AddTransition("go", "render");
+
+            AddState(render);
+            AddState(noRender);
+        }
+
+    }
+
+
     class MouseOverStateMachine : StateMachine
     {
         public MouseOverStateMachine() : base()

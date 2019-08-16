@@ -97,6 +97,11 @@ namespace HJEngine.gfx
             this.vertices = vertices;
         }
 
+        public virtual void Update()
+        {
+
+        }
+
         public void Use(TextureUnit unit = TextureUnit.Texture0)
         {
             GL.ActiveTexture(unit);

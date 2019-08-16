@@ -15,5 +15,5 @@ void main() {
 	float dist = distance(texCoord,vec2(0.5,0.5));
 	//If radius >= dist return 1 else return 0
 	float fact = GreaterThanOrEqualTo( radius, dist );
-	outputColor = texColor*fact;
+	outputColor = texColor*fact ;
 }

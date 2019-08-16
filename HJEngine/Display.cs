@@ -54,6 +54,9 @@ namespace HJEngine
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
+            //this.RenderFrequency
+            graphics.UpdateFPS(this.RenderFrequency);
+            Console.WriteLine(graphics.fps);
             KeyboardState input = Keyboard.GetState();
             MouseState mouseState = Mouse.GetCursorState();
             Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));

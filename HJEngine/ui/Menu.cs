@@ -95,16 +95,17 @@ namespace HJEngine.ui
 
         public void Draw()
         {
-            foreach(Component curComponent in this.components)
+            starfield.Draw();
+            foreach (Component curComponent in this.components)
             {
                 curComponent.Draw();
             }
-            starfield.Draw();
         }
 
         public void Update()
         {
-            foreach(Component curComponent in this.components)
+            starfield.Update();
+            foreach (Component curComponent in this.components)
             {
                 curComponent.Update();
             }

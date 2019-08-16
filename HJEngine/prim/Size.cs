@@ -16,7 +16,5 @@ namespace HJEngine.prim
             this.w = w;
             this.h = h;
         }
-
-
     }
 }
