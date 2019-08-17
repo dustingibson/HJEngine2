@@ -61,8 +61,8 @@ namespace HJEngine.gfx
 
             List<float> data = new List<float>();
             List<uint> indices = new List<uint>();
-            GaussianList sizeList = new GaussianList(0.005, 0.01, 1000);
-            GaussianList velList = new GaussianList(0.12, 0.03, 1000);
+            GaussianList sizeList = new GaussianList(0.008, 0.002, 10000);
+            GaussianList velList = new GaussianList(0.1, 0.03, 10000);
             Random rand = new Random();
 
             this.counter = rand.NextDouble() * 5000;

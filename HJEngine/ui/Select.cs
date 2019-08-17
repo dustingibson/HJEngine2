@@ -88,11 +88,29 @@ namespace HJEngine.ui
             selectPane = new Pane(graphics, Color.FromArgb(0, 0, 0, 0), borderColor, borderSize, new prim.Point(point.x + triW, point.y), new prim.Size(size.w-triW, size.h));
         }
 
+        private void GotoChoice(int delta)
+        {
+            if (selectIndex + delta < 0)
+                selectIndex = choices.Count - 1;
+            else if (selectIndex + delta >= choices.Count)
+                selectIndex = 0;
+            else
+                selectIndex = selectIndex + delta;
+        }
+
         public override void Update()
         {
             base.Update();
             leftArrow.Update();
             rightArrow.Update();
+            if(leftArrow.activated)
+            {
+                GotoChoice(-1);
+            }
+            else if(rightArrow.activated)
+            {
+                GotoChoice(1);
+            }
         }
 
         public override void Draw()

@@ -63,18 +63,30 @@ namespace HJEngine.prim
             notHover.AddTransition("on", "hover");
             State hovered = new State("hover");
             hovered.AddTransition("off", "not hover");
-            //State turnBright = new State("turn bright");
-            //turnBright.AddTransition("lambda", "stay bright");
-            //State stayBright = new State("stay bright");
-            //stayBright.AddTransition("lambda", "turn off bright");
-            //State turnOffBright = new State("turn off bright");
-            //turnOffBright.AddTransition("lambda", "not hover");
+
 
             AddState(notHover);
             AddState(hovered);
-            //AddState(turnBright);
-            //AddState(stayBright);
-            //AddState(turnOffBright);
+        }
+    }
+
+    class ClickStateMachine : StateMachine
+    {
+        public ClickStateMachine() : base()
+        {
+            this.currentState = "mouse up";
+
+            State mouseUp = new State("mouse up");
+            State mouseDown = new State("mouse down");
+            State clicked = new State("clicked");
+            mouseUp.AddTransition("click", "mouse down");
+            mouseDown.AddTransition("release", "clicked");
+            clicked.AddTransition("reset", "mouse up");
+
+
+            AddState(mouseUp);
+            AddState(mouseDown);
+            AddState(clicked);
         }
     }
 

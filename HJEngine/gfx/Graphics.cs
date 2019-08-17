@@ -19,10 +19,16 @@ namespace HJEngine.gfx
         public prim.Point mousePoint;
         public double fps;
         public double sec;
+        public prim.ClickStateMachine leftClick;
+        public prim.ClickStateMachine rightClick;
+        public prim.ClickStateMachine middleClick;
 
         public Graphics(prim.Size size)
         {
             fps = 0;
+            leftClick = new prim.ClickStateMachine();
+            rightClick = new prim.ClickStateMachine();
+            middleClick = new prim.ClickStateMachine();
             //shaders = new gfx.ShaderFactory();
             mousePoint = new prim.Point(0,0);
 
@@ -75,9 +81,22 @@ namespace HJEngine.gfx
             return new prim.Point(point.x / this.size.w, point.y / this.size.h);
         }
 
-        public void updateMousePoint(int x, int y)
+        private void HandleClickState(prim.ClickStateMachine clickState, bool clicked)
+        {
+            if(!clicked && clickState.currentState == "clicked")
+                clickState.TransitionState("reset");
+            if(clicked && clickState.currentState == "mouse up")
+                clickState.TransitionState("click");
+            if(!clicked && clickState.currentState == "mouse down")
+                clickState.TransitionState("release");
+        }
+
+        public void UpdateMousePoint(int x, int y, bool leftClick, bool middleClick, bool rightClick)
         {
             mousePoint = getNormalPoint(new prim.Point(x,y));
+            HandleClickState(this.leftClick, leftClick);
+            HandleClickState(this.middleClick, middleClick);
+            HandleClickState(this.rightClick, rightClick);
         }
 
         public Vector4 ColorToVec4(Color color)

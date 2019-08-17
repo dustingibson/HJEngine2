@@ -11,11 +11,13 @@ namespace HJEngine.ui
     {
         private gfx.ColorTexture texture;
         private prim.MouseOverStateMachine mouseOverState;
+        public bool activated;
 
         public ArrowButton(gfx.Graphics graphics, string dir, Color bgColor, prim.Point point, prim.Size size)
             : base(graphics, "arrow button", "", point, size)
         {
             mouseOverState = new prim.MouseOverStateMachine();
+            activated = false;
 
             float[] lVertices =
             {
@@ -55,11 +57,16 @@ namespace HJEngine.ui
         public override void Update()
         {
             base.Update();
+            activated = false;
             if (graphics.mousePoint.x >= this.point.x
                 && graphics.mousePoint.x <= this.point.x + this.size.w
                 && graphics.mousePoint.y >= this.point.y
                 && graphics.mousePoint.y <= this.point.y + this.size.h)
             {
+                if (graphics.leftClick.currentState == "clicked")
+                {
+                    activated = true;
+                }
                 if (mouseOverState.currentState == "not hover")
                 {
                     mouseOverState.TransitionState("on");

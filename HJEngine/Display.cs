@@ -60,7 +60,10 @@ namespace HJEngine
             KeyboardState input = Keyboard.GetState();
             MouseState mouseState = Mouse.GetCursorState();
             Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));
-            graphics.updateMousePoint(cPoint.X, cPoint.Y);
+            graphics.UpdateMousePoint(cPoint.X, cPoint.Y,
+                mouseState.IsButtonDown(MouseButton.Left),
+                mouseState.IsButtonDown(MouseButton.Middle),
+                mouseState.IsButtonDown(MouseButton.Right) );
 
             testMenu.Update();
 

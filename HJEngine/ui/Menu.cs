@@ -75,7 +75,7 @@ namespace HJEngine.ui
                         float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
                         int selectFontSize = int.Parse(itemNode.Attributes["label_font_size"].Value);
                         prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
-                        XmlNodeList choiceNodes = itemNode.SelectNodes("//choice");
+                        XmlNodeList choiceNodes = itemNode.ChildNodes;
                         components.Add(new Select(graphics, borderColor, borderSizeObj, selectFontSize,
                             fontType, fontColor, new prim.Point(x, y), new prim.Size(w, h), choiceNodes));
                     }
