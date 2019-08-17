@@ -28,5 +28,10 @@ namespace HJEngine.prim
             this.cx = p.cx;
             this.cy = p.cy;
         }
+
+        public prim.Point GetTransPnt(float dx, float dy)
+        {
+            return new prim.Point(this.x + dx, this.y + dy);
+        }
     }
 }

@@ -12,6 +12,8 @@ namespace HJEngine.ui
 
         private Label label;
         private Pane pane;
+        private Pane selectedPane;
+        public bool isChecked;
         //private gfx.Texture labelTexture;
         //private gfx.Texture boxTexture;
 
@@ -21,13 +23,17 @@ namespace HJEngine.ui
                 : base(graphics, "label", text, point, size)
         {
 
-            float spacing = 0.025f;
+            isChecked = false;
             label = new Label(graphics, text, fontSize, fontType, fontColor, point, new prim.Size(size.w, size.h));
 
             size.h = label.size.h;
             size.w = graphics.getWSquareSize(label.size.h);
 
             pane = new Pane(graphics, checkBoxColor, borderColor, borderSize, new prim.Point(point.x, point.y), new prim.Size(size.w, size.h));
+
+            prim.Size sPaneSize = pane.size.Scale(0.8f);
+            prim.Point sPanePnt = pane.point.GetTransPnt(sPaneSize.w * 0.1f, sPaneSize.h * 0.1f);
+            selectedPane = new Pane(graphics, borderColor, borderColor, borderSize, sPanePnt, sPaneSize);
 
             label.point.x += pane.size.w;
             this.Update();
@@ -37,14 +43,27 @@ namespace HJEngine.ui
 
         public override void Update()
         {
-            label.Update();
             base.Update();
+            label.Update();
+
+            if (graphics.mousePoint.x >= this.pane.point.x
+                && graphics.mousePoint.x <= this.pane.point.x + this.pane.size.w
+                && graphics.mousePoint.y >= this.pane.point.y
+                && graphics.mousePoint.y <= this.pane.point.y + this.pane.size.h)
+            {
+                if (graphics.leftClick.currentState == "clicked")
+                {
+                    isChecked = isChecked ? false : true;
+                }
+            }
         }
 
         public override void Draw()
         {
             base.Draw();
             pane.Draw();
+            if (isChecked)
+                selectedPane.Draw();
             label.Draw();
         }
     }

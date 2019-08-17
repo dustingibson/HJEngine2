@@ -20,13 +20,13 @@
     </item>
   </menu>
 	<menu name="options"  bg_color="120,135,171,0" font_color="58,141,255,255" border_color="58,141,255,255" brightness="1.6" font="system" font_size="15" >
-		<item name="options pane" type="pane" text="" x="0.14453" y="0.2368" w="0.3333" h="0.4375" border_size="5" pane_color="128,128,128,192" />
+		<item name="options pane" type="pane" text="" x="0.14453" y="0.2368" w="0.3333" h="0.4375" border_size="5" pane_color="128,128,128,200" />
 		<item name="cancel" type="button" text="Cancel" x="0.49219" y="0.85417" w="1.00" h="1.00" border_size="0" action="change menu" link="main menu" />
 		<item name="save" type="button" text="Save" x="0.3242" y="0.85417" w="1.00" h="1.00" border_size="0" action="save" link="main menu" />
  		<item name="fullscreen" type="toggle box" text="Fullscreen" x="0.16" y="0.61" w="1.00" h="1.0" border_size="0" bind="fullscreen" />
 		 <item name="vsync" type="toggle box" text="Vsync" x="0.29" y="0.61" w="1.00" h="1.0" border_size="1" bind="vsync" />
 		<item name="menu title" type="label" text="OPTIONS" x="center" y="0.07" w="1.0" h="1.0" font_size="36" />
-		<item name="resolution" type="select box" text="Resolution" x="0.16" y="0.5339" w="0.3" h="0.03" border_size="1" label_font_size="12" bind="resolution" >
+		<item name="resolution" type="select box" text="Resolution" x="0.16" y="0.5339" w="0.3" h="0.03" border_size="2" label_font_size="15" bind="resolution" >
 			<choice text="1280 x 700"  value="1280,700"  />
 			<choice text="1280 x 720"  value="1280,720"  />
 			<choice text="1366 x 768"  value="1366,768"  />
@@ -34,7 +34,7 @@
 			<choice text="1920 x 1080" value="1920,1080"  />
 			<choice text="2048 x 1152" value="2048,1152"   />
 		</item>
-		<item name="cap" type="select box" text="Cap" x="0.16" y="0.45" w="0.3" h="0.03" border_size="1" label_font_size="12" bind="cap" >
+		<item name="cap" type="select box" text="Cap" x="0.16" y="0.45" w="0.3" h="0.03" border_size="2" label_font_size="15" bind="cap" >
 			<choice text="CINEMATIC"  value="24"  />
 			<choice text="30 FPS"  value="30"  />
 			<choice text="60 FPS"  value="60"  />

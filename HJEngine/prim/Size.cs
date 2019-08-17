@@ -16,5 +16,10 @@ namespace HJEngine.prim
             this.w = w;
             this.h = h;
         }
+
+        public Size Scale(float p)
+        {
+            return new prim.Size(w * p, h * p);
+        }
     }
 }

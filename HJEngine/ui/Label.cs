@@ -34,10 +34,10 @@ namespace HJEngine.ui
                 //textSize = g.MeasureString(text, font);
                 using (Brush brush = new SolidBrush(fontColor))
                 {
-                    g.SmoothingMode = SmoothingMode.AntiAlias;
+                    g.SmoothingMode = SmoothingMode.HighQuality;
                     g.CompositingQuality = CompositingQuality.HighQuality;
-                    g.InterpolationMode = InterpolationMode.HighQualityBilinear;
-                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.SingleBitPerPixelGridFit;
+                    g.InterpolationMode = InterpolationMode.HighQualityBicubic;
+                    g.TextRenderingHint = System.Drawing.Text.TextRenderingHint.AntiAliasGridFit;
                     g.DrawString(text, font, brush, new PointF(0, 0));
                 }
             }
