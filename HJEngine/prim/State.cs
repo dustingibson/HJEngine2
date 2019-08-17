@@ -35,16 +35,16 @@ namespace HJEngine.prim
 
     }
 
-    class RenderStateMachine : StateMachine
+    class VertexStateMachine : StateMachine
     {
-        public RenderStateMachine() : base ()
+        public VertexStateMachine() : base ()
         {
-            this.currentState = "render";
+            this.currentState = "change";
 
-            State render = new State("render");
-            render.AddTransition("go", "no render");
-            State noRender = new State("no render");
-            noRender.AddTransition("go", "render");
+            State render = new State("change");
+            render.AddTransition("set", "no change");
+            State noRender = new State("no change");
+            noRender.AddTransition("no set", "change");
 
             AddState(render);
             AddState(noRender);

@@ -22,12 +22,12 @@ namespace HJEngine.gfx
     class StarField : Texture 
     {
         private double counter;
-        private prim.RenderStateMachine renderState;
+        private prim.VertexStateMachine vertexState;
 
         public StarField(gfx.Graphics graphics)
             : base(graphics, "starfield", new float[] { }, new uint[] { })
         {
-            renderState = new prim.RenderStateMachine();
+            vertexState = new prim.VertexStateMachine();
             this.counter = 0;
             this.texHandle = GL.GenTexture();
             prim.Size size = new prim.Size(graphics.getWSquareSize(0.05f), 0.05f);
@@ -64,6 +64,9 @@ namespace HJEngine.gfx
             GaussianList sizeList = new GaussianList(0.005, 0.01, 1000);
             GaussianList velList = new GaussianList(0.12, 0.03, 1000);
             Random rand = new Random();
+
+            this.counter = rand.NextDouble() * 5000;
+
             for(int i = 0; i < numStars; i++)
             {
                 float gSize = (float)sizeList.GetValue(rand);
@@ -177,16 +180,16 @@ namespace HJEngine.gfx
         {
             base.Draw();
             this.shader.Use();
-
-            if (this.renderState.currentState == "render")
+            GL.BindVertexArray(arrayObj);
+            if (this.vertexState.currentState == "change")
             {
-                GL.BindVertexArray(arrayObj);
-
+                GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);
                 GL.BufferData(BufferTarget.ArrayBuffer,
                     vertices.Length * sizeof(float), vertices, BufferUsageHint.DynamicDraw);
+                GL.BindBuffer(BufferTarget.ElementArrayBuffer, elementBuffer);
                 GL.BufferData(BufferTarget.ElementArrayBuffer,
                     indices.Length * sizeof(uint), indices, BufferUsageHint.DynamicDraw);
-               // this.renderState.TransitionState("go");
+               this.vertexState.TransitionState("set");
             }
             GL.DrawElements(PrimitiveType.Triangles, this.indices.Length,
                 DrawElementsType.UnsignedInt, 0);

@@ -56,7 +56,7 @@ namespace HJEngine
         {
             //this.RenderFrequency
             graphics.UpdateFPS(this.RenderFrequency);
-            Console.WriteLine(graphics.fps);
+            //Console.WriteLine(graphics.fps);
             KeyboardState input = Keyboard.GetState();
             MouseState mouseState = Mouse.GetCursorState();
             Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));
