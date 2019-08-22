@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Display.cs" />
+    <Compile Include="Game.cs" />
     <Compile Include="gfx\Graphics.cs" />
     <Compile Include="gfx\Shader.cs" />
     <Compile Include="gfx\StarField.cs" />
@@ -108,6 +109,7 @@
     <Compile Include="ui\Select.cs" />
     <Compile Include="ui\ToggleBox.cs" />
     <Compile Include="ui\Value.cs" />
+    <Compile Include="util\Config.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />
@@ -131,9 +133,7 @@
     <None Include="shaders\triangle.glvs" />
     <None Include="shaders\vert.spv" />
   </ItemGroup>
-  <ItemGroup>
-    <Folder Include="util\" />
-  </ItemGroup>
+  <ItemGroup />
   <ItemGroup>
     <Content Include="config\main.xml">
       <SubType>Designer</SubType>

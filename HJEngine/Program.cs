@@ -12,7 +12,8 @@ namespace HJEngine
     {
         static void Main(string[] args)
         {
-            using (Display display = new Display(1600,900,"Blah"))
+            Game game = new Game(1600, 900);
+            using (Display display = new Display(game))
             {
                 display.Run(60);
             }

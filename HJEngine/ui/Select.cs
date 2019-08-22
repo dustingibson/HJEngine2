@@ -31,11 +31,14 @@ namespace HJEngine.ui
         private prim.MouseOverStateMachine RAmouseOverState;
         public int selectIndex;
 
-        public Select(gfx.Graphics graphics, Color borderColor, prim.Size borderSize,
+        public Select(gfx.Graphics graphics, string bind, string value,
+            Color borderColor, prim.Size borderSize,
              int fontSize, string fontType, Color fontColor, prim.Point point,
              prim.Size size, XmlNodeList choiceNodes)
                 : base(graphics, "select", "", point, size)
         {
+            this.bind = bind;
+
             choices = new List<Choice>();
             choiceLabels = new List<Label>();
 
@@ -85,7 +88,23 @@ namespace HJEngine.ui
                 choiceLabel.Update();
                 choiceLabels.Add(choiceLabel);
             }
+
+            SetValue(value);
+
             selectPane = new Pane(graphics, Color.FromArgb(0, 0, 0, 0), borderColor, borderSize, new prim.Point(point.x + triW, point.y), new prim.Size(size.w-triW, size.h));
+        }
+
+        private void SetValue(string value)
+        {
+            this.value = value;
+            for(int i = 0; i < choices.Count; i++ )
+            {
+                Choice curChoice = choices[i];
+                if(this.value == curChoice.value)
+                {
+                    selectIndex = i;
+                }
+            }
         }
 
         private void GotoChoice(int delta)
@@ -96,6 +115,7 @@ namespace HJEngine.ui
                 selectIndex = 0;
             else
                 selectIndex = selectIndex + delta;
+            this.value = choices[selectIndex].value;
         }
 
         public override void Update()

@@ -1,13 +1,12 @@
 <config>
-  <setting key="resolution" value="1920,1080"/>
-  <setting key="fullscreen" value="true"/>
-  <setting key="api" value="opengl"/>
-  <setting key="vsync" value="false"/>
-  <setting key="cap" value="60"/>
-  <setting key="music volume" value="8"/>
-  <setting key="effects volume" value="11"/>
-  <setting key="debug" value="false"/>
-  <setting key="demo" value="false"/>
-  <setting key="demo_map" value="C:\Users\Dustin\Desktop\demo.hjm"/>
+  <setting key="resolution" value="1600,900" />
+  <setting key="fullscreen" value="true" />
+  <setting key="api" value="opengl" />
+  <setting key="vsync" value="false" />
+  <setting key="cap" value="60" />
+  <setting key="music volume" value="8" />
+  <setting key="effects volume" value="11" />
+  <setting key="debug" value="false" />
+  <setting key="demo" value="false" />
+  <setting key="demo_map" value="C:\Users\Dustin\Desktop\demo.hjm" />
 </config>
-

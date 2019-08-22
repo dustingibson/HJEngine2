@@ -13,6 +13,8 @@ namespace HJEngine.ui
         public string type;
         public string text;
         public string value;
+        public string bind;
+        public string signal;
         public prim.Point point;
         public prim.Size size;
         private List<Component> subComponents;
@@ -24,6 +26,11 @@ namespace HJEngine.ui
 
             this.type = type;
             this.text = text;
+
+            this.bind = "";
+            this.value = "";
+
+            this.signal = "";
 
             this.point = point;
             this.size = size;

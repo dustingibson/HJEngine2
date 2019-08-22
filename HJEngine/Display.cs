@@ -13,29 +13,27 @@ namespace HJEngine
 {
     class Display : GameWindow
     {
-        private gfx.Texture texture;
-        private ui.Menu testMenu;
+        private ui.MenuFactory menuFactory;
         private gfx.Graphics graphics;
+        private util.Config mainConfig;
+        public Game game;
 
-        public Display(int width, int height, string title) : base(width, height, GraphicsMode.Default, title, GameWindowFlags.Default)
+        public Display(Game game) : base(game.width, game.height)
         {
-
+            this.game = game;
+            mainConfig = new util.Config("main");
         }
 
         protected override void OnLoad(EventArgs e)
         {
-            
-            GL.Enable(EnableCap.Blend);
-            GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
-
-            GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-
-
-            graphics = new gfx.Graphics(new prim.Size(Width, Height));
-
-            testMenu = new ui.Menu("options", graphics);
-
+            game.LoadGL();
             base.OnLoad(e);
+        }
+
+        protected override void OnResize(EventArgs e)
+        {
+            base.OnResize(e);
+            GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
         }
 
         protected override void OnMouseMove(MouseMoveEventArgs e)
@@ -45,32 +43,41 @@ namespace HJEngine
 
         protected override void OnRenderFrame(FrameEventArgs e)
         {
-            GL.Clear(ClearBufferMask.ColorBufferBit);
-            //texture.Draw();
-            testMenu.Draw();
+            game.Render();
             SwapBuffers();
             base.OnRenderFrame(e);
+        }
+
+        protected void Reload()
+        {
+            //Dictionary<string,string> configValues = graphics.GetConfigValues();
+            //string[] res = configValues["resolution"].Split(',');
+            //this.Width = int.Parse(res[0]);
+            //this.Height = int.Parse(res[1]);
+            //ClientSize = new Size(this.Width, this.Height);
+            //this.ClientRectangle = new Rectangle(new Point(0, 0), ClientSize);
+            //graphics.size.w = this.Width;
+            //graphics.size.h = this.Height;
+
+            //GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
+            //this.WindowState = WindowState.
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             //this.RenderFrequency
-            graphics.UpdateFPS(this.RenderFrequency);
+            game.UpdateFPS(this.RenderFrequency);
             //Console.WriteLine(graphics.fps);
             KeyboardState input = Keyboard.GetState();
             MouseState mouseState = Mouse.GetCursorState();
             Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));
-            graphics.UpdateMousePoint(cPoint.X, cPoint.Y,
+            game.UpdateMousePoint(cPoint.X, cPoint.Y,
                 mouseState.IsButtonDown(MouseButton.Left),
                 mouseState.IsButtonDown(MouseButton.Middle),
                 mouseState.IsButtonDown(MouseButton.Right) );
-
-            testMenu.Update();
-
-            if(input.IsKeyDown(Key.Escape))
-            {
+            game.Update();
+            if(input.IsKeyDown(Key.Escape) || game.DoQuit())
                 Exit();
-            }
             base.OnUpdateFrame(e);
         }
     }

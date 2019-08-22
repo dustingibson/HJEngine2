@@ -9,15 +9,6 @@
 		<item name="credits" type="button" text="Credits" x="center" y="0.66313" w="0.05" h="0.05" border_size="0" action="none" link="none" />
 		<item name="editor" type="button" text="Editor" x="center" y="0.736045" w="0.05" h="0.05" border_size="0" action="change state" link="new map" />
 		<item name="quit" type="button" text="Quit" x="center" y="0.80896" w="0.05" h="0.05" border_size="0" action="quit" link="none" />
-    <!--<item name="vsync" type="toggle box" text="Vsync" x="0.29" y="0.61" w="0.06889" h="0.100625" border_size="5" bind="vsync" />-->
-    <item name="resolution" type="select box" text="Resolution" x="0.16" y="0.5339" w="0.3" h="0.10" border_size="1" label_font_size="12" bind="resolution" >
-      <choice text="1280 x 700"  value="1280,700"  />
-      <choice text="1280 x 720"  value="1280,720"  />
-      <choice text="1366 x 768"  value="1366,768"  />
-      <choice text="1600 x 900"  value="1600,900"  />
-      <choice text="1920 x 1080" value="1920,1080"  />
-      <choice text="2048 x 1152" value="2048,1152"   />
-    </item>
   </menu>
 	<menu name="options"  bg_color="120,135,171,0" font_color="58,141,255,255" border_color="58,141,255,255" brightness="1.6" font="system" font_size="15" >
 		<item name="options pane" type="pane" text="" x="0.14453" y="0.2368" w="0.3333" h="0.4375" border_size="5" pane_color="128,128,128,200" />

@@ -19,17 +19,22 @@ namespace HJEngine.gfx
         public prim.Point mousePoint;
         public double fps;
         public double sec;
+        public bool quit;
         public prim.ClickStateMachine leftClick;
         public prim.ClickStateMachine rightClick;
         public prim.ClickStateMachine middleClick;
+        private util.Config config;
+        private Dictionary<string, string> configValues;
 
-        public Graphics(prim.Size size)
+        public Graphics(prim.Size size, util.Config config)
         {
+            quit = false;
             fps = 0;
+            this.config = config;
+            configValues = config.GetSettingCopy();
             leftClick = new prim.ClickStateMachine();
             rightClick = new prim.ClickStateMachine();
             middleClick = new prim.ClickStateMachine();
-            //shaders = new gfx.ShaderFactory();
             mousePoint = new prim.Point(0,0);
 
             this.size = size;
@@ -41,7 +46,21 @@ namespace HJEngine.gfx
                 curFonts.AddFontFile(fname);
                 fonts.Add(Path.GetFileNameWithoutExtension(fname), curFonts);
             }
+        }
 
+        public Dictionary<string, string> GetConfigValues()
+        {
+            return config.GetSettingCopy();
+        }
+
+        public void SaveConfig()
+        {
+            config.SaveValue(configValues);
+        }
+
+        public void SaveConfig(Dictionary<string,string> extConfigValues)
+        {
+            config.SaveValue(extConfigValues);
         }
 
         public void UpdateFPS(double displayFPS)
