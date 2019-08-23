@@ -17,13 +17,17 @@ namespace HJEngine.ui
         //private gfx.Texture labelTexture;
         //private gfx.Texture boxTexture;
 
-        public ToggleBox(gfx.Graphics graphics, Color checkBoxColor, Color borderColor, 
+        public ToggleBox(gfx.Graphics graphics, string bind, string value,
+            Color checkBoxColor, Color borderColor, 
             prim.Size borderSize, string text, int fontSize, string fontType, Color fontColor, 
             prim.Point point, prim.Size size)
                 : base(graphics, "label", text, point, size)
         {
 
-            isChecked = false;
+            this.bind = bind;
+            this.value = value;
+
+            isChecked = this.value == "true" ? true : false;
             label = new Label(graphics, text, fontSize, fontType, fontColor, point, new prim.Size(size.w, size.h));
 
             size.h = label.size.h;
@@ -56,6 +60,7 @@ namespace HJEngine.ui
                     isChecked = isChecked ? false : true;
                 }
             }
+            this.value = isChecked ? "true" : "false";
         }
 
         public override void Draw()

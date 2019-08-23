@@ -31,6 +31,11 @@ namespace HJEngine.util
             }
         }
 
+        public bool GetBoolValue(string name)
+        {
+            return values[name] == "true" ? true : false;
+        }
+
         public Dictionary<string,string> GetSettingCopy()
         {
             return new Dictionary<string, string>(values);

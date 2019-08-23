@@ -67,6 +67,7 @@ namespace HJEngine.ui
                 {
                     menus[this.currentMenu].SaveConfigValues();
                     graphics.SaveConfig(menus[this.currentMenu].configValues);
+                    graphics.reload = true;
                     this.currentMenu = sigParams[1];
                     signal = "reload";
                 }
@@ -136,9 +137,11 @@ namespace HJEngine.ui
 
                     else if(type == "toggle box")
                     {
+                        string bind = itemNode.Attributes["bind"].Value;
+                        string value = configValues[bind];
                         float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
                         prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
-                        components.Add(new ToggleBox(graphics, bgColor, borderColor, borderSizeObj,
+                        components.Add(new ToggleBox(graphics, bind, value, bgColor, borderColor, borderSizeObj,
                             text, fontSize, fontType, fontColor,
                             new prim.Point(x, y, strX == "center", strY == "center"), new prim.Size(w, h)));
                     }

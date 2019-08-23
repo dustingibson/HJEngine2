@@ -12,11 +12,14 @@ namespace HJEngine
     {
         static void Main(string[] args)
         {
-            Game game = new Game(1600, 900);
-            using (Display display = new Display(game))
+            Game game = new Game();
+            do
             {
-                display.Run(60);
-            }
+                using (Display display = new Display(game))
+                {
+                    display.Run(60);
+                }
+            } while (!game.DoQuit());
         }
     }
 }

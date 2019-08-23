@@ -20,6 +20,7 @@ namespace HJEngine.gfx
         public double fps;
         public double sec;
         public bool quit;
+        public bool reload;
         public prim.ClickStateMachine leftClick;
         public prim.ClickStateMachine rightClick;
         public prim.ClickStateMachine middleClick;
@@ -29,6 +30,7 @@ namespace HJEngine.gfx
         public Graphics(prim.Size size, util.Config config)
         {
             quit = false;
+            reload = false;
             fps = 0;
             this.config = config;
             configValues = config.GetSettingCopy();
@@ -40,6 +42,7 @@ namespace HJEngine.gfx
             this.size = size;
             fonts = new Dictionary<string, PrivateFontCollection>();
 
+
             foreach (string fname in Directory.GetFiles("res/fonts"))
             {
                 PrivateFontCollection curFonts = new PrivateFontCollection();
@@ -50,7 +53,13 @@ namespace HJEngine.gfx
 
         public Dictionary<string, string> GetConfigValues()
         {
+            config.Load();
             return config.GetSettingCopy();
+        }
+        
+        public bool GetBoolConfigValue(string name)
+        {
+            return config.GetBoolValue(name);
         }
 
         public void SaveConfig()

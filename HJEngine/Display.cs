@@ -13,12 +13,12 @@ namespace HJEngine
 {
     class Display : GameWindow
     {
-        private ui.MenuFactory menuFactory;
-        private gfx.Graphics graphics;
         private util.Config mainConfig;
         public Game game;
 
-        public Display(Game game) : base(game.width, game.height)
+        public Display(Game game) : 
+            base(game.width, game.height, GraphicsMode.Default, "HJ",
+                game.fullScreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default)
         {
             this.game = game;
             mainConfig = new util.Config("main");
@@ -48,21 +48,6 @@ namespace HJEngine
             base.OnRenderFrame(e);
         }
 
-        protected void Reload()
-        {
-            //Dictionary<string,string> configValues = graphics.GetConfigValues();
-            //string[] res = configValues["resolution"].Split(',');
-            //this.Width = int.Parse(res[0]);
-            //this.Height = int.Parse(res[1]);
-            //ClientSize = new Size(this.Width, this.Height);
-            //this.ClientRectangle = new Rectangle(new Point(0, 0), ClientSize);
-            //graphics.size.w = this.Width;
-            //graphics.size.h = this.Height;
-
-            //GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            //this.WindowState = WindowState.
-        }
-
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             //this.RenderFrequency
@@ -76,7 +61,7 @@ namespace HJEngine
                 mouseState.IsButtonDown(MouseButton.Middle),
                 mouseState.IsButtonDown(MouseButton.Right) );
             game.Update();
-            if(input.IsKeyDown(Key.Escape) || game.DoQuit())
+            if(input.IsKeyDown(Key.Escape) || game.DoQuit() || game.DoReload())
                 Exit();
             base.OnUpdateFrame(e);
         }
