@@ -14,7 +14,7 @@
 		<item name="options pane" type="pane" text="" x="0.14453" y="0.2368" w="0.3333" h="0.4375" border_size="5" pane_color="128,128,128,200" />
 		<item name="cancel" type="button" text="Cancel" x="0.49219" y="0.85417" w="1.00" h="1.00" border_size="0" action="change menu" link="main menu" />
 		<item name="save" type="button" text="Save" x="0.3242" y="0.85417" w="1.00" h="1.00" border_size="0" action="save" link="main menu" />
- 		<item name="fullscreen" type="toggle box" text="Fullscreen" x="0.16" y="0.61" w="1.00" h="1.0" border_size="0" bind="fullscreen" />
+ 		<item name="fullscreen" type="toggle box" text="Fullscreen" x="0.16" y="0.61" w="1.00" h="1.0" border_size="1" bind="fullscreen" />
 		 <item name="vsync" type="toggle box" text="Vsync" x="0.29" y="0.61" w="1.00" h="1.0" border_size="1" bind="vsync" />
 		<item name="menu title" type="label" text="OPTIONS" x="center" y="0.07" w="1.0" h="1.0" font_size="36" />
 		<item name="resolution" type="select box" text="Resolution" x="0.16" y="0.5339" w="0.3" h="0.03" border_size="2" label_font_size="15" bind="resolution" >

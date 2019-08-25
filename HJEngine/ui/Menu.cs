@@ -157,6 +157,18 @@ namespace HJEngine.ui
                         components.Add(new Select(graphics, bind, value, borderColor, borderSizeObj, selectFontSize,
                             fontType, fontColor, new prim.Point(x, y), new prim.Size(w, h), choiceNodes));
                     }
+
+                    else if(type == "value box")
+                    {
+                        string bind = itemNode.Attributes["bind"].Value;
+                        string value = configValues[bind];
+                        float borderSize = float.Parse(itemNode.Attributes["border_size"].Value);
+                        int selectFontSize = int.Parse(itemNode.Attributes["label_font_size"].Value);
+                        prim.Size borderSizeObj = new prim.Size(borderSize, borderSize);
+                        XmlNodeList choiceNodes = itemNode.ChildNodes;
+                        components.Add(new ValueBox(graphics, bind, value, borderColor, borderSizeObj, selectFontSize,
+                            fontType, fontColor, new prim.Point(x, y), new prim.Size(w, h)));
+                    }
                 }
             }
         }

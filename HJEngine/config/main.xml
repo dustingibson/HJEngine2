@@ -2,10 +2,10 @@
   <setting key="resolution" value="1366,768" />
   <setting key="fullscreen" value="false" />
   <setting key="api" value="opengl" />
-  <setting key="vsync" value="false" />
+  <setting key="vsync" value="true" />
   <setting key="cap" value="60" />
-  <setting key="music volume" value="8" />
-  <setting key="effects volume" value="11" />
+  <setting key="music volume" value="5" />
+  <setting key="effects volume" value="2" />
   <setting key="debug" value="false" />
   <setting key="demo" value="false" />
   <setting key="demo_map" value="C:\Users\Dustin\Desktop\demo.hjm" />

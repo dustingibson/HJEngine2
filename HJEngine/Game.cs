@@ -38,12 +38,11 @@ namespace HJEngine
             GL.Enable(EnableCap.Blend);
             GL.BlendFunc(BlendingFactor.SrcAlpha, BlendingFactor.OneMinusSrcAlpha);
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
-            //if (graphics == null)
-           // {
-                graphics = new gfx.Graphics(new prim.Size(width, height), mainConfig);
-                menuFactory = new ui.MenuFactory(graphics);
-                menuFactory.GotoMenu("main menu");
-           // }
+
+            graphics = new gfx.Graphics(new prim.Size(width, height), mainConfig);
+            menuFactory = new ui.MenuFactory(graphics);
+            menuFactory.GotoMenu("main menu");
+
             graphics.size.w = this.width;
             graphics.size.h = this.height;
         }
@@ -55,15 +54,8 @@ namespace HJEngine
             string[] res = configValues["resolution"].Split(',');
             this.fullScreen = graphics.GetBoolConfigValue("fullscreen");
             this.vsync = graphics.GetBoolConfigValue("vsync");
-            //this.Width = int.Parse(res[0]);
-            //this.Height = int.Parse(res[1]);
-            //ClientSize = new Size(this.Width, this.Height);
-            //this.ClientRectangle = new Rectangle(new Point(0, 0), ClientSize);
             this.width = int.Parse(res[0]);
             this.height = int.Parse(res[1]);
-
-            //GL.Viewport(ClientRectangle.X, ClientRectangle.Y, ClientRectangle.Width, ClientRectangle.Height);
-            //this.WindowState = WindowState.
         }
 
         public void Update()
@@ -79,6 +71,11 @@ namespace HJEngine
         public bool DoQuit()
         {
             return graphics.quit;
+        }
+
+        public void SetQuit()
+        {
+            graphics.quit = true;
         }
 
         public bool DoReload()

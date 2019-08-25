@@ -20,6 +20,8 @@ namespace HJEngine
             base(game.width, game.height, GraphicsMode.Default, "HJ",
                 game.fullScreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default)
         {
+            if (!game.fullScreen)
+                this.Y = 100;
             this.game = game;
             mainConfig = new util.Config("main");
         }
@@ -28,6 +30,13 @@ namespace HJEngine
         {
             game.LoadGL();
             base.OnLoad(e);
+        }
+
+        protected override void OnClosed(EventArgs e)
+        {
+            if (!game.DoReload())
+                game.SetQuit();
+            base.OnClosed(e);
         }
 
         protected override void OnResize(EventArgs e)
