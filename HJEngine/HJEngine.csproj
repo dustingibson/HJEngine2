@@ -88,6 +88,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Display.cs" />
+    <Compile Include="editor\MapEditor.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="gfx\Graphics.cs" />
     <Compile Include="gfx\Shader.cs" />
@@ -107,6 +108,7 @@
     <Compile Include="ui\Menu.cs" />
     <Compile Include="ui\Pane.cs" />
     <Compile Include="ui\Select.cs" />
+    <Compile Include="ui\TextField.cs" />
     <Compile Include="ui\ToggleBox.cs" />
     <Compile Include="ui\ValueBox.cs" />
     <Compile Include="util\Config.cs" />

@@ -21,11 +21,21 @@ namespace HJEngine.gfx
         public double sec;
         public bool quit;
         public bool reload;
+        public string keyBuffer;
+        public KEYCODE keyCode;
         public prim.ClickStateMachine leftClick;
         public prim.ClickStateMachine rightClick;
         public prim.ClickStateMachine middleClick;
         private util.Config config;
         private Dictionary<string, string> configValues;
+
+        public enum KEYCODE
+        {
+            NONE,
+            BACKSPACE,
+            SHIFT,
+            ENTER
+        }
 
         public Graphics(prim.Size size, util.Config config)
         {
@@ -134,6 +144,22 @@ namespace HJEngine.gfx
             float b = (float)color.B / 255f;
             float a = (float)color.A / 255f;
             return new Vector4(r, g, b, a);
+        }
+
+        public void UpdateKeyBuffer(string buffer)
+        {
+            if (buffer == "BackSpace")
+                this.keyCode = KEYCODE.BACKSPACE;
+            if (buffer == "Space")
+                this.keyBuffer = " ";
+            else
+                this.keyBuffer = buffer;
+        }
+
+        public void CleanUp()
+        {
+            keyBuffer = "";
+            this.keyCode = KEYCODE.NONE;
         }
     }
 }

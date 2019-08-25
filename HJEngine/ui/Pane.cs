@@ -32,7 +32,7 @@ namespace HJEngine.ui
 
         public override void Update()
         {
-            float[] vertices = {
+            paneTexture.vertices = new float[] {
                  point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
                  point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
                 point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left

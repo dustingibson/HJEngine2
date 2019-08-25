@@ -59,6 +59,10 @@ namespace HJEngine.ui
                 {
                     this.currentMenu = sigParams[1];
                 }
+                if (sigParams[0] == "change state")
+                {
+                    signal = component.signal;
+                }
                 else if(sigParams[0] == "quit")
                 {
                     this.graphics.quit = true;
@@ -168,6 +172,12 @@ namespace HJEngine.ui
                         XmlNodeList choiceNodes = itemNode.ChildNodes;
                         components.Add(new ValueBox(graphics, bind, value, borderColor, borderSizeObj, selectFontSize,
                             fontType, fontColor, new prim.Point(x, y), new prim.Size(w, h)));
+                    }
+
+                    else if(type == "text field")
+                    {
+                        components.Add(new TextField(graphics, text, fontSize, fontType, fontColor,
+                            new prim.Point(x, y, strX == "center", strY == "center")));
                     }
                 }
             }

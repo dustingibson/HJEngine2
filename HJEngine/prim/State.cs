@@ -90,6 +90,23 @@ namespace HJEngine.prim
         }
     }
 
+    class GameStateMachine : StateMachine
+    {
+        public GameStateMachine() : base()
+        {
+            this.currentState = "main menu";
+
+            State mainMenu = new State("main menu");
+            State editor = new State("editor");
+
+            mainMenu.AddTransition("editor", "editor");
+
+            AddState(mainMenu);
+            AddState(editor);
+        }
+
+    }
+
     class Transition
     {
         public string name;

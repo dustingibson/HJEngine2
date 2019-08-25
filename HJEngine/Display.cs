@@ -57,6 +57,18 @@ namespace HJEngine
             base.OnRenderFrame(e);
         }
 
+        protected override void OnKeyPress(KeyPressEventArgs e)
+        {
+            base.OnKeyPress(e);
+            //game.UpdateKeyBuffer(e.KeyChar.ToString(), (int)e.KeyChar);
+        }
+
+        protected override void OnKeyDown(KeyboardKeyEventArgs e)
+        {
+            base.OnKeyDown(e);
+            game.UpdateKeyBuffer(e.Key.ToString());
+        }
+
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
             //this.RenderFrequency
@@ -70,6 +82,7 @@ namespace HJEngine
                 mouseState.IsButtonDown(MouseButton.Middle),
                 mouseState.IsButtonDown(MouseButton.Right) );
             game.Update();
+            game.CleanUp();
             if(input.IsKeyDown(Key.Escape) || game.DoQuit() || game.DoReload())
                 Exit();
             base.OnUpdateFrame(e);

@@ -8,5 +8,5 @@
   <setting key="effects volume" value="2" />
   <setting key="debug" value="false" />
   <setting key="demo" value="false" />
-  <setting key="demo_map" value="C:\Users\Dustin\Desktop\demo.hjm" />
+  <setting key="demo map" value="C:\" />
 </config>

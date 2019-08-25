@@ -13,12 +13,16 @@ namespace HJEngine.ui
     {
         private gfx.ImageTexture labelTexture;
 
-        public Label(gfx.Graphics graphics, string text, int fontSize, string fontType, Color fontColor, prim.Point point, prim.Size size) 
+        public Label(gfx.Graphics graphics, string text, int fontSize, string fontType, 
+            Color fontColor, prim.Point point, prim.Size size) 
             : base(graphics, "label", text, point, size)
         {
             SizeF textSize = new SizeF();
             Bitmap somebitmap = new Bitmap(32, 32);
             Font font = new Font(graphics.fonts[fontType].Families[0], fontSize, FontStyle.Regular);
+
+            if (text == "")
+                text = " ";
 
             using (Graphics g = Graphics.FromImage(somebitmap))
             {

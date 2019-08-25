@@ -16,7 +16,9 @@ namespace HJEngine
         private ui.MenuFactory menuFactory;
         private gfx.Graphics graphics;
         private util.Config mainConfig;
+        private editor.MapEditor mapEditor;
 
+        public prim.GameStateMachine state;
         public int width;
         public int height;
         public bool fullScreen;
@@ -24,7 +26,9 @@ namespace HJEngine
 
         public Game()
         {
+            state = new prim.GameStateMachine();
             mainConfig = new util.Config("main");
+            mapEditor = new editor.MapEditor();
 
             string[] res = mainConfig.values["resolution"].Split(',');
             this.width = int.Parse(res[0]);
@@ -61,10 +65,15 @@ namespace HJEngine
         public void Update()
         {
             menuFactory.Update();
-            if (menuFactory.signal == "reload")
+            string[] signalParams = menuFactory.signal.Split(',');
+            if (signalParams[0] == "reload")
             {
                 Reload();
                 menuFactory.signal = "";
+            }
+            if (signalParams[0] == "change state")
+            {
+
             }
         }
 
@@ -91,6 +100,16 @@ namespace HJEngine
         public void UpdateMousePoint(int x, int y, bool left, bool middle, bool right)
         {
             graphics.UpdateMousePoint(x, y, left, middle, right);
+        }
+
+        public void UpdateKeyBuffer(string buffer)
+        {
+            graphics.UpdateKeyBuffer(buffer);
+        }
+
+        public void CleanUp()
+        {
+            graphics.CleanUp();
         }
 
         public void Render()
