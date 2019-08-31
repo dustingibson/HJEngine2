@@ -13,13 +13,20 @@ namespace HJEngine.editor
         private Process process;
         private prim.InitStateMachine initState;
         private util.IPC ipc;
+        private gfx.Cursor cursor;
+        private gfx.Cursor defaultCursor;
+        private gfx.Cursor editCursor;
+        private gfx.Graphics graphics;
 
-        public MapEditor()
+        public MapEditor(gfx.Graphics graphics)
         {
             process = new Process();
             initState = new prim.InitStateMachine();
             process.StartInfo.FileName = Directory.GetCurrentDirectory()
                 + "/res/editor/HJCompanion.exe";
+            defaultCursor = new gfx.Cursor(graphics);
+            editCursor = new gfx.Cursor(graphics, "edit");
+            cursor = defaultCursor;
         }
 
         public void Launch()
@@ -30,7 +37,7 @@ namespace HJEngine.editor
 
         public void Draw()
         {
-
+            cursor.Draw();
         }
 
         public void Update()
@@ -51,15 +58,31 @@ namespace HJEngine.editor
                         //TODO: Load Map
                         Console.WriteLine("LOAD MAP");
                     }
+                    if (allParams[0] == "place")
+                    {
+                        cursor = editCursor;
+                    }
+                    if (allParams[0] == "cursor")
+                    {
+                        cursor = defaultCursor;
+                    }
+
                 }
             }
-
+            cursor.Update();
         }
 
         ~MapEditor()
         {
-            if (!process.HasExited)
-                process.CloseMainWindow();
+            try
+            {
+                if (process != null && !process.HasExited)
+                    process.CloseMainWindow();
+            }
+            catch
+            {
+
+            }
         }
     }
 }

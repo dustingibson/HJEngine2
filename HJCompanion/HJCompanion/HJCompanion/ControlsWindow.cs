@@ -30,7 +30,7 @@ namespace HJCompanion
         private ControlEventArgs SetSignal(string signal)
         {
             ControlEventArgs eArg = new ControlEventArgs();
-            eArg.signal = "";
+            eArg.signal = signal;
             return eArg;
         }
 
@@ -38,6 +38,17 @@ namespace HJCompanion
         {
             EventHandler handler = controlSelected;
             handler?.Invoke(this, SetSignal("cursor"));
+        }
+
+        private void placeButton_Click(object sender, EventArgs e)
+        {
+            EventHandler handler = controlSelected;
+            handler?.Invoke(this, SetSignal("place"));
+        }
+
+        private void ControlsWindow_Load(object sender, EventArgs e)
+        {
+
         }
     }
 

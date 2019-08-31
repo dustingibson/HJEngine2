@@ -10,8 +10,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
-using System.Threading.Tasks;
-
 
 namespace HJCompanion
 {
@@ -41,7 +39,7 @@ namespace HJCompanion
 
         public void OnControlSelected(object sender, EventArgs e)
         {
-
+            SendMessage(((ControlEventArgs)e).signal);
         }
 
         public void SendMessage(string message)

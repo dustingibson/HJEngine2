@@ -14,6 +14,7 @@ namespace HJEngine.ui
         public string currentMenu;
         public string signal;
         private gfx.Graphics graphics;
+        private gfx.Cursor cursor;
 
         public MenuFactory(gfx.Graphics graphics)
         {
@@ -28,6 +29,7 @@ namespace HJEngine.ui
                 menus.Add(name, new Menu(name, graphics));
             }
             this.graphics = graphics;
+            this.cursor = new gfx.Cursor(graphics);
         }
 
         public void GotoMenu(string name)
@@ -43,11 +45,13 @@ namespace HJEngine.ui
             {
                 ProcessSignal(components);
             }
+            cursor.Update();
         }
 
         public void Draw()
         {
             menus[this.currentMenu].Draw();
+            cursor.Draw();
         }
 
         public void ProcessSignal(Component component)

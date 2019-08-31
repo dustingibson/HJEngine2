@@ -28,7 +28,6 @@ namespace HJEngine
         {
             state = new prim.GameStateMachine();
             mainConfig = new util.Config("main");
-            mapEditor = new editor.MapEditor();
 
             string[] res = mainConfig.values["resolution"].Split(',');
             this.width = int.Parse(res[0]);
@@ -44,6 +43,7 @@ namespace HJEngine
             GL.ClearColor(0.0f, 0.0f, 0.0f, 1.0f);
 
             graphics = new gfx.Graphics(new prim.Size(width, height), mainConfig);
+            mapEditor = new editor.MapEditor(graphics);
             menuFactory = new ui.MenuFactory(graphics);
             menuFactory.GotoMenu("main menu");
 
@@ -72,7 +72,6 @@ namespace HJEngine
             }
             if (signalParams[0] == "change state")
                 state.TransitionState(signalParams[1]);
-
             if (state.currentState == "main menu")
                 menuFactory.Update();
             else if (state.currentState == "editor")

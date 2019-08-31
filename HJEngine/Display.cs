@@ -20,6 +20,7 @@ namespace HJEngine
             base(game.width, game.height, GraphicsMode.Default, "HJ",
                 game.fullScreen ? GameWindowFlags.Fullscreen : GameWindowFlags.Default)
         {
+            this.CursorVisible = false;
             if (!game.fullScreen)
                 this.Y = 100;
             this.game = game;
