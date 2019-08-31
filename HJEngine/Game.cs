@@ -64,7 +64,6 @@ namespace HJEngine
 
         public void Update()
         {
-            menuFactory.Update();
             string[] signalParams = menuFactory.signal.Split(',');
             if (signalParams[0] == "reload")
             {
@@ -72,9 +71,12 @@ namespace HJEngine
                 menuFactory.signal = "";
             }
             if (signalParams[0] == "change state")
-            {
+                state.TransitionState(signalParams[1]);
 
-            }
+            if (state.currentState == "main menu")
+                menuFactory.Update();
+            else if (state.currentState == "editor")
+                mapEditor.Update();
         }
 
         public bool DoQuit()
@@ -115,7 +117,10 @@ namespace HJEngine
         public void Render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            menuFactory.Draw();
+            if(state.currentState == "main menu")
+                menuFactory.Draw();
+            else if (state.currentState == "editor")
+                mapEditor.Draw();
         }
     }
 }

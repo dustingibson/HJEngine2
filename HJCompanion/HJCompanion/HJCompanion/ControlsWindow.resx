@@ -117,8 +117,19 @@
   <resheader name="writer">
     <value>System.Resources.ResXResourceWriter, System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089</value>
   </resheader>
-  <assembly alias="System.Windows.Forms" name="System.Windows.Forms, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089" />
-  <data name="cusror" type="System.Resources.ResXFileRef, System.Windows.Forms">
-    <value>..\Resources\cusror.png;System.Drawing.Bitmap, System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a</value>
+  <assembly alias="System.Drawing" name="System.Drawing, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b03f5f7f11d50a3a" />
+  <data name="cursorButton.Image" type="System.Drawing.Bitmap, System.Drawing" mimetype="application/x-microsoft.net.object.bytearray.base64">
+    <value>
+        iVBORw0KGgoAAAANSUhEUgAAADIAAAAyCAYAAAAeP4ixAAAAAXNSR0IArs4c6QAAAARnQU1BAACxjwv8
+        YQUAAAHlSURBVGhD7dm9SxxRFIbxVeJHINgoomKXCGnUQkG0FSKChYXYpVHIH2CKBCuxSnrBwkIQSyux
+        ExGLFGpnIXaiIIKaNEo+INE8Z3HgMrzquO5674V54FfsMLDnLKxzFwt5eXl5D7WBXbQVX0Xcza1DvLEL
+        sZYsYk7RhShzFzE/MIDoSi9irvAOUaUWMX8whmhSSyT+YhJRpBZwXeMjgk8Nr3xB0Kmh7zKHagSZGvg+
+        y6hBcKlhH7KKlwgqNWgWm2hAMKkhs7LDZhOCSA34GPtoh/fUcI8VxMlZDVYKOzl3w1tqqFJ5PTmrgZ7C
+        28lZDfNUXk7OapByePaTsxqiXJ715KwGKLdpVDz1xuV2joqn3rgUP3GEbaxhEV8xhR5UPDVUFvZlHsZr
+        vIL31JBZfUIwqQFd/8S1xAnqEERqwIQ92Max41xLm0AQqeHMb4zCeg91jzlAEL/j1XCXGERSLex0q+41
+        I/Beeqjv6EO6GaTvTWzBe+5A9ql3QtWMX3Dvd/XDa8kgWX7lLcEd3rUCr9l/rOyvUmvx1f31Qi1h7AHZ
+        gWj6BrWImUc02XNFLWHsO9SCKHqBY6hFzCyi6TPUEuYC9tyJokbYsV0tYk/6aBaxFuAusIcPqEdUvcUZ
+        1jGEKuTlhVmh8B/C5xtkUv0k8gAAAABJRU5ErkJggg==
+</value>
   </data>
 </root>

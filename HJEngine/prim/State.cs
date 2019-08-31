@@ -52,6 +52,21 @@ namespace HJEngine.prim
 
     }
 
+    class InitStateMachine : StateMachine
+    {
+        public InitStateMachine() : base()
+        {
+            this.currentState = "init";
+
+            State initState = new State("init");
+            State nonInitState = new State("non init");
+
+            initState.AddTransition("non init", "non init");
+
+            AddState(initState);
+            AddState(nonInitState);
+        }
+    }
 
     class MouseOverStateMachine : StateMachine
     {
@@ -79,10 +94,10 @@ namespace HJEngine.prim
             State mouseUp = new State("mouse up");
             State mouseDown = new State("mouse down");
             State clicked = new State("clicked");
+
             mouseUp.AddTransition("click", "mouse down");
             mouseDown.AddTransition("release", "clicked");
             clicked.AddTransition("reset", "mouse up");
-
 
             AddState(mouseUp);
             AddState(mouseDown);

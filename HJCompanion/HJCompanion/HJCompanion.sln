@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HJCompanion", "HJCompanion\HJCompanion.csproj", "{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MapInterface", "MapInterface\MapInterface.csproj", "{AC6F7CC2-1845-4345-B95F-5EF78958668B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +17,10 @@ Global
 		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{AC6F7CC2-1845-4345-B95F-5EF78958668B}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{AC6F7CC2-1845-4345-B95F-5EF78958668B}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{AC6F7CC2-1845-4345-B95F-5EF78958668B}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{AC6F7CC2-1845-4345-B95F-5EF78958668B}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

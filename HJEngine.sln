@@ -5,6 +5,8 @@ VisualStudioVersion = 15.0.28307.271
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HJEngine", "HJEngine\HJEngine.csproj", "{42AA8169-D50B-4BC8-A50C-D572358D1C68}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "HJCompanion", "HJCompanion\HJCompanion\HJCompanion\HJCompanion.csproj", "{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -27,6 +29,18 @@ Global
 		{42AA8169-D50B-4BC8-A50C-D572358D1C68}.Release|x64.Build.0 = Release|x64
 		{42AA8169-D50B-4BC8-A50C-D572358D1C68}.Release|x86.ActiveCfg = Release|x86
 		{42AA8169-D50B-4BC8-A50C-D572358D1C68}.Release|x86.Build.0 = Release|x86
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|x64.ActiveCfg = Debug|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|x64.Build.0 = Debug|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Debug|x86.Build.0 = Debug|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|Any CPU.Build.0 = Release|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|x64.ActiveCfg = Release|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|x64.Build.0 = Release|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|x86.ActiveCfg = Release|Any CPU
+		{A1AFF0DC-8E21-4AB7-88AC-B9F614DD48A4}.Release|x86.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

@@ -30,33 +30,58 @@
         {
             this.nameText = new System.Windows.Forms.TextBox();
             this.addButton = new System.Windows.Forms.Button();
+            this.selectionListBox = new System.Windows.Forms.ListBox();
+            this.okButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // nameText
             // 
-            this.nameText.Location = new System.Drawing.Point(54, 50);
+            this.nameText.Location = new System.Drawing.Point(37, 12);
             this.nameText.Name = "nameText";
-            this.nameText.Size = new System.Drawing.Size(215, 20);
+            this.nameText.Size = new System.Drawing.Size(254, 20);
             this.nameText.TabIndex = 0;
             // 
             // addButton
             // 
-            this.addButton.Location = new System.Drawing.Point(297, 50);
+            this.addButton.Location = new System.Drawing.Point(297, 12);
             this.addButton.Name = "addButton";
             this.addButton.Size = new System.Drawing.Size(75, 23);
             this.addButton.TabIndex = 1;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            // 
+            // selectionListBox
+            // 
+            this.selectionListBox.FormattingEnabled = true;
+            this.selectionListBox.Location = new System.Drawing.Point(37, 50);
+            this.selectionListBox.Name = "selectionListBox";
+            this.selectionListBox.Size = new System.Drawing.Size(335, 173);
+            this.selectionListBox.TabIndex = 2;
+            this.selectionListBox.SelectedIndexChanged += new System.EventHandler(this.selectionListBox_SelectedIndexChanged);
+            // 
+            // okButton
+            // 
+            this.okButton.Location = new System.Drawing.Point(55, 234);
+            this.okButton.Name = "okButton";
+            this.okButton.Size = new System.Drawing.Size(75, 23);
+            this.okButton.TabIndex = 3;
+            this.okButton.Text = "OK";
+            this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // OpenMap
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(800, 450);
+            this.ClientSize = new System.Drawing.Size(423, 269);
+            this.Controls.Add(this.okButton);
+            this.Controls.Add(this.selectionListBox);
             this.Controls.Add(this.addButton);
             this.Controls.Add(this.nameText);
             this.Name = "OpenMap";
             this.Text = "OpenMap";
+            this.Load += new System.EventHandler(this.OpenMap_Load);
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -66,5 +91,7 @@
 
         private System.Windows.Forms.TextBox nameText;
         private System.Windows.Forms.Button addButton;
+        private System.Windows.Forms.ListBox selectionListBox;
+        private System.Windows.Forms.Button okButton;
     }
 }

@@ -112,6 +112,7 @@
     <Compile Include="ui\ToggleBox.cs" />
     <Compile Include="ui\ValueBox.cs" />
     <Compile Include="util\Config.cs" />
+    <Compile Include="util\IPC.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="App.config" />

@@ -52,6 +52,12 @@
     <Compile Include="CompanionForm.Designer.cs">
       <DependentUpon>CompanionForm.cs</DependentUpon>
     </Compile>
+    <Compile Include="ControlsWindow.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ControlsWindow.Designer.cs">
+      <DependentUpon>ControlsWindow.cs</DependentUpon>
+    </Compile>
     <Compile Include="OpenMap.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -62,6 +68,9 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
     <EmbeddedResource Include="CompanionForm.resx">
       <DependentUpon>CompanionForm.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ControlsWindow.resx">
+      <DependentUpon>ControlsWindow.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="OpenMap.resx">
       <DependentUpon>OpenMap.cs</DependentUpon>
