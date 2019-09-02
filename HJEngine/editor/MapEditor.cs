@@ -17,9 +17,11 @@ namespace HJEngine.editor
         private gfx.Cursor defaultCursor;
         private gfx.Cursor editCursor;
         private gfx.Graphics graphics;
+        private string mode;
 
         public MapEditor(gfx.Graphics graphics)
         {
+            this.graphics = graphics;
             process = new Process();
             initState = new prim.InitStateMachine();
             process.StartInfo.FileName = Directory.GetCurrentDirectory()
@@ -27,6 +29,7 @@ namespace HJEngine.editor
             defaultCursor = new gfx.Cursor(graphics);
             editCursor = new gfx.Cursor(graphics, "edit");
             cursor = defaultCursor;
+            mode = "cursor";
         }
 
         public void Launch()
@@ -61,10 +64,12 @@ namespace HJEngine.editor
                     if (allParams[0] == "place")
                     {
                         cursor = editCursor;
+                        this.mode = "edit";
                     }
                     if (allParams[0] == "cursor")
                     {
                         cursor = defaultCursor;
+                        this.mode = "cursor";
                     }
 
                 }
