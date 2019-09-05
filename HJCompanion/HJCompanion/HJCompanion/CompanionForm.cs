@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MapInterface;
 
 namespace HJCompanion
 {
@@ -23,10 +24,12 @@ namespace HJCompanion
         StreamWriter writer;
         public string message;
         private ControlsWindow controlsWindow;
+        private MapInterface.MapInterface mapInterface;
 
         public mainForm()
         {
-            controlsWindow = new ControlsWindow();
+            mapInterface = new MapInterface.MapInterface();
+            controlsWindow = new ControlsWindow(mapInterface);
             client = new NamedPipeClientStream("torender");
             reader = new StreamReader(client);
             client.Connect();
@@ -55,7 +58,7 @@ namespace HJCompanion
                 string line = reader.ReadLine();
                 if(line == "map selection")
                 {
-                    OpenMap openMapDlg = new OpenMap();
+                    OpenMap openMapDlg = new OpenMap(this.mapInterface);
                     if(openMapDlg.ShowDialog() == DialogResult.OK)
                     {
                         SendMessage(openMapDlg.signal);

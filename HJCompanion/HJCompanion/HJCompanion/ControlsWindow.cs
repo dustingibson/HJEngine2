@@ -7,6 +7,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MapInterface;
 
 namespace HJCompanion
 {
@@ -14,11 +15,13 @@ namespace HJCompanion
     {
         public string signal;
         public event EventHandler controlSelected;
+        public MapInterface.MapInterface mapInterface;
 
-        public ControlsWindow()
+        public ControlsWindow(MapInterface.MapInterface mapInterface)
         {
             InitializeComponent();
             signal = "";
+            this.mapInterface = mapInterface;
         }
 
         public virtual void OnControlSelected(EventArgs e)
@@ -49,6 +52,12 @@ namespace HJCompanion
         private void ControlsWindow_Load(object sender, EventArgs e)
         {
 
+        }
+
+        private void addObjButton_Click(object sender, EventArgs e)
+        {
+            ObjectTemplateForm objTemplateForm = new ObjectTemplateForm(mapInterface);
+            objTemplateForm.ShowDialog();
         }
     }
 

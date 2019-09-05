@@ -8,6 +8,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using MapInterface;
 
 namespace HJCompanion
 {
@@ -16,9 +17,11 @@ namespace HJCompanion
         public List<string> maps;
         public string mapDir;
         public string signal;
+        public MapInterface.MapInterface mapInterface;
 
-        public OpenMap()
+        public OpenMap(MapInterface.MapInterface mapInterface)
         {
+            this.mapInterface = mapInterface;
             signal = "";
             maps = new List<string>();
             mapDir = Directory.GetParent(Directory.GetCurrentDirectory()).FullName + "/maps";
@@ -52,6 +55,8 @@ namespace HJCompanion
         private void okButton_Click(object sender, EventArgs e)
         {
             signal = "load map," + selectionListBox.SelectedItem.ToString();
+            mapInterface.CreateOrLoad(mapDir + "/" 
+                + selectionListBox.SelectedItem.ToString());
             this.DialogResult = DialogResult.OK;
             this.Close();
         }

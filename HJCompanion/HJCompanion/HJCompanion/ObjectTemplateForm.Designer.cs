@@ -28,7 +28,7 @@
         /// </summary>
         private void InitializeComponent()
         {
-            this.valueListView = new System.Windows.Forms.ListView();
+            this.propListView = new System.Windows.Forms.ListView();
             this.columnHeader1 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1 = new System.Windows.Forms.TabControl();
@@ -54,6 +54,8 @@
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.previewImagePicture = new System.Windows.Forms.PictureBox();
             this.previewPicture = new System.Windows.Forms.PictureBox();
+            this.objNameText = new System.Windows.Forms.TextBox();
+            this.label5 = new System.Windows.Forms.Label();
             this.tabControl1.SuspendLayout();
             this.valueText.SuspendLayout();
             this.tabPage2.SuspendLayout();
@@ -61,19 +63,20 @@
             ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
             this.SuspendLayout();
             // 
-            // valueListView
+            // propListView
             // 
-            this.valueListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.propListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
-            this.valueListView.Dock = System.Windows.Forms.DockStyle.Top;
-            this.valueListView.HideSelection = false;
-            this.valueListView.Location = new System.Drawing.Point(3, 3);
-            this.valueListView.Name = "valueListView";
-            this.valueListView.Size = new System.Drawing.Size(496, 178);
-            this.valueListView.TabIndex = 0;
-            this.valueListView.UseCompatibleStateImageBehavior = false;
-            this.valueListView.View = System.Windows.Forms.View.Details;
+            this.propListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.propListView.HideSelection = false;
+            this.propListView.Location = new System.Drawing.Point(3, 3);
+            this.propListView.Name = "propListView";
+            this.propListView.Size = new System.Drawing.Size(496, 178);
+            this.propListView.TabIndex = 0;
+            this.propListView.UseCompatibleStateImageBehavior = false;
+            this.propListView.View = System.Windows.Forms.View.Details;
+            this.propListView.SelectedIndexChanged += new System.EventHandler(this.propListView_SelectedIndexChanged);
             // 
             // columnHeader1
             // 
@@ -108,7 +111,7 @@
             this.valueText.Controls.Add(this.label2);
             this.valueText.Controls.Add(this.label1);
             this.valueText.Controls.Add(this.nameText);
-            this.valueText.Controls.Add(this.valueListView);
+            this.valueText.Controls.Add(this.propListView);
             this.valueText.Location = new System.Drawing.Point(4, 22);
             this.valueText.Name = "valueText";
             this.valueText.Padding = new System.Windows.Forms.Padding(3);
@@ -126,6 +129,8 @@
             "string",
             "int",
             "float",
+            "double",
+            "bool",
             "image",
             "audio"});
             this.typeCombo.Location = new System.Drawing.Point(65, 227);
@@ -223,7 +228,7 @@
             this.browseButton.Name = "browseButton";
             this.browseButton.Size = new System.Drawing.Size(75, 23);
             this.browseButton.TabIndex = 8;
-            this.browseButton.Text = "Broawse";
+            this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = true;
             // 
             // addButton
@@ -234,6 +239,7 @@
             this.addButton.TabIndex = 9;
             this.addButton.Text = "Add";
             this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
             // 
             // button1
             // 
@@ -304,17 +310,35 @@
             // 
             // previewPicture
             // 
-            this.previewPicture.Location = new System.Drawing.Point(173, 392);
+            this.previewPicture.Location = new System.Drawing.Point(174, 392);
             this.previewPicture.Name = "previewPicture";
             this.previewPicture.Size = new System.Drawing.Size(130, 116);
             this.previewPicture.TabIndex = 17;
             this.previewPicture.TabStop = false;
+            // 
+            // objNameText
+            // 
+            this.objNameText.Location = new System.Drawing.Point(226, 559);
+            this.objNameText.Name = "objNameText";
+            this.objNameText.Size = new System.Drawing.Size(280, 20);
+            this.objNameText.TabIndex = 18;
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(185, 562);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(35, 13);
+            this.label5.TabIndex = 18;
+            this.label5.Text = "Name";
             // 
             // ObjectTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(510, 591);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.objNameText);
             this.Controls.Add(this.cancelButton);
             this.Controls.Add(this.saveButton);
             this.Controls.Add(this.tabControl1);
@@ -328,12 +352,13 @@
             ((System.ComponentModel.ISupportInitialize)(this.previewImagePicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).EndInit();
             this.ResumeLayout(false);
+            this.PerformLayout();
 
         }
 
         #endregion
 
-        private System.Windows.Forms.ListView valueListView;
+        private System.Windows.Forms.ListView propListView;
         private System.Windows.Forms.ColumnHeader columnHeader1;
         private System.Windows.Forms.ColumnHeader columnHeader2;
         private System.Windows.Forms.TabControl tabControl1;
@@ -359,5 +384,7 @@
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.TextBox textBox1;
         private System.Windows.Forms.PictureBox previewPicture;
+        private System.Windows.Forms.TextBox objNameText;
+        private System.Windows.Forms.Label label5;
     }
 }

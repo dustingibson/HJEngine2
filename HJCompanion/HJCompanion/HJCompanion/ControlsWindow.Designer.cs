@@ -31,7 +31,7 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsWindow));
             this.cursorButton = new System.Windows.Forms.Button();
             this.listBox1 = new System.Windows.Forms.ListBox();
-            this.button1 = new System.Windows.Forms.Button();
+            this.addObjButton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.placeButton = new System.Windows.Forms.Button();
@@ -59,14 +59,15 @@
             this.listBox1.Size = new System.Drawing.Size(262, 303);
             this.listBox1.TabIndex = 1;
             // 
-            // button1
+            // addObjButton
             // 
-            this.button1.Location = new System.Drawing.Point(132, 217);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(34, 37);
-            this.button1.TabIndex = 2;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
+            this.addObjButton.Location = new System.Drawing.Point(132, 217);
+            this.addObjButton.Name = "addObjButton";
+            this.addObjButton.Size = new System.Drawing.Size(34, 37);
+            this.addObjButton.TabIndex = 2;
+            this.addObjButton.Text = "Add";
+            this.addObjButton.UseVisualStyleBackColor = true;
+            this.addObjButton.Click += new System.EventHandler(this.addObjButton_Click);
             // 
             // button2
             // 
@@ -134,7 +135,7 @@
             this.Controls.Add(this.placeButton);
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
-            this.Controls.Add(this.button1);
+            this.Controls.Add(this.addObjButton);
             this.Controls.Add(this.listBox1);
             this.Controls.Add(this.cursorButton);
             this.Name = "ControlsWindow";
@@ -148,7 +149,7 @@
 
         private System.Windows.Forms.Button cursorButton;
         private System.Windows.Forms.ListBox listBox1;
-        private System.Windows.Forms.Button button1;
+        private System.Windows.Forms.Button addObjButton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button placeButton;

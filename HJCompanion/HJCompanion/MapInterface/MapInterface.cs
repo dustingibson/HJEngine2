@@ -15,10 +15,23 @@ namespace MapInterface
         public string path;
         public string name;
 
+        public MapInterface()
+        {
+            objectTemplates = new Dictionary<string, ObjectTemplate>();
+        }
+
         public MapInterface(string path)
         {
             this.path = path;
             objectTemplates = new Dictionary<string, ObjectTemplate>();
+            if(!File.Exists(path))
+            {
+                Save();
+            }
+            else
+            {
+                Load();
+            }
         }
 
         public void initBuffer(Byte[] tmpBuffer, int size)
@@ -91,11 +104,33 @@ namespace MapInterface
             return imgBytes;
         }
 
-        private Byte[] getStringBuffer(String buf, int size)
+        public Byte[] getStringBuffer(String buf, int destSize=-1)
         {
-            Byte[] strBuffer = new Byte[size];
-            strBuffer = System.Text.Encoding.ASCII.GetBytes(buf.PadRight(20, '\0'));
+            Byte[] strBuffer = new Byte[destSize < 0 ? buf.Length : destSize];
+            strBuffer = System.Text.Encoding.ASCII.GetBytes(buf);
             return strBuffer;
+        }
+
+        public Byte[] getIntBuffer(int buf)
+        {
+            Byte[] intBuffer = BitConverter.GetBytes(buf);
+            return intBuffer;
+        }
+
+        public Byte[] getFloatBuffer(string buf)
+        {
+            return getStringBuffer(buf);
+        }
+
+        public Byte[] getDoubleBuffer(string buf)
+        {
+            return getStringBuffer(buf);
+        }
+
+        public Byte[] getBoolBuffer(bool buf)
+        {
+            Byte[] intBuffer = BitConverter.GetBytes(buf);
+            return intBuffer;
         }
 
         private Byte[] packNumBytes(int data, int size)
@@ -114,6 +149,31 @@ namespace MapInterface
                     Color col = srcBitmap.GetPixel(i, j);
                     destBitmap.SetPixel(x + i, y + j, col);
                 }
+        }
+
+        public void CreateOrLoad(string path)
+        {
+            this.path = path;
+            if (!File.Exists(path))
+            {
+                Save();
+            }
+            else
+            {
+                Load();
+            }
+        }
+
+        public void Save(string path)
+        {
+            this.path = path;
+            Save();
+        }
+
+        public void Load(string path)
+        {
+            this.path = path;
+            Load();
         }
 
         public void Load()
@@ -192,6 +252,11 @@ namespace MapInterface
             properties = new Dictionary<string, Property>();
         }
 
+        public ObjectTemplate()
+        {
+            properties = new Dictionary<string, Property>();
+        }
+
         public void AddProperty(string name, string type, byte[] value)
         {
             if (properties.ContainsKey(name))
@@ -242,6 +307,21 @@ namespace MapInterface
             return BitConverter.ToInt32(value, 0);
         }
 
+        public float getFloat()
+        {
+            return float.Parse(getString());
+        }
+
+        public double getDouble()
+        {
+            return double.Parse(getString());
+        }
+
+        public bool getBool()
+        {
+            return BitConverter.ToBoolean(value, 0);
+        }
+
         public int getSize()
         {
             return value.Length;
@@ -250,17 +330,17 @@ namespace MapInterface
         public dynamic GetValue()
         {
             if (type == "string")
-            {
                 return getString();
-            }
             else if (type == "int")
-            {
                 return getInt();
-            }
+            else if (type == "double")
+                return getDouble();
+            else if (type == "float")
+                return getFloat();
             else if (type == "image")
-            {
                 return getBitmap();
-            }
+            else if (type == "bool")
+                return getBool();
             return "";
         }
 

@@ -110,5 +110,11 @@
   <ItemGroup>
     <None Include="Resources\cusror.png" />
   </ItemGroup>
+  <ItemGroup>
+    <ProjectReference Include="..\MapInterface\MapInterface.csproj">
+      <Project>{ac6f7cc2-1845-4345-b95f-5ef78958668b}</Project>
+      <Name>MapInterface</Name>
+    </ProjectReference>
+  </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>
