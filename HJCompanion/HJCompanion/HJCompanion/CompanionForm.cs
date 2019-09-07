@@ -38,11 +38,17 @@ namespace HJCompanion
             writer = new StreamWriter(server);
             InitializeComponent();
             controlsWindow.controlSelected += OnControlSelected;
+            controlsWindow.mapSaved += OnSave;
         }
 
         public void OnControlSelected(object sender, EventArgs e)
         {
             SendMessage(((ControlEventArgs)e).signal);
+        }
+
+        public void OnSave(object sender, EventArgs e)
+        {
+            SendMessage("reload map");
         }
 
         public void SendMessage(string message)

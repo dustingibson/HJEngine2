@@ -33,6 +33,10 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.valueText = new System.Windows.Forms.TabPage();
+            this.previewPicture = new System.Windows.Forms.PictureBox();
+            this.addButton = new System.Windows.Forms.Button();
+            this.browseButton = new System.Windows.Forms.Button();
+            this.fileText = new System.Windows.Forms.TextBox();
             this.typeCombo = new System.Windows.Forms.ComboBox();
             this.valText = new System.Windows.Forms.TextBox();
             this.label3 = new System.Windows.Forms.Label();
@@ -40,27 +44,25 @@
             this.label1 = new System.Windows.Forms.Label();
             this.nameText = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.previewImagePicture = new System.Windows.Forms.PictureBox();
+            this.imageListView = new System.Windows.Forms.ListView();
+            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.label4 = new System.Windows.Forms.Label();
+            this.imageNameText = new System.Windows.Forms.TextBox();
+            this.imageAddButton = new System.Windows.Forms.Button();
+            this.imageBrowseButton = new System.Windows.Forms.Button();
+            this.imageFileText = new System.Windows.Forms.TextBox();
             this.saveButton = new System.Windows.Forms.Button();
             this.cancelButton = new System.Windows.Forms.Button();
-            this.fileText = new System.Windows.Forms.TextBox();
-            this.browseButton = new System.Windows.Forms.Button();
-            this.addButton = new System.Windows.Forms.Button();
-            this.button1 = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
-            this.textBox1 = new System.Windows.Forms.TextBox();
-            this.label4 = new System.Windows.Forms.Label();
-            this.textBox2 = new System.Windows.Forms.TextBox();
-            this.listView1 = new System.Windows.Forms.ListView();
-            this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.previewImagePicture = new System.Windows.Forms.PictureBox();
-            this.previewPicture = new System.Windows.Forms.PictureBox();
             this.objNameText = new System.Windows.Forms.TextBox();
             this.label5 = new System.Windows.Forms.Label();
+            this.propOpenDialog = new System.Windows.Forms.OpenFileDialog();
+            this.imgFileOpenDlg = new System.Windows.Forms.OpenFileDialog();
             this.tabControl1.SuspendLayout();
             this.valueText.SuspendLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
             this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewImagePicture)).BeginInit();
-            ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
             this.SuspendLayout();
             // 
             // propListView
@@ -69,6 +71,8 @@
             this.columnHeader1,
             this.columnHeader2});
             this.propListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.propListView.FullRowSelect = true;
+            this.propListView.GridLines = true;
             this.propListView.HideSelection = false;
             this.propListView.Location = new System.Drawing.Point(3, 3);
             this.propListView.Name = "propListView";
@@ -120,6 +124,40 @@
             this.valueText.Text = "Properties";
             this.valueText.UseVisualStyleBackColor = true;
             this.valueText.Click += new System.EventHandler(this.valueText_Click);
+            // 
+            // previewPicture
+            // 
+            this.previewPicture.Location = new System.Drawing.Point(174, 392);
+            this.previewPicture.Name = "previewPicture";
+            this.previewPicture.Size = new System.Drawing.Size(130, 116);
+            this.previewPicture.TabIndex = 17;
+            this.previewPicture.TabStop = false;
+            // 
+            // addButton
+            // 
+            this.addButton.Location = new System.Drawing.Point(25, 366);
+            this.addButton.Name = "addButton";
+            this.addButton.Size = new System.Drawing.Size(52, 23);
+            this.addButton.TabIndex = 9;
+            this.addButton.Text = "Add";
+            this.addButton.UseVisualStyleBackColor = true;
+            this.addButton.Click += new System.EventHandler(this.addButton_Click);
+            // 
+            // browseButton
+            // 
+            this.browseButton.Location = new System.Drawing.Point(83, 366);
+            this.browseButton.Name = "browseButton";
+            this.browseButton.Size = new System.Drawing.Size(75, 23);
+            this.browseButton.TabIndex = 8;
+            this.browseButton.Text = "Browse";
+            this.browseButton.UseVisualStyleBackColor = true;
+            // 
+            // fileText
+            // 
+            this.fileText.Location = new System.Drawing.Point(164, 366);
+            this.fileText.Name = "fileText";
+            this.fileText.Size = new System.Drawing.Size(280, 20);
+            this.fileText.TabIndex = 7;
             // 
             // typeCombo
             // 
@@ -183,12 +221,12 @@
             // tabPage2
             // 
             this.tabPage2.Controls.Add(this.previewImagePicture);
-            this.tabPage2.Controls.Add(this.listView1);
+            this.tabPage2.Controls.Add(this.imageListView);
             this.tabPage2.Controls.Add(this.label4);
-            this.tabPage2.Controls.Add(this.textBox2);
-            this.tabPage2.Controls.Add(this.button1);
-            this.tabPage2.Controls.Add(this.button2);
-            this.tabPage2.Controls.Add(this.textBox1);
+            this.tabPage2.Controls.Add(this.imageNameText);
+            this.tabPage2.Controls.Add(this.imageAddButton);
+            this.tabPage2.Controls.Add(this.imageBrowseButton);
+            this.tabPage2.Controls.Add(this.imageFileText);
             this.tabPage2.Location = new System.Drawing.Point(4, 22);
             this.tabPage2.Name = "tabPage2";
             this.tabPage2.Padding = new System.Windows.Forms.Padding(3);
@@ -197,74 +235,31 @@
             this.tabPage2.Text = "Images";
             this.tabPage2.UseVisualStyleBackColor = true;
             // 
-            // saveButton
+            // previewImagePicture
             // 
-            this.saveButton.Location = new System.Drawing.Point(7, 556);
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(75, 23);
-            this.saveButton.TabIndex = 2;
-            this.saveButton.Text = "Save";
-            this.saveButton.UseVisualStyleBackColor = true;
+            this.previewImagePicture.Location = new System.Drawing.Point(130, 200);
+            this.previewImagePicture.Name = "previewImagePicture";
+            this.previewImagePicture.Size = new System.Drawing.Size(220, 196);
+            this.previewImagePicture.TabIndex = 16;
+            this.previewImagePicture.TabStop = false;
             // 
-            // cancelButton
+            // imageListView
             // 
-            this.cancelButton.Location = new System.Drawing.Point(96, 556);
-            this.cancelButton.Name = "cancelButton";
-            this.cancelButton.Size = new System.Drawing.Size(75, 23);
-            this.cancelButton.TabIndex = 3;
-            this.cancelButton.Text = "Cancel";
-            this.cancelButton.UseVisualStyleBackColor = true;
+            this.imageListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader3});
+            this.imageListView.Dock = System.Windows.Forms.DockStyle.Top;
+            this.imageListView.HideSelection = false;
+            this.imageListView.Location = new System.Drawing.Point(3, 3);
+            this.imageListView.Name = "imageListView";
+            this.imageListView.Size = new System.Drawing.Size(496, 178);
+            this.imageListView.TabIndex = 15;
+            this.imageListView.UseCompatibleStateImageBehavior = false;
+            this.imageListView.View = System.Windows.Forms.View.Details;
             // 
-            // fileText
+            // columnHeader3
             // 
-            this.fileText.Location = new System.Drawing.Point(164, 366);
-            this.fileText.Name = "fileText";
-            this.fileText.Size = new System.Drawing.Size(280, 20);
-            this.fileText.TabIndex = 7;
-            // 
-            // browseButton
-            // 
-            this.browseButton.Location = new System.Drawing.Point(83, 366);
-            this.browseButton.Name = "browseButton";
-            this.browseButton.Size = new System.Drawing.Size(75, 23);
-            this.browseButton.TabIndex = 8;
-            this.browseButton.Text = "Browse";
-            this.browseButton.UseVisualStyleBackColor = true;
-            // 
-            // addButton
-            // 
-            this.addButton.Location = new System.Drawing.Point(25, 366);
-            this.addButton.Name = "addButton";
-            this.addButton.Size = new System.Drawing.Size(52, 23);
-            this.addButton.TabIndex = 9;
-            this.addButton.Text = "Add";
-            this.addButton.UseVisualStyleBackColor = true;
-            this.addButton.Click += new System.EventHandler(this.addButton_Click);
-            // 
-            // button1
-            // 
-            this.button1.Location = new System.Drawing.Point(39, 474);
-            this.button1.Name = "button1";
-            this.button1.Size = new System.Drawing.Size(52, 23);
-            this.button1.TabIndex = 12;
-            this.button1.Text = "Add";
-            this.button1.UseVisualStyleBackColor = true;
-            // 
-            // button2
-            // 
-            this.button2.Location = new System.Drawing.Point(97, 474);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(75, 23);
-            this.button2.TabIndex = 11;
-            this.button2.Text = "Broawse";
-            this.button2.UseVisualStyleBackColor = true;
-            // 
-            // textBox1
-            // 
-            this.textBox1.Location = new System.Drawing.Point(178, 474);
-            this.textBox1.Name = "textBox1";
-            this.textBox1.Size = new System.Drawing.Size(280, 20);
-            this.textBox1.TabIndex = 10;
+            this.columnHeader3.Text = "Name";
+            this.columnHeader3.Width = 425;
             // 
             // label4
             // 
@@ -275,46 +270,59 @@
             this.label4.TabIndex = 14;
             this.label4.Text = "Name";
             // 
-            // textBox2
+            // imageNameText
             // 
-            this.textBox2.Location = new System.Drawing.Point(77, 436);
-            this.textBox2.Name = "textBox2";
-            this.textBox2.Size = new System.Drawing.Size(381, 20);
-            this.textBox2.TabIndex = 13;
+            this.imageNameText.Location = new System.Drawing.Point(77, 436);
+            this.imageNameText.Name = "imageNameText";
+            this.imageNameText.Size = new System.Drawing.Size(381, 20);
+            this.imageNameText.TabIndex = 13;
             // 
-            // listView1
+            // imageAddButton
             // 
-            this.listView1.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader3});
-            this.listView1.Dock = System.Windows.Forms.DockStyle.Top;
-            this.listView1.HideSelection = false;
-            this.listView1.Location = new System.Drawing.Point(3, 3);
-            this.listView1.Name = "listView1";
-            this.listView1.Size = new System.Drawing.Size(496, 178);
-            this.listView1.TabIndex = 15;
-            this.listView1.UseCompatibleStateImageBehavior = false;
-            this.listView1.View = System.Windows.Forms.View.Details;
+            this.imageAddButton.Location = new System.Drawing.Point(39, 474);
+            this.imageAddButton.Name = "imageAddButton";
+            this.imageAddButton.Size = new System.Drawing.Size(52, 23);
+            this.imageAddButton.TabIndex = 12;
+            this.imageAddButton.Text = "Add";
+            this.imageAddButton.UseVisualStyleBackColor = true;
+            this.imageAddButton.Click += new System.EventHandler(this.imageAddButton_Click);
             // 
-            // columnHeader3
+            // imageBrowseButton
             // 
-            this.columnHeader3.Text = "Name";
-            this.columnHeader3.Width = 425;
+            this.imageBrowseButton.Location = new System.Drawing.Point(97, 474);
+            this.imageBrowseButton.Name = "imageBrowseButton";
+            this.imageBrowseButton.Size = new System.Drawing.Size(75, 23);
+            this.imageBrowseButton.TabIndex = 11;
+            this.imageBrowseButton.Text = "Browse";
+            this.imageBrowseButton.UseVisualStyleBackColor = true;
+            this.imageBrowseButton.Click += new System.EventHandler(this.imageBrowseButton_Click);
             // 
-            // previewImagePicture
+            // imageFileText
             // 
-            this.previewImagePicture.Location = new System.Drawing.Point(130, 200);
-            this.previewImagePicture.Name = "previewImagePicture";
-            this.previewImagePicture.Size = new System.Drawing.Size(220, 196);
-            this.previewImagePicture.TabIndex = 16;
-            this.previewImagePicture.TabStop = false;
+            this.imageFileText.Location = new System.Drawing.Point(178, 474);
+            this.imageFileText.Name = "imageFileText";
+            this.imageFileText.Size = new System.Drawing.Size(280, 20);
+            this.imageFileText.TabIndex = 10;
+            this.imageFileText.TextChanged += new System.EventHandler(this.imageFileText_TextChanged);
             // 
-            // previewPicture
+            // saveButton
             // 
-            this.previewPicture.Location = new System.Drawing.Point(174, 392);
-            this.previewPicture.Name = "previewPicture";
-            this.previewPicture.Size = new System.Drawing.Size(130, 116);
-            this.previewPicture.TabIndex = 17;
-            this.previewPicture.TabStop = false;
+            this.saveButton.Location = new System.Drawing.Point(7, 556);
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(75, 23);
+            this.saveButton.TabIndex = 2;
+            this.saveButton.Text = "Save";
+            this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
+            // 
+            // cancelButton
+            // 
+            this.cancelButton.Location = new System.Drawing.Point(96, 556);
+            this.cancelButton.Name = "cancelButton";
+            this.cancelButton.Size = new System.Drawing.Size(75, 23);
+            this.cancelButton.TabIndex = 3;
+            this.cancelButton.Text = "Cancel";
+            this.cancelButton.UseVisualStyleBackColor = true;
             // 
             // objNameText
             // 
@@ -322,6 +330,7 @@
             this.objNameText.Name = "objNameText";
             this.objNameText.Size = new System.Drawing.Size(280, 20);
             this.objNameText.TabIndex = 18;
+            this.objNameText.TextChanged += new System.EventHandler(this.objNameText_TextChanged);
             // 
             // label5
             // 
@@ -331,6 +340,14 @@
             this.label5.Size = new System.Drawing.Size(35, 13);
             this.label5.TabIndex = 18;
             this.label5.Text = "Name";
+            // 
+            // propOpenDialog
+            // 
+            this.propOpenDialog.FileName = "openFileDialog1";
+            // 
+            // imgFileOpenDlg
+            // 
+            this.imgFileOpenDlg.FileName = "openFileDialog2";
             // 
             // ObjectTemplateForm
             // 
@@ -344,13 +361,14 @@
             this.Controls.Add(this.tabControl1);
             this.Name = "ObjectTemplateForm";
             this.Text = "ObjectTemplateForm";
+            this.Load += new System.EventHandler(this.ObjectTemplateForm_Load);
             this.tabControl1.ResumeLayout(false);
             this.valueText.ResumeLayout(false);
             this.valueText.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewImagePicture)).EndInit();
-            ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
 
@@ -376,15 +394,17 @@
         private System.Windows.Forms.Button browseButton;
         private System.Windows.Forms.TextBox fileText;
         private System.Windows.Forms.PictureBox previewImagePicture;
-        private System.Windows.Forms.ListView listView1;
+        private System.Windows.Forms.ListView imageListView;
         private System.Windows.Forms.ColumnHeader columnHeader3;
         private System.Windows.Forms.Label label4;
-        private System.Windows.Forms.TextBox textBox2;
-        private System.Windows.Forms.Button button1;
-        private System.Windows.Forms.Button button2;
-        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox imageNameText;
+        private System.Windows.Forms.Button imageAddButton;
+        private System.Windows.Forms.Button imageBrowseButton;
+        private System.Windows.Forms.TextBox imageFileText;
         private System.Windows.Forms.PictureBox previewPicture;
         private System.Windows.Forms.TextBox objNameText;
         private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.OpenFileDialog propOpenDialog;
+        private System.Windows.Forms.OpenFileDialog imgFileOpenDlg;
     }
 }

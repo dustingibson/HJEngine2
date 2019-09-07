@@ -30,7 +30,7 @@
         {
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(ControlsWindow));
             this.cursorButton = new System.Windows.Forms.Button();
-            this.listBox1 = new System.Windows.Forms.ListBox();
+            this.objListView = new System.Windows.Forms.ListBox();
             this.addObjButton = new System.Windows.Forms.Button();
             this.button2 = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
@@ -50,14 +50,15 @@
             this.cursorButton.UseVisualStyleBackColor = true;
             this.cursorButton.Click += new System.EventHandler(this.cursorButton_Click);
             // 
-            // listBox1
+            // objListView
             // 
-            this.listBox1.Dock = System.Windows.Forms.DockStyle.Bottom;
-            this.listBox1.FormattingEnabled = true;
-            this.listBox1.Location = new System.Drawing.Point(0, 260);
-            this.listBox1.Name = "listBox1";
-            this.listBox1.Size = new System.Drawing.Size(262, 303);
-            this.listBox1.TabIndex = 1;
+            this.objListView.Dock = System.Windows.Forms.DockStyle.Bottom;
+            this.objListView.FormattingEnabled = true;
+            this.objListView.Location = new System.Drawing.Point(0, 260);
+            this.objListView.Name = "objListView";
+            this.objListView.Size = new System.Drawing.Size(262, 303);
+            this.objListView.TabIndex = 1;
+            this.objListView.SelectedIndexChanged += new System.EventHandler(this.objListView_SelectedIndexChanged);
             // 
             // addObjButton
             // 
@@ -136,7 +137,7 @@
             this.Controls.Add(this.button3);
             this.Controls.Add(this.button2);
             this.Controls.Add(this.addObjButton);
-            this.Controls.Add(this.listBox1);
+            this.Controls.Add(this.objListView);
             this.Controls.Add(this.cursorButton);
             this.Name = "ControlsWindow";
             this.Text = "ControlsWindow";
@@ -148,7 +149,7 @@
         #endregion
 
         private System.Windows.Forms.Button cursorButton;
-        private System.Windows.Forms.ListBox listBox1;
+        private System.Windows.Forms.ListBox objListView;
         private System.Windows.Forms.Button addObjButton;
         private System.Windows.Forms.Button button2;
         private System.Windows.Forms.Button button3;

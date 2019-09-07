@@ -61,6 +61,10 @@ namespace HJEngine.editor
                         //TODO: Load Map
                         Console.WriteLine("LOAD MAP");
                     }
+                    if (allParams[0] == "reload map")
+                    {
+                        Console.WriteLine("RELOAD MAP");
+                    }
                     if (allParams[0] == "place")
                     {
                         cursor = editCursor;

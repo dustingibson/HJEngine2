@@ -1,4 +1,5 @@
 ﻿using System;
+using System.IO;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -16,6 +17,8 @@ namespace HJCompanion
         public MapInterface.ObjectTemplate objTemplate;
         public MapInterface.MapInterface mapInterface;
         public Bitmap uploadedImage;
+        public Bitmap currentImage;
+        public string name;
 
         public ObjectTemplateForm(MapInterface.MapInterface mapInterface)
         {
@@ -23,6 +26,7 @@ namespace HJCompanion
             this.mapInterface = mapInterface;
             objTemplate = new MapInterface.ObjectTemplate();
             updatePropertyList();
+            UpdateImageListView();
         }
 
         private void valueText_Click(object sender, EventArgs e)
@@ -36,9 +40,32 @@ namespace HJCompanion
             foreach(string propertyKey in objTemplate.properties.Keys)
             {
                 MapInterface.Property property = objTemplate.properties[propertyKey];
-                propListView.Items.Add( new ListViewItem( new string[]{ property.name, " " }));
+                propListView.Items.Add( new ListViewItem( new string[]{ property.name, property.type }));
             }
             propListView.Refresh();
+        }
+
+        public void updateUI()
+        {
+            if (propListView.Items.Count > 0)
+            {
+                string selectedItem = propListView.SelectedItems[0].Text;
+                Property property = objTemplate.properties[selectedItem];
+                nameText.Text = property.name;
+                typeCombo.SelectedItem = property.type;
+                if (property.type == "string")
+                    valueText.Text = property.getString();
+                else if (property.type == "int")
+                    valueText.Text = property.getInt().ToString();
+                else if (property.type == "float")
+                    valueText.Text = property.getFloat().ToString();
+                else if (property.type == "double")
+                    valueText.Text = property.getDouble().ToString();
+                else if (property.type == "bool")
+                    valueText.Text = property.getBool().ToString();
+                else if (property.type == "image")
+                    uploadedImage = property.getBitmap();
+            }
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -90,7 +117,82 @@ namespace HJCompanion
 
         private void propListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            updateUI();
+        }
 
+        private void objNameText_TextChanged(object sender, EventArgs e)
+        {
+
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            objTemplate.name = objNameText.Text;
+            this.DialogResult = DialogResult.OK;
+            this.Close();
+        }
+
+        public void UpdateImageListView()
+        {
+            imageListView.Items.Clear();
+            foreach(string key in objTemplate.images.Keys)
+            {
+                imageListView.Items.Add(key);
+            }
+            imageListView.Refresh();
+        }
+
+        private void imageAddButton_Click(object sender, EventArgs e)
+        {
+            try
+            {
+                string name = imageNameText.Text;
+                string imgPath = imageFileText.Text;
+                if (!File.Exists(imgPath))
+                {
+                    MessageBox.Show("File does not exist");
+                    return;
+                }
+                if (name == "")
+                {
+                    MessageBox.Show("Invalid name");
+                    return;
+                }
+                Bitmap image = new Bitmap(imgPath);
+                objTemplate.AddImage(name, image);
+                UpdateImageListView();
+            }
+            catch(Exception ie)
+            {
+                MessageBox.Show(ie.ToString());
+            }
+        }
+
+        private void imageBrowseButton_Click(object sender, EventArgs e)
+        {
+            OpenFileDialog curFileDialog = new OpenFileDialog();
+            if(curFileDialog.ShowDialog() == DialogResult.OK)
+            {
+                imageFileText.Text = curFileDialog.FileName;
+            }
+        }
+
+        private void imageFileText_TextChanged(object sender, EventArgs e)
+        {
+            string imgPath = imageFileText.Text;
+            try
+            {
+                if (File.Exists(imgPath))
+                {
+                    previewImagePicture.Image = new Bitmap(imgPath);
+                }
+            }
+            catch { }
+        }
+
+        private void ObjectTemplateForm_Load(object sender, EventArgs e)
+        {
+           
         }
     }
 }

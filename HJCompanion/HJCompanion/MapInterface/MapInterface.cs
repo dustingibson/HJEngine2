@@ -34,6 +34,14 @@ namespace MapInterface
             }
         }
 
+        public void AddObjectTemplate(ObjectTemplate objTemplate)
+        {
+            if (objectTemplates.ContainsKey(objTemplate.name))
+                objectTemplates[objTemplate.name] = objTemplate;
+            else
+                objectTemplates.Add(objTemplate.name, objTemplate);
+        }
+
         public void initBuffer(Byte[] tmpBuffer, int size)
         {
             for (int i = 0; i < size; i++)
@@ -106,8 +114,9 @@ namespace MapInterface
 
         public Byte[] getStringBuffer(String buf, int destSize=-1)
         {
-            Byte[] strBuffer = new Byte[destSize < 0 ? buf.Length : destSize];
-            strBuffer = System.Text.Encoding.ASCII.GetBytes(buf);
+            int size = destSize < 0 ? buf.Length : destSize;
+            Byte[] strBuffer = new Byte[size];
+            strBuffer = System.Text.Encoding.ASCII.GetBytes(buf.PadRight(size, '\0'));
             return strBuffer;
         }
 
@@ -189,7 +198,7 @@ namespace MapInterface
                 ObjectTemplate curTemplate = new ObjectTemplate(objName);
                 //Number of properties
                 int numProps = traverseToInt(mainBuffer, ref counter);
-                for(int j = 0; j < numProps; i++)
+                for(int j = 0; j < numProps; j++)
                 {
                     //Property name
                     string propertyName = traverseToString(mainBuffer, ref counter, 20);
@@ -204,7 +213,6 @@ namespace MapInterface
                 }
                 objectTemplates.Add(objName, curTemplate);
             }
-
         }
 
         public void Save()
@@ -243,6 +251,7 @@ namespace MapInterface
 
     public class ObjectTemplate
     {
+        public Dictionary<string, Bitmap> images;
         public Dictionary<string, Property> properties;
         public string name;
 
@@ -250,11 +259,20 @@ namespace MapInterface
         {
             this.name = name;
             properties = new Dictionary<string, Property>();
+            images = new Dictionary<string, Bitmap>();
+            SetDefaultImage();
         }
 
         public ObjectTemplate()
         {
             properties = new Dictionary<string, Property>();
+            images = new Dictionary<string, Bitmap>();
+            SetDefaultImage();
+        }
+
+        private void SetDefaultImage()
+        {
+            AddImage("default", new Bitmap(32, 32));
         }
 
         public void AddProperty(string name, string type, byte[] value)
@@ -270,6 +288,23 @@ namespace MapInterface
                 Property property = new Property(name, type, value);
                 properties.Add(name, property);
             }
+        }
+
+        public void AddImage(string name, Bitmap bitmap)
+        {
+            if (images.ContainsKey(name))
+            {
+                images[name] = bitmap;
+            }
+            else
+            {
+                images.Add(name, bitmap);
+            }
+        }
+
+        private void RemoveImage(string name)
+        {
+            images.Remove(name);
         }
 
         public void RemoveProperty(string name)

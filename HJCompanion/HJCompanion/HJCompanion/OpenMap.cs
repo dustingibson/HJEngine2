@@ -31,11 +31,19 @@ namespace HJCompanion
         private void OpenMap_Load(object sender, EventArgs e)
         {
             okButton.Enabled = false;
+            UpdateMapsList();
+        }
+
+        private void UpdateMapsList()
+        {
+            selectionListBox.Items.Clear();
+            maps.Clear();
             foreach (string files in Directory.GetFiles(mapDir))
             {
                 maps.Add(files);
                 selectionListBox.Items.Add(Path.GetFileName(files));
             }
+            selectionListBox.Refresh();
         }
 
         private void addButton_Click(object sender, EventArgs e)
@@ -44,9 +52,10 @@ namespace HJCompanion
             string exist = maps.Find( curMap => nameText.Text.Equals(curMap) );
             if (exist != "")
             {
-                File.Create(mapDir + "/" + nameText.Text + ".hjm");
-                maps.Add(nameText.Text + ".hjm");
-                selectionListBox.Refresh();
+                //FileStream fs = File.Create(mapDir + "/" + nameText.Text + ".hjm");
+                mapInterface.Save(mapDir + "/" + nameText.Text + ".hjm");
+                UpdateMapsList();
+                //fs.Close();
             }
             else
                 MessageBox.Show("File exists");
