@@ -58,6 +58,8 @@
             this.label5 = new System.Windows.Forms.Label();
             this.propOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.imgFileOpenDlg = new System.Windows.Forms.OpenFileDialog();
+            this.deleteImageButton = new System.Windows.Forms.Button();
+            this.deletePropButton = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.valueText.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
@@ -105,6 +107,7 @@
             // 
             // valueText
             // 
+            this.valueText.Controls.Add(this.deletePropButton);
             this.valueText.Controls.Add(this.previewPicture);
             this.valueText.Controls.Add(this.addButton);
             this.valueText.Controls.Add(this.browseButton);
@@ -215,11 +218,12 @@
             // 
             this.nameText.Location = new System.Drawing.Point(64, 201);
             this.nameText.Name = "nameText";
-            this.nameText.Size = new System.Drawing.Size(381, 20);
+            this.nameText.Size = new System.Drawing.Size(306, 20);
             this.nameText.TabIndex = 1;
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.deleteImageButton);
             this.tabPage2.Controls.Add(this.previewImagePicture);
             this.tabPage2.Controls.Add(this.imageListView);
             this.tabPage2.Controls.Add(this.label4);
@@ -237,7 +241,7 @@
             // 
             // previewImagePicture
             // 
-            this.previewImagePicture.Location = new System.Drawing.Point(130, 200);
+            this.previewImagePicture.Location = new System.Drawing.Point(127, 218);
             this.previewImagePicture.Name = "previewImagePicture";
             this.previewImagePicture.Size = new System.Drawing.Size(220, 196);
             this.previewImagePicture.TabIndex = 16;
@@ -255,6 +259,7 @@
             this.imageListView.TabIndex = 15;
             this.imageListView.UseCompatibleStateImageBehavior = false;
             this.imageListView.View = System.Windows.Forms.View.Details;
+            this.imageListView.SelectedIndexChanged += new System.EventHandler(this.imageListView_SelectedIndexChanged);
             // 
             // columnHeader3
             // 
@@ -349,6 +354,24 @@
             // 
             this.imgFileOpenDlg.FileName = "openFileDialog2";
             // 
+            // deleteImageButton
+            // 
+            this.deleteImageButton.Location = new System.Drawing.Point(9, 188);
+            this.deleteImageButton.Name = "deleteImageButton";
+            this.deleteImageButton.Size = new System.Drawing.Size(75, 23);
+            this.deleteImageButton.TabIndex = 17;
+            this.deleteImageButton.Text = "Delete";
+            this.deleteImageButton.UseVisualStyleBackColor = true;
+            // 
+            // deletePropButton
+            // 
+            this.deletePropButton.Location = new System.Drawing.Point(377, 198);
+            this.deletePropButton.Name = "deletePropButton";
+            this.deletePropButton.Size = new System.Drawing.Size(67, 23);
+            this.deletePropButton.TabIndex = 18;
+            this.deletePropButton.Text = "Delete";
+            this.deletePropButton.UseVisualStyleBackColor = true;
+            // 
             // ObjectTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -406,5 +429,7 @@
         private System.Windows.Forms.Label label5;
         private System.Windows.Forms.OpenFileDialog propOpenDialog;
         private System.Windows.Forms.OpenFileDialog imgFileOpenDlg;
+        private System.Windows.Forms.Button deletePropButton;
+        private System.Windows.Forms.Button deleteImageButton;
     }
 }

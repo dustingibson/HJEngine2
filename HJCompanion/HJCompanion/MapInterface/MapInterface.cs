@@ -211,6 +211,19 @@ namespace MapInterface
 
                     curTemplate.AddProperty(propertyName, propertyType, value);
                 }
+                //Number of images
+                int numImages = traverseToInt(mainBuffer, ref counter);
+                for(int k = 0; k < numImages; k++)
+                {
+                    //Image name
+                    string imageName = traverseToString(mainBuffer, ref counter, 20);
+                    //Image size
+                    int imageSize = traverseToInt(mainBuffer, ref counter);
+                    //Image value
+                    Bitmap image = traverseToBitmap(mainBuffer, ref counter, imageSize);
+
+                    curTemplate.AddImage(imageName, image);
+                }
                 objectTemplates.Add(objName, curTemplate);
             }
         }
@@ -241,8 +254,21 @@ namespace MapInterface
                     bw.Write(getStringBuffer(curProperty.type, 20));
                     //Property size
                     bw.Write(BitConverter.GetBytes(size));
-                    //Property 
+                    //Property value
                     bw.Write(curProperty.value);
+                }
+                //Number of images
+                bw.Write(getIntBuffer(curTemplate.images.Count));
+                foreach(string iKey in curTemplate.images.Keys)
+                {
+                    Bitmap curImage = curTemplate.images[iKey];
+                    //Bitmap name
+                    bw.Write(getStringBuffer(iKey, 20));
+                    //Bitmap size
+                    int size = (int)getBitmapSize(curImage);
+                    bw.Write(getIntBuffer(size));
+                    //Bitmap value
+                    bw.Write(getBitmapBytes(curImage));
                 }
             }
             bw.Close();

@@ -1,5 +1,6 @@
 ﻿using System;
 using System.IO;
+using System.Threading;
 using System.Collections.Generic;
 using System.ComponentModel;
 using System.Data;
@@ -25,6 +26,15 @@ namespace HJCompanion
             InitializeComponent();
             this.mapInterface = mapInterface;
             objTemplate = new MapInterface.ObjectTemplate();
+            updatePropertyList();
+            UpdateImageListView();
+        }
+
+        public ObjectTemplateForm(MapInterface.MapInterface mapInterface, string key)
+        {
+            InitializeComponent();
+            this.mapInterface = mapInterface;
+            objTemplate = this.mapInterface.objectTemplates[key];
             updatePropertyList();
             UpdateImageListView();
         }
@@ -170,10 +180,17 @@ namespace HJCompanion
 
         private void imageBrowseButton_Click(object sender, EventArgs e)
         {
-            OpenFileDialog curFileDialog = new OpenFileDialog();
-            if(curFileDialog.ShowDialog() == DialogResult.OK)
+
+            try
             {
-                imageFileText.Text = curFileDialog.FileName;
+                if (imgFileOpenDlg.ShowDialog() == DialogResult.OK)
+                {
+                    imageFileText.Text = imgFileOpenDlg.FileName;
+                }
+            }
+            catch (Exception ie)
+            {
+                MessageBox.Show(ie.ToString());
             }
         }
 
@@ -193,6 +210,16 @@ namespace HJCompanion
         private void ObjectTemplateForm_Load(object sender, EventArgs e)
         {
            
+        }
+
+        private void imageListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (imageListView.SelectedItems.Count > 0)
+            {
+                string iKey = imageListView.SelectedItems[0].Text;
+                imageNameText.Text = iKey;
+                previewImagePicture.Image = new Bitmap(objTemplate.images[iKey]);
+            }
         }
     }
 }

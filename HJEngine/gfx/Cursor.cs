@@ -23,7 +23,12 @@ namespace HJEngine.gfx
             this.graphics = graphics;
             string cursorPath = Directory.GetCurrentDirectory() + "/res/img/" + name + ".png";
             Bitmap cursorBmp = new Bitmap(cursorPath);
-            size = new prim.Size(cursorBmp.Width / (float)graphics.size.w, 
+            NewTexture(cursorBmp);
+        }
+
+        public void NewTexture(Bitmap cursorBmp)
+        {
+            size = new prim.Size(cursorBmp.Width / (float)graphics.size.w,
                 cursorBmp.Height / (float)graphics.size.h);
             point = graphics.mousePoint;
 
@@ -41,6 +46,11 @@ namespace HJEngine.gfx
             };
 
             cursorTexture = new gfx.ImageTexture(graphics, cursorBmp, vertices, indices);
+        }
+
+        public void ChangeTexture(Bitmap cursorBmp)
+        {
+            NewTexture(cursorBmp);
         }
 
         public void Draw()

@@ -18,11 +18,13 @@ namespace HJCompanion
         public event EventHandler mapSaved;
         public MapInterface.MapInterface mapInterface;
         public bool save;
+        public string objKey;
 
         public ControlsWindow(MapInterface.MapInterface mapInterface)
         {
             InitializeComponent();
             signal = "";
+            objKey = "";
             this.mapInterface = mapInterface;
         }
 
@@ -60,8 +62,11 @@ namespace HJCompanion
 
         private void placeButton_Click(object sender, EventArgs e)
         {
-            EventHandler handler = controlSelected;
-            handler?.Invoke(this, SetSignal("place"));
+            if (objKey != null)
+            {
+                EventHandler handler = controlSelected;
+                handler?.Invoke(this, SetSignal("place," + objKey));
+            }
         }
 
         private void ControlsWindow_Load(object sender, EventArgs e)
@@ -98,7 +103,29 @@ namespace HJCompanion
 
         private void objListView_SelectedIndexChanged(object sender, EventArgs e)
         {
+            if (objListView.SelectedItems.Count > 0)
+            {
+                objKey = objListView.Text;
+            }
+            else
+            {
+                objKey = "";
+            }
+        }
 
+        private void editButton_Click(object sender, EventArgs e)
+        {
+            if(objListView.SelectedItems.Count > 0)
+            {
+                objKey = objListView.Text;
+                ObjectTemplateForm objTemplateForm = new ObjectTemplateForm(mapInterface, objKey);
+                if (objTemplateForm.ShowDialog() == DialogResult.OK)
+                {
+                    mapInterface.AddObjectTemplate(objTemplateForm.objTemplate);
+                    UpdateObjectTemplateList();
+                    TriggerSave();
+                }
+            }
         }
     }
 

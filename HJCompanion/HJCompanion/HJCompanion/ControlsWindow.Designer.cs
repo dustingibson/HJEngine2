@@ -32,7 +32,7 @@
             this.cursorButton = new System.Windows.Forms.Button();
             this.objListView = new System.Windows.Forms.ListBox();
             this.addObjButton = new System.Windows.Forms.Button();
-            this.button2 = new System.Windows.Forms.Button();
+            this.editButton = new System.Windows.Forms.Button();
             this.button3 = new System.Windows.Forms.Button();
             this.placeButton = new System.Windows.Forms.Button();
             this.removeButton = new System.Windows.Forms.Button();
@@ -70,14 +70,15 @@
             this.addObjButton.UseVisualStyleBackColor = true;
             this.addObjButton.Click += new System.EventHandler(this.addObjButton_Click);
             // 
-            // button2
+            // editButton
             // 
-            this.button2.Location = new System.Drawing.Point(172, 217);
-            this.button2.Name = "button2";
-            this.button2.Size = new System.Drawing.Size(34, 37);
-            this.button2.TabIndex = 3;
-            this.button2.Text = "Edit";
-            this.button2.UseVisualStyleBackColor = true;
+            this.editButton.Location = new System.Drawing.Point(172, 217);
+            this.editButton.Name = "editButton";
+            this.editButton.Size = new System.Drawing.Size(34, 37);
+            this.editButton.TabIndex = 3;
+            this.editButton.Text = "Edit";
+            this.editButton.UseVisualStyleBackColor = true;
+            this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
             // button3
             // 
@@ -135,7 +136,7 @@
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.placeButton);
             this.Controls.Add(this.button3);
-            this.Controls.Add(this.button2);
+            this.Controls.Add(this.editButton);
             this.Controls.Add(this.addObjButton);
             this.Controls.Add(this.objListView);
             this.Controls.Add(this.cursorButton);
@@ -151,7 +152,7 @@
         private System.Windows.Forms.Button cursorButton;
         private System.Windows.Forms.ListBox objListView;
         private System.Windows.Forms.Button addObjButton;
-        private System.Windows.Forms.Button button2;
+        private System.Windows.Forms.Button editButton;
         private System.Windows.Forms.Button button3;
         private System.Windows.Forms.Button placeButton;
         private System.Windows.Forms.Button removeButton;

@@ -10,6 +10,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
+using System.Threading;
 using MapInterface;
 
 namespace HJCompanion
@@ -76,16 +77,22 @@ namespace HJCompanion
 
         private void mainForm_Load(object sender, EventArgs e)
         {
-            Task.Factory.StartNew(() =>
-            {
-                ReadFromPipe();
+            Thread thread = new Thread(() =>
+           {
+               ReadFromPipe();
+           });
+            thread.SetApartmentState(ApartmentState.STA);
+            thread.Start();
+            //Task.Factory.StartNew(() =>
+            //{
+                //ReadFromPipe();
                 //byte[] fileBytes = Encoding.ASCII.GetBytes("blah blah");
                 //fileStream = new FileStream("control.hje", FileMode.Create, FileAccess.ReadWrite, FileShare.ReadWrite);
                 //controlMemFile = MemoryMappedFile.CreateFromFile(fileStream, "control", fileBytes.Length,
                 //    MemoryMappedFileAccess.ReadWrite, new MemoryMappedFileSecurity(), HandleInheritability.Inheritable, true);
                 //var viewStream = controlMemFile.CreateViewStream();
                 //viewStream.Write( fileBytes, 0, fileBytes.Length);
-            });
+            //});
         }
 
         ~mainForm()

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Drawing;
 
 namespace HJEngine.editor
 {
@@ -18,6 +19,7 @@ namespace HJEngine.editor
         private gfx.Cursor editCursor;
         private gfx.Graphics graphics;
         private string mode;
+        private MapInterface.MapInterface mapInterface;
 
         public MapEditor(gfx.Graphics graphics)
         {
@@ -59,6 +61,8 @@ namespace HJEngine.editor
                     if (allParams[0] == "load map")
                     {
                         //TODO: Load Map
+                        string path = Directory.GetCurrentDirectory() + "/res/maps/" + allParams[1];
+                        mapInterface = new MapInterface.MapInterface(path);
                         Console.WriteLine("LOAD MAP");
                     }
                     if (allParams[0] == "reload map")
@@ -67,6 +71,9 @@ namespace HJEngine.editor
                     }
                     if (allParams[0] == "place")
                     {
+                        string objKey = allParams[1];
+                        Bitmap newImage = mapInterface.objectTemplates[objKey].images["default"];
+                        editCursor.ChangeTexture(newImage);
                         cursor = editCursor;
                         this.mode = "edit";
                     }
