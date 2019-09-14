@@ -12,19 +12,22 @@ namespace MapInterface
     public class MapInterface
     {
         public Dictionary<string, ObjectTemplate> objectTemplates;
+        public List<ObjectInstance> objectInstances;
         public string path;
         public string name;
 
         public MapInterface()
         {
             objectTemplates = new Dictionary<string, ObjectTemplate>();
+            objectInstances = new List<ObjectInstance>();
         }
 
         public MapInterface(string path)
         {
             this.path = path;
             objectTemplates = new Dictionary<string, ObjectTemplate>();
-            if(!File.Exists(path))
+            objectInstances = new List<ObjectInstance>();
+            if (!File.Exists(path))
             {
                 Save();
             }
@@ -275,14 +278,38 @@ namespace MapInterface
         }
     }
 
+    public class ObjectInstance
+    {
+        protected ObjectTemplate instance;
+        public float x;
+        public float y;
+
+        public ObjectInstance()
+        {
+            instance = new ObjectTemplate();
+        }
+
+        public ObjectInstance(ObjectTemplate objTemp)
+        {
+            instance = objTemp;
+        }
+
+        public virtual void Draw()
+        {
+
+        }
+    }
+
     public class ObjectTemplate
     {
         public Dictionary<string, Bitmap> images;
         public Dictionary<string, Property> properties;
         public string name;
+        public bool visibility;
 
         public ObjectTemplate(string name)
         {
+            this.visibility = true;
             this.name = name;
             properties = new Dictionary<string, Property>();
             images = new Dictionary<string, Bitmap>();

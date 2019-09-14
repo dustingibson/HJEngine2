@@ -94,6 +94,7 @@
     <Compile Include="editor\MapEditor.cs" />
     <Compile Include="Game.cs" />
     <Compile Include="gfx\Cursor.cs" />
+    <Compile Include="gfx\GameMap.cs" />
     <Compile Include="gfx\Graphics.cs" />
     <Compile Include="gfx\Shader.cs" />
     <Compile Include="gfx\StarField.cs" />

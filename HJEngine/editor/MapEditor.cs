@@ -19,7 +19,8 @@ namespace HJEngine.editor
         private gfx.Cursor editCursor;
         private gfx.Graphics graphics;
         private string mode;
-        private MapInterface.MapInterface mapInterface;
+        private gfx.GameMap map;
+        private MapInterface.ObjectTemplate curObj;
 
         public MapEditor(gfx.Graphics graphics)
         {
@@ -32,6 +33,7 @@ namespace HJEngine.editor
             editCursor = new gfx.Cursor(graphics, "edit");
             cursor = defaultCursor;
             mode = "cursor";
+            map = new gfx.GameMap();
         }
 
         public void Launch()
@@ -42,6 +44,11 @@ namespace HJEngine.editor
 
         public void Draw()
         {
+            //TODO: Quad Tree Data Structure
+            foreach(MapInterface.ObjectInstance inst in this.map.mapInterface.objectInstances)
+            {
+                inst.Draw();
+            }
             cursor.Draw();
         }
 
@@ -62,7 +69,7 @@ namespace HJEngine.editor
                     {
                         //TODO: Load Map
                         string path = Directory.GetCurrentDirectory() + "/res/maps/" + allParams[1];
-                        mapInterface = new MapInterface.MapInterface(path);
+                        map.mapInterface = new MapInterface.MapInterface(path);
                         Console.WriteLine("LOAD MAP");
                     }
                     if (allParams[0] == "reload map")
@@ -72,17 +79,26 @@ namespace HJEngine.editor
                     if (allParams[0] == "place")
                     {
                         string objKey = allParams[1];
-                        Bitmap newImage = mapInterface.objectTemplates[objKey].images["default"];
+                        curObj = map.mapInterface.objectTemplates[objKey];
+                        Bitmap newImage = curObj.images["default"];
                         editCursor.ChangeTexture(newImage);
                         cursor = editCursor;
-                        this.mode = "edit";
+                        this.mode = "place";
                     }
                     if (allParams[0] == "cursor")
                     {
                         cursor = defaultCursor;
                         this.mode = "cursor";
                     }
-
+                }
+                if (graphics.leftClick.currentState == "clicked")
+                {
+                    if (this.mode == "place")
+                    {
+                        prim.Point pnt = graphics.mousePoint;
+                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(curObj, graphics, graphics.mousePoint );
+                        map.mapInterface.objectInstances.Add(objInstance);    
+                    }
                 }
             }
             cursor.Update();
