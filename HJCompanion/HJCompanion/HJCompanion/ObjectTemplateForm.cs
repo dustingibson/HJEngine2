@@ -218,8 +218,15 @@ namespace HJCompanion
             {
                 string iKey = imageListView.SelectedItems[0].Text;
                 imageNameText.Text = iKey;
-                previewImagePicture.Image = new Bitmap(objTemplate.images[iKey]);
+                previewImagePicture.Image = new Bitmap(objTemplate.images[iKey].image);
             }
+        }
+
+        private void previewImagePicture_Click(object sender, EventArgs e)
+        {
+            string iKey = imageListView.SelectedItems[0].Text;
+            CollisionForm colForm = new CollisionForm(objTemplate.images[iKey]);
+            colForm.ShowDialog();
         }
     }
 }

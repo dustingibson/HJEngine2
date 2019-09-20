@@ -62,7 +62,7 @@ namespace HJCompanion
 
         private void placeButton_Click(object sender, EventArgs e)
         {
-            if (objKey != null)
+            if (objKey != "")
             {
                 EventHandler handler = controlSelected;
                 handler?.Invoke(this, SetSignal("place," + objKey));

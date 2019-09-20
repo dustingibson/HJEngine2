@@ -46,6 +46,12 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollisionForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="CollisionForm.Designer.cs">
+      <DependentUpon>CollisionForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="CompanionForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -72,6 +78,9 @@
     </Compile>
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
+    <EmbeddedResource Include="CollisionForm.resx">
+      <DependentUpon>CollisionForm.cs</DependentUpon>
+    </EmbeddedResource>
     <EmbeddedResource Include="CompanionForm.resx">
       <DependentUpon>CompanionForm.cs</DependentUpon>
     </EmbeddedResource>

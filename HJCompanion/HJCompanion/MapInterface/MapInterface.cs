@@ -188,8 +188,15 @@ namespace MapInterface
             Load();
         }
 
+        public void Clear()
+        {
+            objectTemplates = new Dictionary<string, ObjectTemplate>();
+            objectInstances = new List<ObjectInstance>();
+        }
+
         public void Load()
         {
+            Clear();
             Byte[] mainBuffer = File.ReadAllBytes(this.path);
             int counter = 0;
             //Number of objects
@@ -224,8 +231,19 @@ namespace MapInterface
                     int imageSize = traverseToInt(mainBuffer, ref counter);
                     //Image value
                     Bitmap image = traverseToBitmap(mainBuffer, ref counter, imageSize);
-
-                    curTemplate.AddImage(imageName, image);
+                    //# of Collision Vectors
+                    int nVect = traverseToInt(mainBuffer, ref counter);
+                    List<Line> vectors = new List<Line>();
+                    for (int m = 0; m < nVect; m++)
+                    {
+                        int x1 = traverseToInt(mainBuffer, ref counter);
+                        int y1 = traverseToInt(mainBuffer, ref counter);
+                        int x2 = traverseToInt(mainBuffer, ref counter);
+                        int y2 = traverseToInt(mainBuffer, ref counter);
+                        Line line = new Line(x1, y1, x2, y2);
+                        vectors.Add(line);
+                    }
+                    curTemplate.AddImage(imageName, image, vectors);
                 }
                 objectTemplates.Add(objName, curTemplate);
             }
@@ -264,18 +282,76 @@ namespace MapInterface
                 bw.Write(getIntBuffer(curTemplate.images.Count));
                 foreach(string iKey in curTemplate.images.Keys)
                 {
-                    Bitmap curImage = curTemplate.images[iKey];
+                    ImageData curImage = curTemplate.images[iKey];
                     //Bitmap name
                     bw.Write(getStringBuffer(iKey, 20));
                     //Bitmap size
-                    int size = (int)getBitmapSize(curImage);
+                    int size = (int)getBitmapSize(curImage.image);
                     bw.Write(getIntBuffer(size));
                     //Bitmap value
-                    bw.Write(getBitmapBytes(curImage));
+                    bw.Write(getBitmapBytes(curImage.image));
+                    //# of Collision Vectors
+                    bw.Write(getIntBuffer(curImage.collisionVectors.Count));
+                    foreach (Line curLine in curImage.collisionVectors)
+                    {
+                        //X1
+                        bw.Write(getIntBuffer(curLine.x1));
+                        //Y1
+                        bw.Write(getIntBuffer(curLine.y1));
+                        //X2
+                        bw.Write(getIntBuffer(curLine.x2));
+                        //Y2
+                        bw.Write(getIntBuffer(curLine.y2));
+                    }
+
                 }
             }
             bw.Close();
         }
+    }
+
+    public class Line
+    {
+        public int x1;
+        public int y1;
+        public int x2;
+        public int y2;
+
+        public Line(int x1, int y1, int x2, int y2)
+        {
+            this.x1 = x1;
+            this.y1 = y1;
+            this.x2 = x2;
+            this.y2 = y2;
+        }
+
+    }
+
+    public class ImageData
+    {
+        public List<Line> collisionVectors;
+        public Bitmap image;
+
+        public ImageData(Bitmap image)
+        {
+            this.image = image;
+            collisionVectors = new List<Line>();
+            Line top = new Line(0, 0, image.Width, 0);
+            Line right = new Line(image.Width, 0, image.Width, image.Height);
+            Line bottom = new Line(image.Width, image.Height, 0, image.Height);
+            Line left = new Line(0, image.Height, 0, 0);
+            collisionVectors.Add(top);
+            collisionVectors.Add(right);
+            collisionVectors.Add(bottom);
+            collisionVectors.Add(left);
+        }
+
+        public ImageData(Bitmap image, List<Line> vects)
+        {
+            this.image = image;
+            collisionVectors = vects; 
+        }
+
     }
 
     public class ObjectInstance
@@ -302,7 +378,7 @@ namespace MapInterface
 
     public class ObjectTemplate
     {
-        public Dictionary<string, Bitmap> images;
+        public Dictionary<string, ImageData> images;
         public Dictionary<string, Property> properties;
         public string name;
         public bool visibility;
@@ -312,14 +388,14 @@ namespace MapInterface
             this.visibility = true;
             this.name = name;
             properties = new Dictionary<string, Property>();
-            images = new Dictionary<string, Bitmap>();
+            images = new Dictionary<string, ImageData>();
             SetDefaultImage();
         }
 
         public ObjectTemplate()
         {
             properties = new Dictionary<string, Property>();
-            images = new Dictionary<string, Bitmap>();
+            images = new Dictionary<string, ImageData>();
             SetDefaultImage();
         }
 
@@ -347,11 +423,23 @@ namespace MapInterface
         {
             if (images.ContainsKey(name))
             {
-                images[name] = bitmap;
+                images[name] = new ImageData(bitmap);
             }
             else
             {
-                images.Add(name, bitmap);
+                images.Add(name, new ImageData(bitmap));
+            }
+        }
+
+        public void AddImage(string name, Bitmap bitmap, List<Line> lines)
+        {
+            if (images.ContainsKey(name))
+            {
+                images[name] = new ImageData(bitmap, lines);
+            }
+            else
+            {
+                images.Add(name, new ImageData(bitmap, lines));
             }
         }
 

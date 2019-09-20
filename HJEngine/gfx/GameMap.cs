@@ -39,7 +39,7 @@ namespace HJEngine.gfx
 
         public ObjectEntity(MapInterface.ObjectTemplate temp, Graphics graphics, prim.Point point) : base()
         {
-            Bitmap bitmap = temp.images["default"];
+            Bitmap bitmap = temp.images["default"].image;
             this.instance = temp;
             this.point = point;
             this.size = new prim.Size(bitmap.Width / graphics.size.w, bitmap.Height / graphics.size.h);

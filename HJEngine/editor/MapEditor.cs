@@ -78,9 +78,10 @@ namespace HJEngine.editor
                     }
                     if (allParams[0] == "place")
                     {
+                        map.mapInterface.Load();
                         string objKey = allParams[1];
                         curObj = map.mapInterface.objectTemplates[objKey];
-                        Bitmap newImage = curObj.images["default"];
+                        Bitmap newImage = curObj.images["default"].image;
                         editCursor.ChangeTexture(newImage);
                         cursor = editCursor;
                         this.mode = "place";
