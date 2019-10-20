@@ -18,6 +18,7 @@ namespace MapInterface
 
         public MapInterface()
         {
+            this.path = path;
             objectTemplates = new Dictionary<string, ObjectTemplate>();
             objectInstances = new List<ObjectInstance>();
         }

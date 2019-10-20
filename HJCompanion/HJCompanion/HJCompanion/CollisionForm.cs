@@ -13,20 +13,28 @@ namespace HJCompanion
     public partial class CollisionForm : Form
     {
         public string mode;
-        public int x1;
-        public int y1;
-        public int x2;
-        public int y2;
+        private int x1;
+        private int y1;
+        private int x2;
+        private int y2;
+        private int sqW;
+        private Point delPnt;
         public Bitmap bitmap;
-        List<MapInterface.Line> lines;
+        public List<MapInterface.Line> lines;
+        List<ToolStripButton> buttonGroup;
 
         public CollisionForm(MapInterface.ImageData imageData)
         {
             InitializeComponent();
             mode = "";
+            sqW = 6;
             lines = new List<MapInterface.Line>();
             this.bitmap = imageData.image;
-            lines = imageData.collisionVectors;
+            lines = new List<MapInterface.Line>(imageData.collisionVectors);
+            buttonGroup = new List<ToolStripButton>();
+
+            buttonGroup.Add(lineButton);
+            buttonGroup.Add(deleteButton);
         }
 
         private void menuStrip1_ItemClicked(object sender, ToolStripItemClickedEventArgs e)
@@ -38,6 +46,18 @@ namespace HJCompanion
         {
             MouseEventArgs me = (MouseEventArgs)e;
             Point pnt = me.Location;
+            Point? appPoint = approxPoint(pnt);
+            pnt = appPoint != null ? (Point)appPoint : pnt;
+            if (appPoint != null && mode == "delete")
+            {
+                delPnt = (Point)appPoint;
+                mode = "delete2";
+            }
+            else if (appPoint != null && mode == "delete2")
+            {
+                delCorPoint((Point)appPoint);
+                mode = "delete";
+            }
             if (mode == "line")
             {
                 x1 = pnt.X;
@@ -61,9 +81,18 @@ namespace HJCompanion
             this.Refresh();
         }
 
+        private void resetButtons(object sender)
+        {
+            foreach (ToolStripButton button in buttonGroup)
+                if (button != sender)
+                    button.Checked = false;
+        }
+
         private void lineButton_Click(object sender, EventArgs e)
         {
-            mode = "line";
+            lineButton.Checked = lineButton.Checked ? false : true;
+            mode = lineButton.Checked ? "line" : "";
+            resetButtons(sender);
         }
 
         private void imageBox_Paint(object sender, PaintEventArgs e)
@@ -76,26 +105,83 @@ namespace HJCompanion
             RefreshBox();
         }
 
+        private void delCorPoint(Point linePnt)
+        {
+            foreach (MapInterface.Line line in lines)
+            {
+                if (line.x1 == delPnt.X && line.y1 == delPnt.Y && line.x2 == linePnt.X && line.y2 == linePnt.Y)
+                {
+                    lines.Remove(line);
+                    return;
+                }
+                else if (line.x2 == delPnt.X && line.y2 == delPnt.Y && line.x1 == linePnt.X && line.y1 == linePnt.Y)
+                {
+                    lines.Remove(line);
+                    return;
+                }
+            }
+        }
+
+        private Point? approxPoint(Point mousePoint)
+        {
+            foreach (MapInterface.Line line in lines)
+            {
+                if (mousePoint.X >= line.x1 && mousePoint.X <= line.x1 + sqW)
+                {
+                    if (mousePoint.Y >= line.y1 && mousePoint.Y <= line.y1 + sqW)
+                        return new Point(line.x1, line.y1);
+                }
+                if (mousePoint.X >= line.x2 && mousePoint.X <= line.x2 + sqW)
+                {
+                    if (mousePoint.Y >= line.y2 && mousePoint.Y <= line.y2 + sqW)
+                        return new Point(line.x2, line.y2);
+                }
+            }
+            return null;
+        }
+
         private void imageBox_MouseMove(object sender, MouseEventArgs e)
         {
             Bitmap copyBitmap = new Bitmap(this.bitmap);
             Point mousePoint = e.Location;
+            Point? appPoint = approxPoint(mousePoint);
+            mousePoint = appPoint != null ? (Point)appPoint : mousePoint;
             Graphics g;
             g = Graphics.FromImage(copyBitmap);
             Pen dotPen = new Pen(Color.Red);
             Pen plPen = new Pen(Color.Blue);
             if (mode == "line2")
             {
-                g.DrawRectangle(dotPen, new Rectangle(x1, y1, 5, 5));
+                g.DrawRectangle(dotPen, new Rectangle(x1 - sqW / 2, y1 - sqW / 2, sqW, sqW));
                 g.DrawLine(dotPen, x1, y1, mousePoint.X, mousePoint.Y);
             }
             foreach(MapInterface.Line line in lines)
             {
+                g.DrawRectangle(plPen, line.x1 - sqW/2, line.y1 - sqW/2 , sqW, sqW);
+                g.DrawRectangle(plPen, line.x2 - sqW/2, line.y2 - sqW/2 , sqW, sqW);
                 g.DrawLine(plPen, line.x1, line.y1, line.x2, line.y2);
+            }
+            if (appPoint != null)
+            {
+                Pen hoverPen = new Pen(Color.Green);
+                g.DrawRectangle(hoverPen, ((Point)appPoint).X - sqW / 2, ((Point)appPoint).Y - sqW / 2, sqW, sqW);
             }
             imageBox.Image = copyBitmap;
             g.Dispose();
             imageBox.Refresh();
+        }
+
+        private void deleteButton_Click(object sender, EventArgs e)
+        {
+            deleteButton.Checked = deleteButton.Checked ? false : true;
+            mode = deleteButton.Checked ? "delete" : "";
+            resetButtons(sender);
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            this.DialogResult = DialogResult.OK;
+            this.Close();
         }
     }
 }

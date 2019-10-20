@@ -34,6 +34,7 @@
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.valueText = new System.Windows.Forms.TabPage();
             this.deletePropButton = new System.Windows.Forms.Button();
+            this.previewPicture = new System.Windows.Forms.PictureBox();
             this.addButton = new System.Windows.Forms.Button();
             this.browseButton = new System.Windows.Forms.Button();
             this.fileText = new System.Windows.Forms.TextBox();
@@ -45,6 +46,7 @@
             this.nameText = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
             this.deleteImageButton = new System.Windows.Forms.Button();
+            this.previewImagePicture = new System.Windows.Forms.PictureBox();
             this.imageListView = new System.Windows.Forms.ListView();
             this.columnHeader3 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.label4 = new System.Windows.Forms.Label();
@@ -58,12 +60,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.propOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.imgFileOpenDlg = new System.Windows.Forms.OpenFileDialog();
-            this.previewPicture = new System.Windows.Forms.PictureBox();
-            this.previewImagePicture = new System.Windows.Forms.PictureBox();
             this.tabControl1.SuspendLayout();
             this.valueText.SuspendLayout();
-            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
+            this.tabPage2.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewImagePicture)).BeginInit();
             this.SuspendLayout();
             // 
@@ -136,6 +136,15 @@
             this.deletePropButton.TabIndex = 18;
             this.deletePropButton.Text = "Delete";
             this.deletePropButton.UseVisualStyleBackColor = true;
+            this.deletePropButton.Click += new System.EventHandler(this.deletePropButton_Click);
+            // 
+            // previewPicture
+            // 
+            this.previewPicture.Location = new System.Drawing.Point(174, 392);
+            this.previewPicture.Name = "previewPicture";
+            this.previewPicture.Size = new System.Drawing.Size(130, 116);
+            this.previewPicture.TabIndex = 17;
+            this.previewPicture.TabStop = false;
             // 
             // addButton
             // 
@@ -248,6 +257,16 @@
             this.deleteImageButton.TabIndex = 17;
             this.deleteImageButton.Text = "Delete";
             this.deleteImageButton.UseVisualStyleBackColor = true;
+            this.deleteImageButton.Click += new System.EventHandler(this.deleteImageButton_Click);
+            // 
+            // previewImagePicture
+            // 
+            this.previewImagePicture.Location = new System.Drawing.Point(127, 218);
+            this.previewImagePicture.Name = "previewImagePicture";
+            this.previewImagePicture.Size = new System.Drawing.Size(220, 196);
+            this.previewImagePicture.TabIndex = 16;
+            this.previewImagePicture.TabStop = false;
+            this.previewImagePicture.Click += new System.EventHandler(this.previewImagePicture_Click);
             // 
             // imageListView
             // 
@@ -356,23 +375,6 @@
             // 
             this.imgFileOpenDlg.FileName = "openFileDialog2";
             // 
-            // previewPicture
-            // 
-            this.previewPicture.Location = new System.Drawing.Point(174, 392);
-            this.previewPicture.Name = "previewPicture";
-            this.previewPicture.Size = new System.Drawing.Size(130, 116);
-            this.previewPicture.TabIndex = 17;
-            this.previewPicture.TabStop = false;
-            // 
-            // previewImagePicture
-            // 
-            this.previewImagePicture.Location = new System.Drawing.Point(127, 218);
-            this.previewImagePicture.Name = "previewImagePicture";
-            this.previewImagePicture.Size = new System.Drawing.Size(220, 196);
-            this.previewImagePicture.TabIndex = 16;
-            this.previewImagePicture.TabStop = false;
-            this.previewImagePicture.Click += new System.EventHandler(this.previewImagePicture_Click);
-            // 
             // ObjectTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -389,9 +391,9 @@
             this.tabControl1.ResumeLayout(false);
             this.valueText.ResumeLayout(false);
             this.valueText.PerformLayout();
+            ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).EndInit();
             this.tabPage2.ResumeLayout(false);
             this.tabPage2.PerformLayout();
-            ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).EndInit();
             ((System.ComponentModel.ISupportInitialize)(this.previewImagePicture)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();

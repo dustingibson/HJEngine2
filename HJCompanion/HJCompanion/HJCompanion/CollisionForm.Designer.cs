@@ -31,12 +31,11 @@
             System.ComponentModel.ComponentResourceManager resources = new System.ComponentModel.ComponentResourceManager(typeof(CollisionForm));
             this.toolStrip1 = new System.Windows.Forms.ToolStrip();
             this.lineButton = new System.Windows.Forms.ToolStripButton();
-            this.circleButton = new System.Windows.Forms.ToolStripButton();
             this.deleteButton = new System.Windows.Forms.ToolStripButton();
-            this.panel1 = new System.Windows.Forms.Panel();
-            this.imageBox = new System.Windows.Forms.PictureBox();
             this.toolStripSeparator1 = new System.Windows.Forms.ToolStripSeparator();
             this.saveButton = new System.Windows.Forms.ToolStripButton();
+            this.panel1 = new System.Windows.Forms.Panel();
+            this.imageBox = new System.Windows.Forms.PictureBox();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).BeginInit();
@@ -46,7 +45,6 @@
             // 
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lineButton,
-            this.circleButton,
             this.deleteButton,
             this.toolStripSeparator1,
             this.saveButton});
@@ -63,17 +61,8 @@
             this.lineButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.lineButton.Name = "lineButton";
             this.lineButton.Size = new System.Drawing.Size(23, 22);
-            this.lineButton.Text = "toolStripButton1";
+            this.lineButton.Text = "add nodes";
             this.lineButton.Click += new System.EventHandler(this.lineButton_Click);
-            // 
-            // circleButton
-            // 
-            this.circleButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.circleButton.Image = ((System.Drawing.Image)(resources.GetObject("circleButton.Image")));
-            this.circleButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.circleButton.Name = "circleButton";
-            this.circleButton.Size = new System.Drawing.Size(23, 22);
-            this.circleButton.Text = "toolStripButton2";
             // 
             // deleteButton
             // 
@@ -82,7 +71,24 @@
             this.deleteButton.ImageTransparentColor = System.Drawing.Color.Magenta;
             this.deleteButton.Name = "deleteButton";
             this.deleteButton.Size = new System.Drawing.Size(23, 22);
-            this.deleteButton.Text = "toolStripButton3";
+            this.deleteButton.Text = "delete node";
+            this.deleteButton.Click += new System.EventHandler(this.deleteButton_Click);
+            // 
+            // toolStripSeparator1
+            // 
+            this.toolStripSeparator1.Name = "toolStripSeparator1";
+            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
+            // 
+            // saveButton
+            // 
+            this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
+            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.saveButton.Name = "saveButton";
+            this.saveButton.Size = new System.Drawing.Size(23, 22);
+            this.saveButton.Text = "toolStripButton1";
+            this.saveButton.ToolTipText = "save";
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // panel1
             // 
@@ -105,20 +111,6 @@
             this.imageBox.Click += new System.EventHandler(this.imageBox_Click);
             this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
             this.imageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseMove);
-            // 
-            // toolStripSeparator1
-            // 
-            this.toolStripSeparator1.Name = "toolStripSeparator1";
-            this.toolStripSeparator1.Size = new System.Drawing.Size(6, 25);
-            // 
-            // saveButton
-            // 
-            this.saveButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
-            this.saveButton.Image = ((System.Drawing.Image)(resources.GetObject("saveButton.Image")));
-            this.saveButton.ImageTransparentColor = System.Drawing.Color.Magenta;
-            this.saveButton.Name = "saveButton";
-            this.saveButton.Size = new System.Drawing.Size(23, 22);
-            this.saveButton.Text = "toolStripButton1";
             // 
             // CollisionForm
             // 
@@ -143,7 +135,6 @@
 
         private System.Windows.Forms.ToolStrip toolStrip1;
         private System.Windows.Forms.ToolStripButton lineButton;
-        private System.Windows.Forms.ToolStripButton circleButton;
         private System.Windows.Forms.ToolStripButton deleteButton;
         private System.Windows.Forms.Panel panel1;
         private System.Windows.Forms.PictureBox imageBox;

@@ -37,6 +37,7 @@ namespace HJCompanion
             objTemplate = this.mapInterface.objectTemplates[key];
             updatePropertyList();
             UpdateImageListView();
+            this.objNameText.Text = key;
         }
 
         private void valueText_Click(object sender, EventArgs e)
@@ -55,26 +56,43 @@ namespace HJCompanion
             propListView.Refresh();
         }
 
+        public void ClearPropertiesUI()
+        {
+            nameText.Text = "";
+            typeCombo.SelectedItem = "";
+            valText.Text = "";
+        }
+
+        public void ClearImageUI()
+        {
+            imageNameText.Text = "";
+            previewImagePicture.Image = null;
+        }
+
         public void updateUI()
         {
-            if (propListView.Items.Count > 0)
+            if (propListView.SelectedItems.Count > 0)
             {
                 string selectedItem = propListView.SelectedItems[0].Text;
                 Property property = objTemplate.properties[selectedItem];
                 nameText.Text = property.name;
                 typeCombo.SelectedItem = property.type;
                 if (property.type == "string")
-                    valueText.Text = property.getString();
+                    valText.Text = property.getString();
                 else if (property.type == "int")
-                    valueText.Text = property.getInt().ToString();
+                    valText.Text = property.getInt().ToString();
                 else if (property.type == "float")
-                    valueText.Text = property.getFloat().ToString();
+                    valText.Text = property.getFloat().ToString();
                 else if (property.type == "double")
-                    valueText.Text = property.getDouble().ToString();
+                    valText.Text = property.getDouble().ToString();
                 else if (property.type == "bool")
-                    valueText.Text = property.getBool().ToString();
+                    valText.Text = property.getBool().ToString();
                 else if (property.type == "image")
                     uploadedImage = property.getBitmap();
+            }
+            else
+            {
+                ClearPropertiesUI();
             }
         }
 
@@ -87,17 +105,17 @@ namespace HJCompanion
                 byte[] value = { };
 
                 if (type == "string")
-                    value = mapInterface.getStringBuffer(valueText.Text);
+                    value = mapInterface.getStringBuffer(valText.Text);
                 else if (type == "image")
                     value = mapInterface.getBitmapBytes(uploadedImage);
                 else if (type == "int")
-                    value = mapInterface.getIntBuffer(Int32.Parse(valueText.Text));
+                    value = mapInterface.getIntBuffer(Int32.Parse(valText.Text));
                 else if (type == "double")
-                    value = mapInterface.getDoubleBuffer(valueText.Text);
+                    value = mapInterface.getDoubleBuffer(valText.Text);
                 else if (type == "float")
-                    value = mapInterface.getFloatBuffer(valueText.Text);
+                    value = mapInterface.getFloatBuffer(valText.Text);
                 else if (type == "boolean")
-                    value = mapInterface.getBoolBuffer(bool.Parse(valueText.Text));
+                    value = mapInterface.getBoolBuffer(bool.Parse(valText.Text));
 
                 else
                 {
@@ -118,6 +136,7 @@ namespace HJCompanion
 
                 objTemplate.AddProperty(name, type, value);
                 updatePropertyList();
+                ClearPropertiesUI();
             }
             catch(Exception ex)
             {
@@ -171,6 +190,7 @@ namespace HJCompanion
                 Bitmap image = new Bitmap(imgPath);
                 objTemplate.AddImage(name, image);
                 UpdateImageListView();
+                ClearImageUI();
             }
             catch(Exception ie)
             {
@@ -226,7 +246,33 @@ namespace HJCompanion
         {
             string iKey = imageListView.SelectedItems[0].Text;
             CollisionForm colForm = new CollisionForm(objTemplate.images[iKey]);
-            colForm.ShowDialog();
+            if(colForm.ShowDialog() == DialogResult.OK)
+            {
+                objTemplate.images[iKey].collisionVectors = colForm.lines;
+            }
+        }
+
+        private void deletePropButton_Click(object sender, EventArgs e)
+        {
+            if (propListView.SelectedItems.Count > 0)
+            {
+                string selectedItem = propListView.SelectedItems[0].Text;
+                objTemplate.properties.Remove(selectedItem);
+                updatePropertyList();
+                ClearPropertiesUI();
+                //updateUI();
+            }
+        }
+
+        private void deleteImageButton_Click(object sender, EventArgs e)
+        {
+            if (imageListView.SelectedItems.Count > 0)
+            {
+                string iKey = imageListView.SelectedItems[0].Text;
+                objTemplate.images.Remove(iKey);
+                UpdateImageListView();
+                ClearImageUI();
+            }
         }
     }
 }
