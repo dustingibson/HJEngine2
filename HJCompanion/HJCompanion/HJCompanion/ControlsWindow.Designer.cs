@@ -33,11 +33,12 @@
             this.objListView = new System.Windows.Forms.ListBox();
             this.addObjButton = new System.Windows.Forms.Button();
             this.editButton = new System.Windows.Forms.Button();
-            this.button3 = new System.Windows.Forms.Button();
+            this.deleteObjButton = new System.Windows.Forms.Button();
             this.placeButton = new System.Windows.Forms.Button();
             this.removeButton = new System.Windows.Forms.Button();
             this.moveButton = new System.Windows.Forms.Button();
             this.detailsButton = new System.Windows.Forms.Button();
+            this.saveInstanceButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cursorButton
@@ -80,14 +81,15 @@
             this.editButton.UseVisualStyleBackColor = true;
             this.editButton.Click += new System.EventHandler(this.editButton_Click);
             // 
-            // button3
+            // deleteObjButton
             // 
-            this.button3.Location = new System.Drawing.Point(212, 217);
-            this.button3.Name = "button3";
-            this.button3.Size = new System.Drawing.Size(34, 37);
-            this.button3.TabIndex = 4;
-            this.button3.Text = "Del";
-            this.button3.UseVisualStyleBackColor = true;
+            this.deleteObjButton.Location = new System.Drawing.Point(212, 217);
+            this.deleteObjButton.Name = "deleteObjButton";
+            this.deleteObjButton.Size = new System.Drawing.Size(34, 37);
+            this.deleteObjButton.TabIndex = 4;
+            this.deleteObjButton.Text = "Del";
+            this.deleteObjButton.UseVisualStyleBackColor = true;
+            this.deleteObjButton.Click += new System.EventHandler(this.deleteObjButton_Click);
             // 
             // placeButton
             // 
@@ -107,6 +109,7 @@
             this.removeButton.Size = new System.Drawing.Size(34, 37);
             this.removeButton.TabIndex = 6;
             this.removeButton.UseVisualStyleBackColor = true;
+            this.removeButton.Click += new System.EventHandler(this.removeButton_Click);
             // 
             // moveButton
             // 
@@ -116,26 +119,38 @@
             this.moveButton.Size = new System.Drawing.Size(34, 37);
             this.moveButton.TabIndex = 7;
             this.moveButton.UseVisualStyleBackColor = true;
+            this.moveButton.Click += new System.EventHandler(this.moveButton_Click);
             // 
             // detailsButton
             // 
             this.detailsButton.Image = ((System.Drawing.Image)(resources.GetObject("detailsButton.Image")));
-            this.detailsButton.Location = new System.Drawing.Point(12, 118);
+            this.detailsButton.Location = new System.Drawing.Point(132, 75);
             this.detailsButton.Name = "detailsButton";
             this.detailsButton.Size = new System.Drawing.Size(34, 37);
             this.detailsButton.TabIndex = 8;
             this.detailsButton.UseVisualStyleBackColor = true;
+            // 
+            // saveInstanceButton
+            // 
+            this.saveInstanceButton.Image = ((System.Drawing.Image)(resources.GetObject("saveInstanceButton.Image")));
+            this.saveInstanceButton.Location = new System.Drawing.Point(12, 118);
+            this.saveInstanceButton.Name = "saveInstanceButton";
+            this.saveInstanceButton.Size = new System.Drawing.Size(34, 37);
+            this.saveInstanceButton.TabIndex = 9;
+            this.saveInstanceButton.UseVisualStyleBackColor = true;
+            this.saveInstanceButton.Click += new System.EventHandler(this.saveInstanceButton_Click);
             // 
             // ControlsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(262, 563);
+            this.Controls.Add(this.saveInstanceButton);
             this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.moveButton);
             this.Controls.Add(this.removeButton);
             this.Controls.Add(this.placeButton);
-            this.Controls.Add(this.button3);
+            this.Controls.Add(this.deleteObjButton);
             this.Controls.Add(this.editButton);
             this.Controls.Add(this.addObjButton);
             this.Controls.Add(this.objListView);
@@ -153,10 +168,11 @@
         private System.Windows.Forms.ListBox objListView;
         private System.Windows.Forms.Button addObjButton;
         private System.Windows.Forms.Button editButton;
-        private System.Windows.Forms.Button button3;
+        private System.Windows.Forms.Button deleteObjButton;
         private System.Windows.Forms.Button placeButton;
         private System.Windows.Forms.Button removeButton;
         private System.Windows.Forms.Button moveButton;
         private System.Windows.Forms.Button detailsButton;
+        private System.Windows.Forms.Button saveInstanceButton;
     }
 }

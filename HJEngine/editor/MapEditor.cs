@@ -2,9 +2,6 @@
 using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Drawing;
 
 namespace HJEngine.editor
@@ -69,8 +66,18 @@ namespace HJEngine.editor
                     {
                         //TODO: Load Map
                         string path = Directory.GetCurrentDirectory() + "/res/maps/" + allParams[1];
-                        map.mapInterface = new MapInterface.MapInterface(path);
+                        map.LoadMap(this.graphics, path);
                         Console.WriteLine("LOAD MAP");
+                    }
+                    if (allParams[0] == "save instances")
+                    {
+                        List<MapInterface.ObjectInstance> instance = new List<MapInterface.ObjectInstance>(map.mapInterface.objectInstances);
+                        //Load with latest
+                        map.LoadMap(this.graphics);
+                        //Save
+                        map.mapInterface.objectInstances = instance;
+                        map.mapInterface.Save();
+
                     }
                     if (allParams[0] == "reload map")
                     {

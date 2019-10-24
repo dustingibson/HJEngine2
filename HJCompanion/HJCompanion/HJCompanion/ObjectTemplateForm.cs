@@ -113,7 +113,7 @@ namespace HJCompanion
                 else if (type == "double")
                     value = mapInterface.getDoubleBuffer(valText.Text);
                 else if (type == "float")
-                    value = mapInterface.getFloatBuffer(valText.Text);
+                    value = mapInterface.getFloatBuffer(float.Parse(valText.Text));
                 else if (type == "boolean")
                     value = mapInterface.getBoolBuffer(bool.Parse(valText.Text));
 

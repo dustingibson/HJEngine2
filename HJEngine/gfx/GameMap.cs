@@ -20,6 +20,25 @@ namespace HJEngine.gfx
             mapInterface = new MapInterface.MapInterface();
         }
 
+        public void LoadMap(Graphics graphics, string path="")
+        {
+
+            if (path == "")
+                mapInterface.Load();
+            else
+                mapInterface = new MapInterface.MapInterface(path);
+            //Offload Interface
+            List<MapInterface.ObjectInstance> tempInstance = new List<MapInterface.ObjectInstance>(mapInterface.objectInstances);
+            mapInterface.objectInstances.Clear();
+            //Convert to entities
+            foreach (MapInterface.ObjectInstance curInstance in tempInstance)
+            {
+                prim.Point pnt = new prim.Point(curInstance.x, curInstance.y);
+                mapInterface.objectInstances.Add(new ObjectEntity(curInstance.instance, graphics, pnt));
+            }
+
+        }
+
         public void AddEntity(string key)
         {
             //List<MapInterface.ObjectInstance> objectInstance = new List<MapInterface.ObjectInstance>();
@@ -39,11 +58,18 @@ namespace HJEngine.gfx
 
         public ObjectEntity(MapInterface.ObjectTemplate temp, Graphics graphics, prim.Point point) : base()
         {
+            this.point = point;
+            this.x = point.x;
+            this.y = point.y;
+            InitTexture(temp, graphics);
+        }
+
+        private void InitTexture(MapInterface.ObjectTemplate temp, Graphics graphics)
+        {
             Bitmap bitmap = temp.images["default"].image;
             this.instance = temp;
-            this.point = point;
             this.size = new prim.Size(bitmap.Width / graphics.size.w, bitmap.Height / graphics.size.h);
-           float[] vertices = {
+            float[] vertices = {
                  point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
                  point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
                 point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left
@@ -55,6 +81,7 @@ namespace HJEngine.gfx
                 1, 2, 3    // second triangle
             };
             texture = new ImageTexture(graphics, bitmap, vertices, indices);
+
         }
 
         public override void Draw()

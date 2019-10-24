@@ -18,7 +18,7 @@ namespace MapInterface
 
         public MapInterface()
         {
-            this.path = path;
+            this.path = "";
             objectTemplates = new Dictionary<string, ObjectTemplate>();
             objectInstances = new List<ObjectInstance>();
         }
@@ -44,6 +44,12 @@ namespace MapInterface
                 objectTemplates[objTemplate.name] = objTemplate;
             else
                 objectTemplates.Add(objTemplate.name, objTemplate);
+        }
+
+        public void RemoveObjectTemplate(string key)
+        {
+            if (objectTemplates.ContainsKey(key))
+                objectTemplates.Remove(key);
         }
 
         public void initBuffer(Byte[] tmpBuffer, int size)
@@ -92,6 +98,13 @@ namespace MapInterface
             return tmpBuffer;
         }
 
+        public float traverseToFloat(Byte[] byteBuffer, ref int counter)
+        {
+            float result = BitConverter.ToSingle(byteBuffer, 0);
+            counter = counter + 4;
+            return result;
+        }
+
         public Bitmap traverseToBitmap(Byte[] byteBuffer, ref int counter, int destSize)
         {
             Byte[] tmpBuffer = new Byte[destSize];
@@ -130,9 +143,9 @@ namespace MapInterface
             return intBuffer;
         }
 
-        public Byte[] getFloatBuffer(string buf)
+        public Byte[] getFloatBuffer(float buf)
         {
-            return getStringBuffer(buf);
+            return BitConverter.GetBytes(buf);
         }
 
         public Byte[] getDoubleBuffer(string buf)
@@ -248,6 +261,27 @@ namespace MapInterface
                 }
                 objectTemplates.Add(objName, curTemplate);
             }
+            //Instance count
+            int numInst = traverseToInt(mainBuffer, ref counter);
+            for (int i = 0; i < numInst; i++)
+            {
+                //Instance name
+                string instName = traverseToString(mainBuffer, ref counter, 20);
+                ObjectInstance instance = new ObjectInstance(objectTemplates[instName]);
+                //X
+                instance.x = traverseToFloat(mainBuffer, ref counter);
+                //Y
+                instance.y = traverseToFloat(mainBuffer, ref counter);
+                foreach (Property curProperty in instance.instance.properties.Values)
+                {
+                    //Size
+                    int propSize = traverseToInt(mainBuffer, ref counter);
+                    //Value
+                    curProperty.value = traverseToByte(mainBuffer, ref counter, propSize);
+                    instance.instance.AddProperty(curProperty.name, curProperty.type, curProperty.value);
+                }
+                objectInstances.Add(instance);
+            }
         }
 
         public void Save()
@@ -304,7 +338,27 @@ namespace MapInterface
                         //Y2
                         bw.Write(getIntBuffer(curLine.y2));
                     }
-
+                }
+            }
+            //Number of instances
+            bw.Write(getIntBuffer(objectInstances.Count));
+            foreach(ObjectInstance instance in objectInstances)
+            {
+                //Object Name
+                bw.Write(getStringBuffer(instance.instance.name, 20));
+                //X Value
+                bw.Write(getFloatBuffer(instance.x));
+                //Y Value
+                bw.Write(getFloatBuffer(instance.y));
+                ObjectTemplate newTemplate = objectTemplates[instance.instance.name];
+                foreach (Property curProperty in instance.instance.properties.Values)
+                {
+                    string type = curProperty.type;
+                    int size = curProperty.getSize();
+                    //Property size
+                    bw.Write(BitConverter.GetBytes(size));
+                    //Property value
+                    bw.Write(curProperty.value);
                 }
             }
             bw.Close();
@@ -337,10 +391,10 @@ namespace MapInterface
         {
             this.image = image;
             collisionVectors = new List<Line>();
-            Line top = new Line(0, 0, image.Width, 0);
-            Line right = new Line(image.Width, 0, image.Width, image.Height);
-            Line bottom = new Line(image.Width, image.Height, 0, image.Height);
-            Line left = new Line(0, image.Height, 0, 0);
+            Line top = new Line(0, 0, image.Width-1, 0);
+            Line right = new Line(image.Width-1, 0, image.Width-1, image.Height-1);
+            Line bottom = new Line(image.Width, image.Height-1, 0, image.Height-1);
+            Line left = new Line(0, image.Height-1, 0, 0);
             collisionVectors.Add(top);
             collisionVectors.Add(right);
             collisionVectors.Add(bottom);
@@ -357,18 +411,22 @@ namespace MapInterface
 
     public class ObjectInstance
     {
-        protected ObjectTemplate instance;
+        public ObjectTemplate instance;
         public float x;
         public float y;
 
         public ObjectInstance()
         {
             instance = new ObjectTemplate();
+            x = 0;
+            y = 0;
         }
 
         public ObjectInstance(ObjectTemplate objTemp)
         {
             instance = objTemp;
+            x = 0;
+            y = 0;
         }
 
         public virtual void Draw()

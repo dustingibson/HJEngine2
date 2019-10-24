@@ -36,6 +36,7 @@
             this.saveButton = new System.Windows.Forms.ToolStripButton();
             this.panel1 = new System.Windows.Forms.Panel();
             this.imageBox = new System.Windows.Forms.PictureBox();
+            this.removeAllButton = new System.Windows.Forms.ToolStripButton();
             this.toolStrip1.SuspendLayout();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.imageBox)).BeginInit();
@@ -46,6 +47,7 @@
             this.toolStrip1.Items.AddRange(new System.Windows.Forms.ToolStripItem[] {
             this.lineButton,
             this.deleteButton,
+            this.removeAllButton,
             this.toolStripSeparator1,
             this.saveButton});
             this.toolStrip1.Location = new System.Drawing.Point(0, 0);
@@ -112,6 +114,17 @@
             this.imageBox.Paint += new System.Windows.Forms.PaintEventHandler(this.imageBox_Paint);
             this.imageBox.MouseMove += new System.Windows.Forms.MouseEventHandler(this.imageBox_MouseMove);
             // 
+            // removeAllButton
+            // 
+            this.removeAllButton.DisplayStyle = System.Windows.Forms.ToolStripItemDisplayStyle.Image;
+            this.removeAllButton.Image = ((System.Drawing.Image)(resources.GetObject("removeAllButton.Image")));
+            this.removeAllButton.ImageTransparentColor = System.Drawing.Color.Magenta;
+            this.removeAllButton.Name = "removeAllButton";
+            this.removeAllButton.Size = new System.Drawing.Size(23, 22);
+            this.removeAllButton.Text = "toolStripButton1";
+            this.removeAllButton.ToolTipText = "remove all";
+            this.removeAllButton.Click += new System.EventHandler(this.removeAllButton_Click);
+            // 
             // CollisionForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -140,5 +153,6 @@
         private System.Windows.Forms.PictureBox imageBox;
         private System.Windows.Forms.ToolStripSeparator toolStripSeparator1;
         private System.Windows.Forms.ToolStripButton saveButton;
+        private System.Windows.Forms.ToolStripButton removeAllButton;
     }
 }

@@ -19,6 +19,8 @@ namespace HJCompanion
         public MapInterface.MapInterface mapInterface;
         public bool save;
         public string objKey;
+        private List<Button> buttonList;
+        private string activeButton;
 
         public ControlsWindow(MapInterface.MapInterface mapInterface)
         {
@@ -26,6 +28,13 @@ namespace HJCompanion
             signal = "";
             objKey = "";
             this.mapInterface = mapInterface;
+            this.buttonList = new List<Button>();
+
+            this.buttonList.Add(placeButton);
+            this.buttonList.Add(removeButton);
+            this.buttonList.Add(moveButton);
+
+            activeButton = "";
         }
 
         public virtual void OnControlSelected(EventArgs e)
@@ -66,6 +75,7 @@ namespace HJCompanion
             {
                 EventHandler handler = controlSelected;
                 handler?.Invoke(this, SetSignal("place," + objKey));
+                resetButtons(((Button)sender).Name);
             }
         }
 
@@ -126,6 +136,41 @@ namespace HJCompanion
                     TriggerSave();
                 }
             }
+        }
+
+        private void deleteObjButton_Click(object sender, EventArgs e)
+        {
+            if (objListView.SelectedItems.Count > 0)
+            {
+                objKey = objListView.Text;
+                mapInterface.RemoveObjectTemplate(objKey);
+                UpdateObjectTemplateList();
+            }
+        }
+
+        private void resetButtons(string activeButton)
+        {
+            foreach (Button curButton in buttonList)
+                if (curButton.Name != activeButton)
+                    curButton.BackColor = Color.Transparent;
+                else
+                    curButton.BackColor = Color.Green;
+        }
+
+        private void moveButton_Click(object sender, EventArgs e)
+        {
+            resetButtons(((Button)sender).Name);
+        }
+
+        private void removeButton_Click(object sender, EventArgs e)
+        {
+            resetButtons(((Button)sender).Name);
+        }
+
+        private void saveInstanceButton_Click(object sender, EventArgs e)
+        {
+            EventHandler handler = controlSelected;
+            handler?.Invoke(this, SetSignal("save instances"));
         }
     }
 

@@ -140,26 +140,44 @@ namespace HJCompanion
             return null;
         }
 
-        private void imageBox_MouseMove(object sender, MouseEventArgs e)
+        private void updateImage()
         {
             Bitmap copyBitmap = new Bitmap(this.bitmap);
-            Point mousePoint = e.Location;
+            Graphics g = Graphics.FromImage(copyBitmap);
+ 
+            Pen plPen = new Pen(Color.Blue);
+
+            foreach (MapInterface.Line line in lines)
+            {
+                g.DrawRectangle(plPen, line.x1 - sqW / 2, line.y1 - sqW / 2, sqW, sqW);
+                g.DrawRectangle(plPen, line.x2 - sqW / 2, line.y2 - sqW / 2, sqW, sqW);
+                g.DrawLine(plPen, line.x1, line.y1, line.x2, line.y2);
+            }
+            imageBox.Image = copyBitmap;
+            g.Dispose();
+            imageBox.Refresh();
+        }
+
+        private void updateImage(Point mousePoint)
+        {
             Point? appPoint = approxPoint(mousePoint);
             mousePoint = appPoint != null ? (Point)appPoint : mousePoint;
-            Graphics g;
-            g = Graphics.FromImage(copyBitmap);
-            Pen dotPen = new Pen(Color.Red);
+            Bitmap copyBitmap = new Bitmap(this.bitmap);
+            Graphics g = Graphics.FromImage(copyBitmap);
+
             Pen plPen = new Pen(Color.Blue);
+
+            foreach (MapInterface.Line line in lines)
+            {
+                g.DrawRectangle(plPen, line.x1 - sqW / 2, line.y1 - sqW / 2, sqW, sqW);
+                g.DrawRectangle(plPen, line.x2 - sqW / 2, line.y2 - sqW / 2, sqW, sqW);
+                g.DrawLine(plPen, line.x1, line.y1, line.x2, line.y2);
+            }
+            Pen dotPen = new Pen(Color.Red);
             if (mode == "line2")
             {
                 g.DrawRectangle(dotPen, new Rectangle(x1 - sqW / 2, y1 - sqW / 2, sqW, sqW));
                 g.DrawLine(dotPen, x1, y1, mousePoint.X, mousePoint.Y);
-            }
-            foreach(MapInterface.Line line in lines)
-            {
-                g.DrawRectangle(plPen, line.x1 - sqW/2, line.y1 - sqW/2 , sqW, sqW);
-                g.DrawRectangle(plPen, line.x2 - sqW/2, line.y2 - sqW/2 , sqW, sqW);
-                g.DrawLine(plPen, line.x1, line.y1, line.x2, line.y2);
             }
             if (appPoint != null)
             {
@@ -169,6 +187,12 @@ namespace HJCompanion
             imageBox.Image = copyBitmap;
             g.Dispose();
             imageBox.Refresh();
+        }
+
+        private void imageBox_MouseMove(object sender, MouseEventArgs e)
+        {
+            Point mousePoint = e.Location;
+            updateImage(mousePoint);
         }
 
         private void deleteButton_Click(object sender, EventArgs e)
@@ -182,6 +206,12 @@ namespace HJCompanion
         {
             this.DialogResult = DialogResult.OK;
             this.Close();
+        }
+
+        private void removeAllButton_Click(object sender, EventArgs e)
+        {
+            lines.Clear();
+            updateImage();
         }
     }
 }
