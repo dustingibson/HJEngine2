@@ -14,8 +14,10 @@ namespace HJEngine.editor
         private gfx.Cursor cursor;
         private gfx.Cursor defaultCursor;
         private gfx.Cursor editCursor;
+        private gfx.Cursor lockedCursor;
         private gfx.Graphics graphics;
         private string mode;
+        private string prevMode;
         private gfx.GameMap map;
         private MapInterface.ObjectTemplate curObj;
 
@@ -27,9 +29,11 @@ namespace HJEngine.editor
             process.StartInfo.FileName = Directory.GetCurrentDirectory()
                 + "/res/editor/HJCompanion.exe";
             defaultCursor = new gfx.Cursor(graphics);
+            lockedCursor = new gfx.Cursor(graphics, "locked");
             editCursor = new gfx.Cursor(graphics, "edit");
             cursor = defaultCursor;
             mode = "cursor";
+            prevMode = "";
             map = new gfx.GameMap();
         }
 
@@ -59,9 +63,20 @@ namespace HJEngine.editor
             else
             {
                 ipc.PollMessage();
-                if (ipc.signal != null)
+                if (ipc.signal != "")
                 {
                     string[] allParams = ipc.signal.Split(',');
+                    if (allParams[0] == "lock")
+                    {
+                        prevMode = mode;
+                        cursor = lockedCursor;
+                        mode = "locked";
+                    }
+                    if (allParams[0] == "unlock")
+                    {
+                        cursor = defaultCursor;
+                        mode = prevMode;
+                    }
                     if (allParams[0] == "load map")
                     {
                         //TODO: Load Map
@@ -71,13 +86,27 @@ namespace HJEngine.editor
                     }
                     if (allParams[0] == "save instances")
                     {
+                        ipc.SendMessage("lock");
                         List<MapInterface.ObjectInstance> instance = new List<MapInterface.ObjectInstance>(map.mapInterface.objectInstances);
                         //Load with latest
                         map.LoadMap(this.graphics);
                         //Save
                         map.mapInterface.objectInstances = instance;
                         map.mapInterface.Save();
-
+                        ipc.SendMessage("unlock");
+                        //Now client must have latest
+                        ipc.SendMessage("reload map");
+                        
+                    }
+                    if (allParams[0] == "remove all instances")
+                    {
+                        ipc.SendMessage("lock");
+                        map.mapInterface.objectInstances = new List<MapInterface.ObjectInstance>();
+                        map.mapInterface.Save();
+                        ipc.SendMessage("unlock");
+                        //Client must have the latest
+                        ipc.SendMessage("reload map");
+                        
                     }
                     if (allParams[0] == "reload map")
                     {
@@ -85,7 +114,7 @@ namespace HJEngine.editor
                     }
                     if (allParams[0] == "place")
                     {
-                        map.mapInterface.Load();
+                        map.LoadMap(this.graphics);
                         string objKey = allParams[1];
                         curObj = map.mapInterface.objectTemplates[objKey];
                         Bitmap newImage = curObj.images["default"].image;

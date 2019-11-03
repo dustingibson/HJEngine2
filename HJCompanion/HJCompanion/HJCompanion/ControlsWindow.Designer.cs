@@ -39,6 +39,7 @@
             this.moveButton = new System.Windows.Forms.Button();
             this.detailsButton = new System.Windows.Forms.Button();
             this.saveInstanceButton = new System.Windows.Forms.Button();
+            this.delInstanceButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cursorButton
@@ -140,11 +141,22 @@
             this.saveInstanceButton.UseVisualStyleBackColor = true;
             this.saveInstanceButton.Click += new System.EventHandler(this.saveInstanceButton_Click);
             // 
+            // delInstanceButton
+            // 
+            this.delInstanceButton.Location = new System.Drawing.Point(12, 161);
+            this.delInstanceButton.Name = "delInstanceButton";
+            this.delInstanceButton.Size = new System.Drawing.Size(154, 21);
+            this.delInstanceButton.TabIndex = 10;
+            this.delInstanceButton.Text = "Remove All Instances";
+            this.delInstanceButton.UseVisualStyleBackColor = true;
+            this.delInstanceButton.Click += new System.EventHandler(this.delInstanceButton_Click);
+            // 
             // ControlsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(262, 563);
+            this.Controls.Add(this.delInstanceButton);
             this.Controls.Add(this.saveInstanceButton);
             this.Controls.Add(this.detailsButton);
             this.Controls.Add(this.moveButton);
@@ -174,5 +186,6 @@
         private System.Windows.Forms.Button moveButton;
         private System.Windows.Forms.Button detailsButton;
         private System.Windows.Forms.Button saveInstanceButton;
+        private System.Windows.Forms.Button delInstanceButton;
     }
 }

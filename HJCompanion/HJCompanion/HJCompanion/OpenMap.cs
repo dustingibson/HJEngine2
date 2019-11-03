@@ -9,18 +9,27 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Forms;
 using MapInterface;
+using System.IO;
+using System.IO.MemoryMappedFiles;
+using System.IO.Pipes;
+
+using System.Threading;
 
 namespace HJCompanion
 {
     public partial class OpenMap : Form
     {
+        private StreamReader reader;
+        private StreamWriter writer;
         public List<string> maps;
         public string mapDir;
         public string signal;
         public MapInterface.MapInterface mapInterface;
 
-        public OpenMap(MapInterface.MapInterface mapInterface)
+        public OpenMap(MapInterface.MapInterface mapInterface, StreamReader reader, StreamWriter writer)
         {
+            this.reader = reader;
+            this.writer = writer;
             this.mapInterface = mapInterface;
             signal = "";
             maps = new List<string>();
@@ -76,6 +85,11 @@ namespace HJCompanion
                 okButton.Enabled = true;
             else
                 okButton.Enabled = false;
+        }
+
+        private void OpenMap_FormClosed(object sender, FormClosedEventArgs e)
+        {
+
         }
     }
 }

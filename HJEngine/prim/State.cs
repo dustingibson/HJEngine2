@@ -111,13 +111,17 @@ namespace HJEngine.prim
         {
             this.currentState = "main menu";
 
+            //TODO: Dynamically create state
             State mainMenu = new State("main menu");
             State editor = new State("editor");
+            State demo = new State("demo");
 
             mainMenu.AddTransition("editor", "editor");
+            mainMenu.AddTransition("demo", "demo");
 
             AddState(mainMenu);
             AddState(editor);
+            AddState(demo);
         }
 
     }

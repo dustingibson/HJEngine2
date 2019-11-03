@@ -30,7 +30,6 @@ namespace HJCompanion
         public mainForm()
         {
             mapInterface = new MapInterface.MapInterface();
-            controlsWindow = new ControlsWindow(mapInterface);
             client = new NamedPipeClientStream("torender");
             reader = new StreamReader(client);
             client.Connect();
@@ -38,8 +37,6 @@ namespace HJCompanion
             server.WaitForConnection();
             writer = new StreamWriter(server);
             InitializeComponent();
-            controlsWindow.controlSelected += OnControlSelected;
-            controlsWindow.mapSaved += OnSave;
         }
 
         public void OnControlSelected(object sender, EventArgs e)
@@ -65,8 +62,9 @@ namespace HJCompanion
                 string line = reader.ReadLine();
                 if(line == "map selection")
                 {
-                    OpenMap openMapDlg = new OpenMap(this.mapInterface);
-                    if(openMapDlg.ShowDialog() == DialogResult.OK)
+                    OpenMap openMapDlg = new OpenMap(this.mapInterface, reader, writer);
+                    controlsWindow = new ControlsWindow(mapInterface, reader, writer);
+                    if (openMapDlg.ShowDialog() == DialogResult.OK)
                     {
                         SendMessage(openMapDlg.signal);
                         controlsWindow.ShowDialog();

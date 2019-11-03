@@ -17,6 +17,7 @@ namespace HJEngine
         private gfx.Graphics graphics;
         private util.Config mainConfig;
         private editor.MapEditor mapEditor;
+        private demo.CollisionDemo collisionDemo;
 
         public prim.GameStateMachine state;
         public int width;
@@ -34,6 +35,7 @@ namespace HJEngine
             this.height = int.Parse(res[1]);
             this.fullScreen = mainConfig.GetBoolValue("fullscreen");
             this.vsync = mainConfig.GetBoolValue("vsync");
+
         }
         
         public void LoadGL()
@@ -45,6 +47,7 @@ namespace HJEngine
             graphics = new gfx.Graphics(new prim.Size(width, height), mainConfig);
             mapEditor = new editor.MapEditor(graphics);
             menuFactory = new ui.MenuFactory(graphics);
+            collisionDemo = new demo.CollisionDemo(graphics);
             menuFactory.GotoMenu("main menu");
 
             graphics.size.w = this.width;
@@ -76,6 +79,8 @@ namespace HJEngine
                 menuFactory.Update();
             else if (state.currentState == "editor")
                 mapEditor.Update();
+            else if (state.currentState == "demo")
+                collisionDemo.Update();
         }
 
         public bool DoQuit()
@@ -116,10 +121,12 @@ namespace HJEngine
         public void Render()
         {
             GL.Clear(ClearBufferMask.ColorBufferBit);
-            if(state.currentState == "main menu")
+            if (state.currentState == "main menu")
                 menuFactory.Draw();
             else if (state.currentState == "editor")
                 mapEditor.Draw();
+            else if (state.currentState == "demo")
+                collisionDemo.Draw();
         }
     }
 }

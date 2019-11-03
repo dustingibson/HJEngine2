@@ -81,6 +81,7 @@
             this.Controls.Add(this.nameText);
             this.Name = "OpenMap";
             this.Text = "OpenMap";
+            this.FormClosed += new System.Windows.Forms.FormClosedEventHandler(this.OpenMap_FormClosed);
             this.Load += new System.EventHandler(this.OpenMap_Load);
             this.ResumeLayout(false);
             this.PerformLayout();

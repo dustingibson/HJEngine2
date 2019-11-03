@@ -100,7 +100,7 @@ namespace MapInterface
 
         public float traverseToFloat(Byte[] byteBuffer, ref int counter)
         {
-            float result = BitConverter.ToSingle(byteBuffer, 0);
+            float result = BitConverter.ToSingle(byteBuffer, counter);
             counter = counter + 4;
             return result;
         }
@@ -430,6 +430,11 @@ namespace MapInterface
         }
 
         public virtual void Draw()
+        {
+
+        }
+
+        public virtual void Update()
         {
 
         }

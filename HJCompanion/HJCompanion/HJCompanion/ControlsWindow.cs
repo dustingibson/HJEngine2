@@ -6,8 +6,10 @@ using System.Drawing;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Threading;
 using System.Windows.Forms;
 using MapInterface;
+using System.IO;
 
 namespace HJCompanion
 {
@@ -16,19 +18,24 @@ namespace HJCompanion
         public string signal;
         public event EventHandler controlSelected;
         public event EventHandler mapSaved;
+        private StreamReader reader;
+        private StreamWriter writer;
         public MapInterface.MapInterface mapInterface;
         public bool save;
         public string objKey;
         private List<Button> buttonList;
         private string activeButton;
+        private Thread pipeThread;
 
-        public ControlsWindow(MapInterface.MapInterface mapInterface)
+        public ControlsWindow(MapInterface.MapInterface mapInterface, StreamReader reader, StreamWriter writer)
         {
             InitializeComponent();
             signal = "";
             objKey = "";
             this.mapInterface = mapInterface;
             this.buttonList = new List<Button>();
+            this.writer = writer;
+            this.reader = reader;
 
             this.buttonList.Add(placeButton);
             this.buttonList.Add(removeButton);
@@ -65,16 +72,16 @@ namespace HJCompanion
 
         private void cursorButton_Click(object sender, EventArgs e)
         {
-            EventHandler handler = controlSelected;
-            handler?.Invoke(this, SetSignal("cursor"));
+            this.writer.WriteLine("cursor");
+            this.writer.Flush();
         }
 
         private void placeButton_Click(object sender, EventArgs e)
         {
             if (objKey != "")
             {
-                EventHandler handler = controlSelected;
-                handler?.Invoke(this, SetSignal("place," + objKey));
+                this.writer.WriteLine("place," + objKey);
+                this.writer.Flush();
                 resetButtons(((Button)sender).Name);
             }
         }
@@ -82,6 +89,48 @@ namespace HJCompanion
         private void ControlsWindow_Load(object sender, EventArgs e)
         {
             UpdateObjectTemplateList();
+            pipeThread = new Thread(() =>
+            {
+                ReadFromPipe();
+            });
+            pipeThread.SetApartmentState(ApartmentState.STA);
+            pipeThread.Start();
+        }
+
+        private void ReadFromPipe()
+        {
+            while (true)
+            {
+                string line = reader.ReadLine();
+                if (line == "reload map")
+                {
+                    ReloadMap();
+                }
+                else if (line == "lock")
+                {
+                    this.Invoke(new MethodInvoker(delegate {
+                        this.Enabled = false;
+                    }));
+
+                }
+                else if (line == "unlock")
+                {
+                    this.Invoke(new MethodInvoker(delegate {
+                        this.Enabled = true;
+                    }));
+                }
+            }
+        }
+
+        private void ReloadMap()
+        {
+            writer.WriteLine("lock");
+            mapInterface.Load();
+            this.Invoke(new MethodInvoker(delegate
+            {
+                UpdateObjectTemplateList();
+            }));
+            writer.WriteLine("unlock");
         }
 
         private void UpdateObjectTemplateList()
@@ -95,9 +144,7 @@ namespace HJCompanion
 
         private void TriggerSave()
         {
-            EventHandler handler = mapSaved;
-            handler?.Invoke(this, SetSave());
-            mapInterface.Save();
+            this.writer.WriteLine("reload map");
         }
 
         private void addObjButton_Click(object sender, EventArgs e)
@@ -169,8 +216,16 @@ namespace HJCompanion
 
         private void saveInstanceButton_Click(object sender, EventArgs e)
         {
-            EventHandler handler = controlSelected;
-            handler?.Invoke(this, SetSignal("save instances"));
+            this.writer.WriteLine("save instances");
+            this.writer.Flush();
+            //EventHandler handler = controlSelected;
+            //handler?.Invoke(this, SetSignal("save instances"));
+        }
+
+        private void delInstanceButton_Click(object sender, EventArgs e)
+        {
+            this.writer.WriteLine("remove all instances");
+            this.writer.Flush();
         }
     }
 

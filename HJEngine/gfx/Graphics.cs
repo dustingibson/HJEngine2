@@ -153,7 +153,7 @@ namespace HJEngine.gfx
             if (buffer == "Space")
                 this.keyBuffer = " ";
             else
-                this.keyBuffer = buffer;
+                this.keyBuffer += buffer;
         }
 
         public void CleanUp()
