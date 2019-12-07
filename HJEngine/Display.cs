@@ -97,10 +97,11 @@ namespace HJEngine
             MouseState mouseState = Mouse.GetCursorState();
             CheckKey(input);
             Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));
-            game.UpdateMousePoint(cPoint.X, cPoint.Y,
-                mouseState.IsButtonDown(MouseButton.Left),
-                mouseState.IsButtonDown(MouseButton.Middle),
-                mouseState.IsButtonDown(MouseButton.Right) );
+            if (this.Focused)
+                game.UpdateMousePoint(cPoint.X, cPoint.Y,
+                    mouseState.IsButtonDown(MouseButton.Left),
+                    mouseState.IsButtonDown(MouseButton.Middle),
+                    mouseState.IsButtonDown(MouseButton.Right) );
             game.Update();
             game.CleanUp();
             if(input.IsKeyDown(Key.Escape) || game.DoQuit() || game.DoReload())

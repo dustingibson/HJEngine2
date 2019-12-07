@@ -78,7 +78,15 @@ namespace HJEngine
             if (state.currentState == "main menu")
                 menuFactory.Update();
             else if (state.currentState == "editor")
+            {
                 mapEditor.Update();
+                if(mapEditor.signal == "exit")
+                {
+                    state.JumpToState("main menu");
+                    menuFactory.signal = "";
+                    mapEditor = new editor.MapEditor(this.graphics);
+                }
+            }
             else if (state.currentState == "demo")
                 collisionDemo.Update();
         }

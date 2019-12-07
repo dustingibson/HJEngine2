@@ -58,7 +58,8 @@ namespace HJCompanion
                 delCorPoint((Point)appPoint);
                 mode = "delete";
             }
-            if (mode == "line")
+            //Second point must already exist
+            if (mode == "line" &&  (lines.Count == 0 || (lines.Count > 0 && appPoint != null ) ))
             {
                 x1 = pnt.X;
                 y1 = pnt.Y;
@@ -145,7 +146,7 @@ namespace HJCompanion
             Bitmap copyBitmap = new Bitmap(this.bitmap);
             Graphics g = Graphics.FromImage(copyBitmap);
  
-            Pen plPen = new Pen(Color.Blue);
+            Pen plPen = new Pen(Color.Blue, 3);
 
             foreach (MapInterface.Line line in lines)
             {
@@ -165,24 +166,23 @@ namespace HJCompanion
             Bitmap copyBitmap = new Bitmap(this.bitmap);
             Graphics g = Graphics.FromImage(copyBitmap);
 
-            Pen plPen = new Pen(Color.Blue);
+            Pen plPen = new Pen(Color.Blue, 3);
 
             foreach (MapInterface.Line line in lines)
             {
-                g.DrawRectangle(plPen, line.x1 - sqW / 2, line.y1 - sqW / 2, sqW, sqW);
-                g.DrawRectangle(plPen, line.x2 - sqW / 2, line.y2 - sqW / 2, sqW, sqW);
+                g.FillRectangle(Brushes.Blue, line.x1 - sqW / 2, line.y1 - sqW / 2, sqW, sqW);
+                g.FillRectangle(Brushes.Blue, line.x2 - sqW / 2, line.y2 - sqW / 2, sqW, sqW);
                 g.DrawLine(plPen, line.x1, line.y1, line.x2, line.y2);
             }
-            Pen dotPen = new Pen(Color.Red);
+            Pen dotPen = new Pen(Color.Red, 3);
             if (mode == "line2")
             {
-                g.DrawRectangle(dotPen, new Rectangle(x1 - sqW / 2, y1 - sqW / 2, sqW, sqW));
+                g.FillRectangle(Brushes.Red, new Rectangle(x1 - sqW / 2, y1 - sqW / 2, sqW, sqW));
                 g.DrawLine(dotPen, x1, y1, mousePoint.X, mousePoint.Y);
             }
             if (appPoint != null)
             {
-                Pen hoverPen = new Pen(Color.Green);
-                g.DrawRectangle(hoverPen, ((Point)appPoint).X - sqW / 2, ((Point)appPoint).Y - sqW / 2, sqW, sqW);
+                g.FillRectangle(Brushes.Green, ((Point)appPoint).X - sqW / 2, ((Point)appPoint).Y - sqW / 2, sqW, sqW);
             }
             imageBox.Image = copyBitmap;
             g.Dispose();

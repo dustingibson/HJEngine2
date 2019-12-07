@@ -101,23 +101,32 @@ namespace HJCompanion
         {
             while (true)
             {
-                string line = reader.ReadLine();
-                if (line == "reload map")
+                try
                 {
-                    ReloadMap();
-                }
-                else if (line == "lock")
-                {
-                    this.Invoke(new MethodInvoker(delegate {
-                        this.Enabled = false;
-                    }));
+                    string line = reader.ReadLine();
+                    if (line == "reload map")
+                    {
+                        ReloadMap();
+                    }
+                    else if (line == "lock")
+                    {
+                        this.Invoke(new MethodInvoker(delegate
+                        {
+                            this.Enabled = false;
+                        }));
 
+                    }
+                    else if (line == "unlock")
+                    {
+                        this.Invoke(new MethodInvoker(delegate
+                        {
+                            this.Enabled = true;
+                        }));
+                    }
                 }
-                else if (line == "unlock")
+                catch(Exception ie)
                 {
-                    this.Invoke(new MethodInvoker(delegate {
-                        this.Enabled = true;
-                    }));
+                    break;
                 }
             }
         }

@@ -59,16 +59,23 @@ namespace HJCompanion
         {
             while(true)
             {
-                string line = reader.ReadLine();
-                if(line == "map selection")
+                try
                 {
-                    OpenMap openMapDlg = new OpenMap(this.mapInterface, reader, writer);
-                    controlsWindow = new ControlsWindow(mapInterface, reader, writer);
-                    if (openMapDlg.ShowDialog() == DialogResult.OK)
+                    string line = reader.ReadLine();
+                    if (line == "map selection")
                     {
-                        SendMessage(openMapDlg.signal);
-                        controlsWindow.ShowDialog();
+                        OpenMap openMapDlg = new OpenMap(this.mapInterface, reader, writer);
+                        controlsWindow = new ControlsWindow(mapInterface, reader, writer);
+                        if (openMapDlg.ShowDialog() == DialogResult.OK)
+                        {
+                            SendMessage(openMapDlg.signal);
+                            controlsWindow.ShowDialog();
+                        }
                     }
+                }
+                catch(Exception ie)
+                {
+                    break;
                 }
             }
         }
@@ -97,6 +104,14 @@ namespace HJCompanion
         {
             //fileStream.Close();
             //controlMemFile.Dispose();
+        }
+
+        private void mainForm_FormClosed(object sender, FormClosedEventArgs e)
+        {
+            SendMessage("exit");
+            server.Disconnect();
+            server.Close();
+            client.Close();
         }
     }
 }

@@ -20,9 +20,11 @@ namespace HJEngine.editor
         private string prevMode;
         private gfx.GameMap map;
         private MapInterface.ObjectTemplate curObj;
+        public string signal;
 
         public MapEditor(gfx.Graphics graphics)
         {
+            this.signal = "";
             this.graphics = graphics;
             process = new Process();
             initState = new prim.InitStateMachine();
@@ -66,6 +68,11 @@ namespace HJEngine.editor
                 if (ipc.signal != "")
                 {
                     string[] allParams = ipc.signal.Split(',');
+                    if (allParams[0] == "exit")
+                    {
+                        this.signal = "exit";
+                        ipc.Stop();
+                    }
                     if (allParams[0] == "lock")
                     {
                         prevMode = mode;
@@ -145,8 +152,9 @@ namespace HJEngine.editor
         {
             try
             {
-                if (process != null && !process.HasExited)
-                    process.CloseMainWindow();
+                //process.Close();
+                //if (process != null && !process.HasExited)
+                //    process.CloseMainWindow();
             }
             catch
             {

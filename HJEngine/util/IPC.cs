@@ -32,17 +32,29 @@ namespace HJEngine.util
 
         public void PollMessage()
         {
-            if (readerThread == null || readerThread.IsCompleted)
+            if ((readerThread == null || readerThread.IsCompleted) && signal != "exit")
             {
                 readerThread = Task.Factory.StartNew(() =>
                 {
                     signal = reader.ReadLine();
                 });
             }
-            else
+            else if(signal != "exit")
             {
                 signal = "";
             }
+            else
+            {
+                Console.WriteLine("Closing for good!");
+            }
+        }
+
+        public void Stop()
+        {
+            readerThread.Wait();
+            server.Disconnect();
+            server.Close();
+            client.Close();
         }
 
         public void StartServer()

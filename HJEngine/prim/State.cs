@@ -33,6 +33,11 @@ namespace HJEngine.prim
             }
         }
 
+        public void JumpToState(string stateName)
+        {
+            currentState = stateName;
+        }
+
     }
 
     class VertexStateMachine : StateMachine
