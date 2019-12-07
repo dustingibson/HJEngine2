@@ -12,7 +12,7 @@ using Box2DX.Common;
 using Box2DX.Dynamics;
 using Box2DX.Collision;
 using Box2DX;
-
+using OpenTK.Input;
 
 namespace HJEngine.gfx
 {
@@ -153,14 +153,18 @@ namespace HJEngine.gfx
             {
                 float nvx = this.vx;
                 float nvy = this.vy;
-                if (graphics.keyBuffer.Contains("W"))
+                //if (graphics.actionKeyBuffer.Count() > 1)
+                //    Console.WriteLine("two buffers");
+                if (graphics.actionKeyBuffer.Contains((uint)Key.W))
                     controlObject.dy = nvy * -1;
-                if (graphics.keyBuffer.Contains("S"))
+                if (graphics.actionKeyBuffer.Contains((uint)Key.S))
                     controlObject.dy = nvy;
-                if (graphics.keyBuffer.Contains("A"))
+                if (graphics.actionKeyBuffer.Contains((uint)Key.A))
                     controlObject.dx = nvx * -1;
-                if (graphics.keyBuffer.Contains("D"))
+                if (graphics.actionKeyBuffer.Contains((uint)Key.D))
                     controlObject.dx = nvx;
+                //if (controlObject.dx != 0 && controlObject.dy != 0)
+                //    Console.WriteLine("Diagnal");
             }
         }
 

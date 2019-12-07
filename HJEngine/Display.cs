@@ -69,15 +69,33 @@ namespace HJEngine
         {
             base.OnKeyDown(e);
             game.UpdateKeyBuffer(e.Key.ToString());
+            //game.UpdateActionKeyBuffer(e.ScanCode);
+            //Console.WriteLine(string.Format("Key {0}", e.Key.ToString()));
+        }
+
+        protected void CheckKey(KeyboardState input)
+        {
+            Key[] keyPool =
+            {
+                Key.A,
+                Key.S,
+                Key.D,
+                Key.W
+            };
+            if(this.Focused)
+                foreach(Key curKey in keyPool)
+                    if(input.IsKeyDown(curKey))
+                        game.UpdateActionKeyBuffer((uint)curKey);
+
         }
 
         protected override void OnUpdateFrame(FrameEventArgs e)
         {
-            //this.RenderFrequency
+            KeyboardState input = Keyboard.GetState();
             game.UpdateFPS(this.RenderFrequency);
             //Console.WriteLine(graphics.fps);
-            KeyboardState input = Keyboard.GetState();
             MouseState mouseState = Mouse.GetCursorState();
+            CheckKey(input);
             Point cPoint = this.PointToClient(new Point(mouseState.X, mouseState.Y));
             game.UpdateMousePoint(cPoint.X, cPoint.Y,
                 mouseState.IsButtonDown(MouseButton.Left),

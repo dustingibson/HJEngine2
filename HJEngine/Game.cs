@@ -113,6 +113,11 @@ namespace HJEngine
             graphics.UpdateKeyBuffer(buffer);
         }
 
+        public void UpdateActionKeyBuffer(uint buffer)
+        {
+            graphics.UpdateActionKeyBuffer(buffer);
+        }
+
         public void CleanUp()
         {
             if (state.currentState == "demo")

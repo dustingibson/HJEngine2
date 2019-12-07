@@ -23,6 +23,7 @@ namespace HJEngine.gfx
         public bool quit;
         public bool reload;
         public string keyBuffer;
+        public List<uint> actionKeyBuffer;
         public KEYCODE keyCode;
         public prim.ClickStateMachine leftClick;
         public prim.ClickStateMachine rightClick;
@@ -44,6 +45,7 @@ namespace HJEngine.gfx
             reload = false;
             fps = 0;
             t_fps = 60;
+            actionKeyBuffer = new List<uint>();
             this.config = config;
             configValues = config.GetSettingCopy();
             leftClick = new prim.ClickStateMachine();
@@ -163,8 +165,14 @@ namespace HJEngine.gfx
                 this.keyBuffer += buffer;
         }
 
+        public void UpdateActionKeyBuffer(uint keycode)
+        {
+            actionKeyBuffer.Add(keycode);
+        }
+
         public void CleanUp()
         {
+            actionKeyBuffer.Clear();
             keyBuffer = "";
             this.keyCode = KEYCODE.NONE;
         }
