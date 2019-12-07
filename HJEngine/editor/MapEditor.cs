@@ -34,7 +34,7 @@ namespace HJEngine.editor
             cursor = defaultCursor;
             mode = "cursor";
             prevMode = "";
-            map = new gfx.GameMap();
+            map = new gfx.GameMap(graphics);
         }
 
         public void Launch()
@@ -133,7 +133,7 @@ namespace HJEngine.editor
                     if (this.mode == "place")
                     {
                         prim.Point pnt = graphics.mousePoint;
-                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(curObj, graphics, graphics.mousePoint );
+                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(map.world, curObj, graphics, graphics.mousePoint );
                         map.mapInterface.objectInstances.Add(objInstance);    
                     }
                 }

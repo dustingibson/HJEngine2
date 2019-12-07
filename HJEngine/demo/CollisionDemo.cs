@@ -16,7 +16,7 @@ namespace HJEngine.demo
         {
             this.graphics = graphics;
             initState = new prim.InitStateMachine();
-            map = new gfx.GameMap();
+            map = new gfx.GameMap(graphics);
             map.LoadMap(graphics, "res/maps/demo.hjm");
             map.AddControlEntity(graphics, "test");
         }
@@ -41,6 +41,11 @@ namespace HJEngine.demo
             {
                 map.Update();
             }
+        }
+
+        public void CleanUp()
+        {
+            map.CleanUp();
         }
     }
 }

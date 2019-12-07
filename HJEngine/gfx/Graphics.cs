@@ -18,6 +18,7 @@ namespace HJEngine.gfx
         public Dictionary<string,PrivateFontCollection> fonts;
         public prim.Point mousePoint;
         public double fps;
+        public double t_fps;
         public double sec;
         public bool quit;
         public bool reload;
@@ -42,6 +43,7 @@ namespace HJEngine.gfx
             quit = false;
             reload = false;
             fps = 0;
+            t_fps = 60;
             this.config = config;
             configValues = config.GetSettingCopy();
             leftClick = new prim.ClickStateMachine();
@@ -107,6 +109,11 @@ namespace HJEngine.gfx
                 curSize.w * this.size.w,
                 curSize.h * this.size.h
             );
+        }
+
+        public float getFPSDiff()
+        {
+            return fps >= t_fps ? 1f : ((float)t_fps - (float)fps) / (float)t_fps;
         }
         
         public float getWSquareSize(float hSize )

@@ -115,6 +115,8 @@ namespace HJEngine
 
         public void CleanUp()
         {
+            if (state.currentState == "demo")
+                collisionDemo.CleanUp();
             graphics.CleanUp();
         }
 

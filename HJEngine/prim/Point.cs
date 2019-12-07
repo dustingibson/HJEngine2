@@ -29,6 +29,19 @@ namespace HJEngine.prim
             this.cy = p.cy;
         }
 
+        public static bool operator ==(Point p1, Point p2)
+        {
+            if ((object)p1 == null)
+                return (object)p2 == null;
+
+            return p1.x == p2.x && p1.y == p2.y;
+        }
+
+        public static bool operator !=(Point p1, Point p2)
+        {
+            return !(p1 == p2);
+        }
+
         public prim.Point GetTransPnt(float dx, float dy)
         {
             return new prim.Point(this.x + dx, this.y + dy);
