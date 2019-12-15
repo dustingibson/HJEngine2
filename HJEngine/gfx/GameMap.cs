@@ -102,11 +102,10 @@ namespace HJEngine.gfx
         public void Update()
         {
             float dt = 1f / (float)graphics.fps;
-            // world.SetContinuousPhysics(true);
+            world.SetContinuousPhysics(true);
             world.Step(dt, 8, 3);
             world.Validate();
             controlEntity.SetVector();
-            //DetectCollision();
             //TODO: Quad Tree Data Structure
             foreach (ObjectEntity curInstance in mapInterface.objectInstances)
             {
@@ -140,8 +139,8 @@ namespace HJEngine.gfx
             this.active = true;
             this.graphics = graphics;
             controlObject = new ObjectEntity(world, template, graphics, new prim.Point(0f, 0f), true);
-            vx = 1.5f;
-            vy = 1.5f;
+            vx = 0.5f;
+            vy = 0.5f;
         }
 
         public ControlEntity()
@@ -155,8 +154,6 @@ namespace HJEngine.gfx
             {
                 float nvx = this.vx;
                 float nvy = this.vy;
-                //if (graphics.actionKeyBuffer.Count() > 1)
-                //    Console.WriteLine("two buffers");
                 if (graphics.actionKeyBuffer.Contains((uint)Key.W))
                     controlObject.dy = nvy * -1;
                 if (graphics.actionKeyBuffer.Contains((uint)Key.S))
@@ -165,8 +162,6 @@ namespace HJEngine.gfx
                     controlObject.dx = nvx * -1;
                 if (graphics.actionKeyBuffer.Contains((uint)Key.D))
                     controlObject.dx = nvx;
-                //if (controlObject.dx != 0 && controlObject.dy != 0)
-                //    Console.WriteLine("Diagnal");
             }
         }
 
@@ -268,15 +263,12 @@ namespace HJEngine.gfx
 
 
             BodyDef bodyDef = new BodyDef();
-            //bodyDef.Set
             PolygonDef polyBox = new PolygonDef();
             PolygonDef polyDef = new PolygonDef();
             bodyDef.Position.Set(point.x, point.y);
             polyDef.Density = 1f;
-            //if(isDynamic)
-                polyBox.Density = 1f;
-            //polyDef.Friction = 0.62f;
-            bodyDef.Angle = 0f;            
+            polyBox.Density = 1f;
+            bodyDef.Angle = 0f;
             polyDef.VertexCount = temp.images["default"][0].collisionVectors.Count;
             polyBox.SetAsBox(size.w / 2, size.h / 2);
             int vCnt = -1;
@@ -289,28 +281,22 @@ namespace HJEngine.gfx
                 float ny2 = ((float)line.y2 / bitmap.Height) * (float)size.h;
                 points.Add(new prim.Point(nx1, ny1));
                 points.Add(new prim.Point(nx2, ny2));
-
-                colEntities.Add(new CollisionEntity(new prim.Point(nx1, ny1), new prim.Point(nx2, ny2)));
-                //vCnt += 1;
-                //polyDef.Vertices[vCnt].Set(nx1, ny1);
-                //vCnt += 1;
-                //polyDef.Vertices[vCnt].Set(nx2, ny2);
             }
+            //TODO: Sort vertices in CCW order
+            //Example. Top triangle point -> bottom right -> bottem left
             points = GetDistinctPoints(points);
+            
             foreach (prim.Point curPoint in points)
             {
                 vCnt += 1;
                 polyDef.Vertices[vCnt].Set(curPoint.x, curPoint.y);
             }
 
-            //polyDef.Filter.GroupIndex = 1;.
             bodyDef.FixedRotation = true;
-            //bodyDef.MassData.Mass = 0f;
             this.body = world.CreateBody(bodyDef);
             this.body.CreateShape(polyDef);
-            if(isDynamic)
+            if (isDynamic)
                 this.body.SetMassFromShapes();
-            this.body.SetLinearVelocity(new Vec2(0.5f,0f));
         }
 
         public void UpdatePoint(prim.Point pnt)
@@ -324,12 +310,8 @@ namespace HJEngine.gfx
             vel.X = dx;
             vel.Y = dy;
             body.SetLinearVelocity(vel);
-            if (dx > 0 || dy > 0)
-                Console.WriteLine("Should be moving");
             point.x = body.GetPosition().X;
             point.y = body.GetPosition().Y;
-            Console.WriteLine(point.x.ToString() + " , " + point.y.ToString());
-            //Console.WriteLine(this.body.GetPosition().X + " , " + this.body.GetPosition().Y);
             float[] vertices = {
                  point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
                  point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
@@ -337,8 +319,6 @@ namespace HJEngine.gfx
                 point.x,  point.y + size.h, 0.0f, 0.0f, 1.0f   // top left
             };
             texture.Update(vertices);
-            //this.dx = 0f;
-            //this.dy = 0f;
         }
 
         public void CleanUp()
