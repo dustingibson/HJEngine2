@@ -60,6 +60,10 @@
             this.label5 = new System.Windows.Forms.Label();
             this.propOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.imgFileOpenDlg = new System.Windows.Forms.OpenFileDialog();
+            this.stepListView = new System.Windows.Forms.ListView();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
+            this.addStepButton = new System.Windows.Forms.Button();
+            this.saveStepImage = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.valueText.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
@@ -233,6 +237,9 @@
             // 
             // tabPage2
             // 
+            this.tabPage2.Controls.Add(this.saveStepImage);
+            this.tabPage2.Controls.Add(this.addStepButton);
+            this.tabPage2.Controls.Add(this.stepListView);
             this.tabPage2.Controls.Add(this.deleteImageButton);
             this.tabPage2.Controls.Add(this.previewImagePicture);
             this.tabPage2.Controls.Add(this.imageListView);
@@ -248,6 +255,7 @@
             this.tabPage2.TabIndex = 1;
             this.tabPage2.Text = "Images";
             this.tabPage2.UseVisualStyleBackColor = true;
+            this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
             // 
             // deleteImageButton
             // 
@@ -261,7 +269,7 @@
             // 
             // previewImagePicture
             // 
-            this.previewImagePicture.Location = new System.Drawing.Point(127, 218);
+            this.previewImagePicture.Location = new System.Drawing.Point(19, 217);
             this.previewImagePicture.Name = "previewImagePicture";
             this.previewImagePicture.Size = new System.Drawing.Size(220, 196);
             this.previewImagePicture.TabIndex = 16;
@@ -375,6 +383,44 @@
             // 
             this.imgFileOpenDlg.FileName = "openFileDialog2";
             // 
+            // stepListView
+            // 
+            this.stepListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader4});
+            this.stepListView.HideSelection = false;
+            this.stepListView.Location = new System.Drawing.Point(267, 217);
+            this.stepListView.Name = "stepListView";
+            this.stepListView.Size = new System.Drawing.Size(191, 145);
+            this.stepListView.TabIndex = 18;
+            this.stepListView.UseCompatibleStateImageBehavior = false;
+            this.stepListView.View = System.Windows.Forms.View.Details;
+            this.stepListView.SelectedIndexChanged += new System.EventHandler(this.stepListView_SelectedIndexChanged);
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Step";
+            this.columnHeader4.Width = 176;
+            // 
+            // addStepButton
+            // 
+            this.addStepButton.Location = new System.Drawing.Point(404, 368);
+            this.addStepButton.Name = "addStepButton";
+            this.addStepButton.Size = new System.Drawing.Size(54, 23);
+            this.addStepButton.TabIndex = 19;
+            this.addStepButton.Text = "Add";
+            this.addStepButton.UseVisualStyleBackColor = true;
+            this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
+            // 
+            // saveStepImage
+            // 
+            this.saveStepImage.Location = new System.Drawing.Point(267, 368);
+            this.saveStepImage.Name = "saveStepImage";
+            this.saveStepImage.Size = new System.Drawing.Size(54, 23);
+            this.saveStepImage.TabIndex = 20;
+            this.saveStepImage.Text = "Save";
+            this.saveStepImage.UseVisualStyleBackColor = true;
+            this.saveStepImage.Click += new System.EventHandler(this.saveStepImage_Click);
+            // 
             // ObjectTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -434,5 +480,9 @@
         private System.Windows.Forms.OpenFileDialog imgFileOpenDlg;
         private System.Windows.Forms.Button deletePropButton;
         private System.Windows.Forms.Button deleteImageButton;
+        private System.Windows.Forms.ListView stepListView;
+        private System.Windows.Forms.ColumnHeader columnHeader4;
+        private System.Windows.Forms.Button addStepButton;
+        private System.Windows.Forms.Button saveStepImage;
     }
 }

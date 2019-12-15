@@ -105,6 +105,7 @@
     <Compile Include="gfx\Texture.cs" />
     <Compile Include="prim\GaussList.cs" />
     <Compile Include="prim\Point.cs" />
+    <Compile Include="prim\QuadTree.cs" />
     <Compile Include="prim\Size.cs" />
     <Compile Include="prim\State.cs" />
     <Compile Include="Program.cs" />

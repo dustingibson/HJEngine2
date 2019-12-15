@@ -67,72 +67,80 @@ namespace HJEngine.editor
                 ipc.PollMessage();
                 if (ipc.signal != "")
                 {
-                    string[] allParams = ipc.signal.Split(',');
-                    if (allParams[0] == "exit")
+                    try
+                    {
+                        string[] allParams = ipc.signal.Split(',');
+                        if (allParams[0] == "exit")
+                        {
+                            this.signal = "exit";
+                            ipc.Stop();
+                        }
+                        if (allParams[0] == "lock")
+                        {
+                            prevMode = mode;
+                            cursor = lockedCursor;
+                            mode = "locked";
+                        }
+                        if (allParams[0] == "unlock")
+                        {
+                            cursor = defaultCursor;
+                            mode = prevMode;
+                        }
+                        if (allParams[0] == "load map")
+                        {
+                            //TODO: Load Map
+                            string path = Directory.GetCurrentDirectory() + "/res/maps/" + allParams[1];
+                            map.LoadMap(this.graphics, path);
+                            Console.WriteLine("LOAD MAP");
+                        }
+                        if (allParams[0] == "save instances")
+                        {
+                            ipc.SendMessage("lock");
+                            List<MapInterface.ObjectInstance> instance = new List<MapInterface.ObjectInstance>(map.mapInterface.objectInstances);
+                            //Load with latest
+                            map.LoadMap(this.graphics);
+                            //Save
+                            map.mapInterface.objectInstances = instance;
+                            map.mapInterface.Save();
+                            ipc.SendMessage("unlock");
+                            //Now client must have latest
+                            ipc.SendMessage("reload map");
+
+                        }
+                        if (allParams[0] == "remove all instances")
+                        {
+                            ipc.SendMessage("lock");
+                            map.mapInterface.objectInstances = new List<MapInterface.ObjectInstance>();
+                            map.mapInterface.Save();
+                            ipc.SendMessage("unlock");
+                            //Client must have the latest
+                            ipc.SendMessage("reload map");
+
+                        }
+                        if (allParams[0] == "reload map")
+                        {
+                            Console.WriteLine("RELOAD MAP");
+                        }
+                        if (allParams[0] == "place")
+                        {
+                            map.LoadMap(this.graphics);
+                            string objKey = allParams[1];
+                            curObj = map.mapInterface.objectTemplates[objKey];
+                            Bitmap newImage = curObj.images["default"][0].image;
+                            editCursor.ChangeTexture(newImage);
+                            cursor = editCursor;
+                            this.mode = "place";
+                        }
+                        if (allParams[0] == "cursor")
+                        {
+                            cursor = defaultCursor;
+                            this.mode = "cursor";
+                        }
+                    }
+                    catch
                     {
                         this.signal = "exit";
                         ipc.Stop();
-                    }
-                    if (allParams[0] == "lock")
-                    {
-                        prevMode = mode;
-                        cursor = lockedCursor;
-                        mode = "locked";
-                    }
-                    if (allParams[0] == "unlock")
-                    {
-                        cursor = defaultCursor;
-                        mode = prevMode;
-                    }
-                    if (allParams[0] == "load map")
-                    {
-                        //TODO: Load Map
-                        string path = Directory.GetCurrentDirectory() + "/res/maps/" + allParams[1];
-                        map.LoadMap(this.graphics, path);
-                        Console.WriteLine("LOAD MAP");
-                    }
-                    if (allParams[0] == "save instances")
-                    {
-                        ipc.SendMessage("lock");
-                        List<MapInterface.ObjectInstance> instance = new List<MapInterface.ObjectInstance>(map.mapInterface.objectInstances);
-                        //Load with latest
-                        map.LoadMap(this.graphics);
-                        //Save
-                        map.mapInterface.objectInstances = instance;
-                        map.mapInterface.Save();
-                        ipc.SendMessage("unlock");
-                        //Now client must have latest
-                        ipc.SendMessage("reload map");
-                        
-                    }
-                    if (allParams[0] == "remove all instances")
-                    {
-                        ipc.SendMessage("lock");
-                        map.mapInterface.objectInstances = new List<MapInterface.ObjectInstance>();
-                        map.mapInterface.Save();
-                        ipc.SendMessage("unlock");
-                        //Client must have the latest
-                        ipc.SendMessage("reload map");
-                        
-                    }
-                    if (allParams[0] == "reload map")
-                    {
-                        Console.WriteLine("RELOAD MAP");
-                    }
-                    if (allParams[0] == "place")
-                    {
-                        map.LoadMap(this.graphics);
-                        string objKey = allParams[1];
-                        curObj = map.mapInterface.objectTemplates[objKey];
-                        Bitmap newImage = curObj.images["default"].image;
-                        editCursor.ChangeTexture(newImage);
-                        cursor = editCursor;
-                        this.mode = "place";
-                    }
-                    if (allParams[0] == "cursor")
-                    {
-                        cursor = defaultCursor;
-                        this.mode = "cursor";
                     }
                 }
                 if (graphics.leftClick.currentState == "clicked")

@@ -153,6 +153,7 @@ namespace HJCompanion
 
         private void TriggerSave()
         {
+            mapInterface.Save();
             this.writer.WriteLine("reload map");
         }
 

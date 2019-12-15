@@ -56,6 +56,20 @@ namespace HJCompanion
             propListView.Refresh();
         }
 
+        public void UpdateStepListView()
+        {
+            string key = imageListView.SelectedItems[0].Text;
+            if (imageListView.SelectedItems.Count > 0)
+            {
+                stepListView.Items.Clear();
+                for( int i = 0; i < objTemplate.images[key].Count; i++)
+                {
+                    stepListView.Items.Add(i.ToString());
+                }
+                stepListView.Refresh();
+            }
+        }
+
         public void ClearPropertiesUI()
         {
             nameText.Text = "";
@@ -171,7 +185,8 @@ namespace HJCompanion
             imageListView.Refresh();
         }
 
-        private void imageAddButton_Click(object sender, EventArgs e)
+
+        private void addImage(int step=-1)
         {
             try
             {
@@ -188,14 +203,21 @@ namespace HJCompanion
                     return;
                 }
                 Bitmap image = new Bitmap(imgPath);
-                objTemplate.AddImage(name, image);
-                UpdateImageListView();
-                ClearImageUI();
+                objTemplate.AddImage(name, image, step);
+                if (step < 0)
+                {
+                    UpdateImageListView();
+                    ClearImageUI();
+                }
             }
-            catch(Exception ie)
+            catch (Exception ie)
             {
                 MessageBox.Show(ie.ToString());
             }
+        }
+
+        private void imageAddButton_Click(object sender, EventArgs e)
+        {
         }
 
         private void imageBrowseButton_Click(object sender, EventArgs e)
@@ -238,17 +260,18 @@ namespace HJCompanion
             {
                 string iKey = imageListView.SelectedItems[0].Text;
                 imageNameText.Text = iKey;
-                previewImagePicture.Image = new Bitmap(objTemplate.images[iKey].image);
+                UpdateStepListView();
+                //previewImagePicture.Image = new Bitmap(objTemplate.images[iKey][0].image);
             }
         }
 
         private void previewImagePicture_Click(object sender, EventArgs e)
         {
             string iKey = imageListView.SelectedItems[0].Text;
-            CollisionForm colForm = new CollisionForm(objTemplate.images[iKey]);
+            CollisionForm colForm = new CollisionForm(objTemplate.images[iKey][0]);
             if(colForm.ShowDialog() == DialogResult.OK)
             {
-                objTemplate.images[iKey].collisionVectors = colForm.lines;
+                objTemplate.images[iKey][0].collisionVectors = colForm.lines;
             }
         }
 
@@ -272,6 +295,42 @@ namespace HJCompanion
                 objTemplate.images.Remove(iKey);
                 UpdateImageListView();
                 ClearImageUI();
+            }
+        }
+
+        private void stepListView_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            if (stepListView.SelectedItems.Count > 0)
+            {
+                string iKey = imageListView.SelectedItems[0].Text;
+                int index = stepListView.SelectedIndices[0];
+                //imageNameText.Text = iKey;
+                previewImagePicture.Image = new Bitmap(objTemplate.images[iKey][index].image);
+            }
+        }
+
+        private void tabPage2_Click(object sender, EventArgs e)
+        {
+
+        }
+
+        private void addStepButton_Click(object sender, EventArgs e)
+        {
+            //addImage();
+            if (imageListView.SelectedItems.Count > 0 && stepListView.SelectedItems.Count > 0)
+            {
+                string iKey = imageListView.SelectedItems[0].Text;
+                objTemplate.SetBlankStepImage(iKey);
+                UpdateStepListView();
+            }
+        }
+
+        private void saveStepImage_Click(object sender, EventArgs e)
+        {
+            if (stepListView.SelectedItems.Count > 0)
+            {
+                int step = stepListView.SelectedIndices[0];
+                addImage(step);
             }
         }
     }

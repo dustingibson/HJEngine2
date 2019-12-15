@@ -247,7 +247,7 @@ namespace HJEngine.gfx
 
         private void InitTexture(World world, MapInterface.ObjectTemplate temp, Graphics graphics, bool isDynamic = false)
         {
-            Bitmap bitmap = temp.images["default"].image;
+            Bitmap bitmap = temp.images["default"][0].image;
             this.instance = temp;
             this.size = new prim.Size(bitmap.Width / graphics.size.w, bitmap.Height / graphics.size.h);
             float[] vertices = {
@@ -275,11 +275,11 @@ namespace HJEngine.gfx
                 polyBox.Density = 1f;
             //polyDef.Friction = 0.62f;
             bodyDef.Angle = 0f;            
-            polyDef.VertexCount = temp.images["default"].collisionVectors.Count;
+            polyDef.VertexCount = temp.images["default"][0].collisionVectors.Count;
             polyBox.SetAsBox(size.w / 2, size.h / 2);
             int vCnt = -1;
             List<prim.Point> points = new List<prim.Point>();
-            foreach (MapInterface.Line line in temp.images["default"].collisionVectors)
+            foreach (MapInterface.Line line in temp.images["default"][0].collisionVectors)
             {
                 float nx1 = ((float)line.x1 / bitmap.Width) * (float)size.w;
                 float nx2 = ((float)line.x2 / bitmap.Width) * (float)size.w;

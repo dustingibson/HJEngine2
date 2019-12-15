@@ -239,25 +239,29 @@ namespace MapInterface
                 int numImages = traverseToInt(mainBuffer, ref counter);
                 for(int k = 0; k < numImages; k++)
                 {
-                    //Image name
-                    string imageName = traverseToString(mainBuffer, ref counter, 20);
-                    //Image size
-                    int imageSize = traverseToInt(mainBuffer, ref counter);
-                    //Image value
-                    Bitmap image = traverseToBitmap(mainBuffer, ref counter, imageSize);
-                    //# of Collision Vectors
-                    int nVect = traverseToInt(mainBuffer, ref counter);
-                    List<Line> vectors = new List<Line>();
-                    for (int m = 0; m < nVect; m++)
+                    int numSteps = traverseToInt(mainBuffer, ref counter);
+                    for (int p = 0; p < numSteps; p++)
                     {
-                        int x1 = traverseToInt(mainBuffer, ref counter);
-                        int y1 = traverseToInt(mainBuffer, ref counter);
-                        int x2 = traverseToInt(mainBuffer, ref counter);
-                        int y2 = traverseToInt(mainBuffer, ref counter);
-                        Line line = new Line(x1, y1, x2, y2);
-                        vectors.Add(line);
+                        //Image name
+                        string imageName = traverseToString(mainBuffer, ref counter, 20);
+                        //Image size
+                        int imageSize = traverseToInt(mainBuffer, ref counter);
+                        //Image value
+                        Bitmap image = traverseToBitmap(mainBuffer, ref counter, imageSize);
+                        //# of Collision Vectors
+                        int nVect = traverseToInt(mainBuffer, ref counter);
+                        List<Line> vectors = new List<Line>();
+                        for (int m = 0; m < nVect; m++)
+                        {
+                            int x1 = traverseToInt(mainBuffer, ref counter);
+                            int y1 = traverseToInt(mainBuffer, ref counter);
+                            int x2 = traverseToInt(mainBuffer, ref counter);
+                            int y2 = traverseToInt(mainBuffer, ref counter);
+                            Line line = new Line(x1, y1, x2, y2);
+                            vectors.Add(line);
+                        }
+                        curTemplate.AddImage(imageName, image, vectors);
                     }
-                    curTemplate.AddImage(imageName, image, vectors);
                 }
                 objectTemplates.Add(objName, curTemplate);
             }
@@ -317,26 +321,31 @@ namespace MapInterface
                 bw.Write(getIntBuffer(curTemplate.images.Count));
                 foreach(string iKey in curTemplate.images.Keys)
                 {
-                    ImageData curImage = curTemplate.images[iKey];
-                    //Bitmap name
-                    bw.Write(getStringBuffer(iKey, 20));
-                    //Bitmap size
-                    int size = (int)getBitmapSize(curImage.image);
-                    bw.Write(getIntBuffer(size));
-                    //Bitmap value
-                    bw.Write(getBitmapBytes(curImage.image));
-                    //# of Collision Vectors
-                    bw.Write(getIntBuffer(curImage.collisionVectors.Count));
-                    foreach (Line curLine in curImage.collisionVectors)
+                    //Number of steps
+                    bw.Write(getIntBuffer(curTemplate.images[iKey].Count));
+                    foreach (ImageData imageData in curTemplate.images[iKey])
                     {
-                        //X1
-                        bw.Write(getIntBuffer(curLine.x1));
-                        //Y1
-                        bw.Write(getIntBuffer(curLine.y1));
-                        //X2
-                        bw.Write(getIntBuffer(curLine.x2));
-                        //Y2
-                        bw.Write(getIntBuffer(curLine.y2));
+                        ImageData curImage = imageData;
+                        //Bitmap name
+                        bw.Write(getStringBuffer(iKey, 20));
+                        //Bitmap size
+                        int size = (int)getBitmapSize(curImage.image);
+                        bw.Write(getIntBuffer(size));
+                        //Bitmap value
+                        bw.Write(getBitmapBytes(curImage.image));
+                        //# of Collision Vectors
+                        bw.Write(getIntBuffer(curImage.collisionVectors.Count));
+                        foreach (Line curLine in curImage.collisionVectors)
+                        {
+                            //X1
+                            bw.Write(getIntBuffer(curLine.x1));
+                            //Y1
+                            bw.Write(getIntBuffer(curLine.y1));
+                            //X2
+                            bw.Write(getIntBuffer(curLine.x2));
+                            //Y2
+                            bw.Write(getIntBuffer(curLine.y2));
+                        }
                     }
                 }
             }
@@ -442,7 +451,7 @@ namespace MapInterface
 
     public class ObjectTemplate
     {
-        public Dictionary<string, ImageData> images;
+        public Dictionary<string, List<ImageData>> images;
         public Dictionary<string, Property> properties;
         public string name;
         public bool visibility;
@@ -452,20 +461,25 @@ namespace MapInterface
             this.visibility = true;
             this.name = name;
             properties = new Dictionary<string, Property>();
-            images = new Dictionary<string, ImageData>();
-            SetDefaultImage();
+            images = new Dictionary<string, List<ImageData>>();
+            //SetDefaultImage();
         }
 
         public ObjectTemplate()
         {
             properties = new Dictionary<string, Property>();
-            images = new Dictionary<string, ImageData>();
+            images = new Dictionary<string, List<ImageData>>();
             SetDefaultImage();
         }
 
         private void SetDefaultImage()
         {
             AddImage("default", new Bitmap(32, 32));
+        }
+
+        public void SetBlankStepImage(string key)
+        {
+            AddImage(key, new Bitmap(32, 32));
         }
 
         public void AddProperty(string name, string type, byte[] value)
@@ -483,27 +497,35 @@ namespace MapInterface
             }
         }
 
-        public void AddImage(string name, Bitmap bitmap)
+        public void AddImage(string name, Bitmap bitmap, int index=-1)
         {
             if (images.ContainsKey(name))
             {
-                images[name] = new ImageData(bitmap);
+                if (index < 0)
+                    images[name].Add(new ImageData(bitmap));
+                else
+                    images[name][index] = new ImageData(bitmap);
             }
             else
             {
-                images.Add(name, new ImageData(bitmap));
+                images.Add(name, new List<ImageData>());
+                images[name].Add(new ImageData(bitmap));
             }
         }
 
-        public void AddImage(string name, Bitmap bitmap, List<Line> lines)
+        public void AddImage(string name, Bitmap bitmap, List<Line> lines, int index=-1)
         {
             if (images.ContainsKey(name))
             {
-                images[name] = new ImageData(bitmap, lines);
+                if (index < 0)
+                    images[name].Add(new ImageData(bitmap, lines));
+                else
+                    images[name][index] = new ImageData(bitmap, lines);
             }
             else
             {
-                images.Add(name, new ImageData(bitmap, lines));
+                images.Add(name, new List<ImageData>());
+                images[name].Add(new ImageData(bitmap, lines));
             }
         }
 
