@@ -40,6 +40,7 @@ namespace HJCompanion
             this.buttonList.Add(placeButton);
             this.buttonList.Add(removeButton);
             this.buttonList.Add(moveButton);
+            this.buttonList.Add(removeButton);
 
             activeButton = "";
         }
@@ -216,11 +217,16 @@ namespace HJCompanion
 
         private void moveButton_Click(object sender, EventArgs e)
         {
+            //move instance
+            this.writer.WriteLine("move instance");
+            this.writer.Flush();
             resetButtons(((Button)sender).Name);
         }
 
         private void removeButton_Click(object sender, EventArgs e)
         {
+            this.writer.WriteLine("remove instance");
+            this.writer.Flush();
             resetButtons(((Button)sender).Name);
         }
 
@@ -236,6 +242,13 @@ namespace HJCompanion
         {
             this.writer.WriteLine("remove all instances");
             this.writer.Flush();
+        }
+
+        private void detailsButton_Click(object sender, EventArgs e)
+        {
+            this.writer.WriteLine("details instance");
+            this.writer.Flush();
+            resetButtons(((Button)sender).Name);
         }
     }
 

@@ -311,6 +311,11 @@ namespace HJEngine.gfx
             //this.body.SetLinearVelocity(new Vec2(0.0f,0f));
         }
 
+        public void UpdatePoint(prim.Point pnt)
+        {
+            body.SetXForm(new Vec2(pnt.x, pnt.y), 0f);
+        }
+
         public override void Update()
         {
             Vec2 vel = body.GetLinearVelocity();

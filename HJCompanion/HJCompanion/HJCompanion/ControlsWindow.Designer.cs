@@ -130,6 +130,7 @@
             this.detailsButton.Size = new System.Drawing.Size(34, 37);
             this.detailsButton.TabIndex = 8;
             this.detailsButton.UseVisualStyleBackColor = true;
+            this.detailsButton.Click += new System.EventHandler(this.detailsButton_Click);
             // 
             // saveInstanceButton
             // 

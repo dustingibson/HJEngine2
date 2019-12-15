@@ -12,14 +12,14 @@ namespace HJEngine.editor
         private prim.InitStateMachine initState;
         private util.IPC ipc;
         private gfx.Cursor cursor;
+        private Dictionary<string, gfx.Cursor> cursors;
         private gfx.Cursor defaultCursor;
-        private gfx.Cursor editCursor;
-        private gfx.Cursor lockedCursor;
         private gfx.Graphics graphics;
         private string mode;
         private string prevMode;
         private gfx.GameMap map;
         private MapInterface.ObjectTemplate curObj;
+        private gfx.ObjectEntity heldObject;
         public string signal;
 
         public MapEditor(gfx.Graphics graphics)
@@ -30,9 +30,12 @@ namespace HJEngine.editor
             initState = new prim.InitStateMachine();
             process.StartInfo.FileName = Directory.GetCurrentDirectory()
                 + "/res/editor/HJCompanion.exe";
+            cursors = new Dictionary<string, gfx.Cursor>();
+            cursors.Add("locked", new gfx.Cursor(graphics, "locked"));
+            cursors.Add("edit", new gfx.Cursor(graphics, "edit"));
+            cursors.Add("remove", new gfx.Cursor(graphics, "remove"));
+            cursors.Add("move", new gfx.Cursor(graphics, "move"));
             defaultCursor = new gfx.Cursor(graphics);
-            lockedCursor = new gfx.Cursor(graphics, "locked");
-            editCursor = new gfx.Cursor(graphics, "edit");
             cursor = defaultCursor;
             mode = "cursor";
             prevMode = "";
@@ -55,6 +58,18 @@ namespace HJEngine.editor
             cursor.Draw();
         }
 
+        public List<gfx.ObjectEntity> getCursorAdjInstances()
+        {
+            List<gfx.ObjectEntity> results = new List<gfx.ObjectEntity>();
+            foreach ( gfx.ObjectEntity inst in this.map.mapInterface.objectInstances)
+            {
+                if (graphics.mousePoint.x >= inst.point.x && graphics.mousePoint.x <= inst.point.x + inst.size.w)
+                    if (graphics.mousePoint.y >= inst.point.y && graphics.mousePoint.y <= inst.point.y + inst.size.h)
+                        results.Add(inst);
+            }
+            return results;
+        }
+
         public void Update()
         {
             if (initState.currentState == "init")
@@ -75,10 +90,25 @@ namespace HJEngine.editor
                             this.signal = "exit";
                             ipc.Stop();
                         }
+                        if (allParams[0] == "remove instance")
+                        {
+                            cursor = cursors["remove"];
+                            mode = "remove";
+                        }
+                        if (allParams[0] == "move instance")
+                        {
+                            cursor = cursors["move"];
+                            mode = "move";
+                        }
+                        if (allParams[0] == "instance details")
+                        {
+                            cursor = cursors["details"];
+                            mode = "details";
+                        }
                         if (allParams[0] == "lock")
                         {
                             prevMode = mode;
-                            cursor = lockedCursor;
+                            cursor = cursors["locked"];
                             mode = "locked";
                         }
                         if (allParams[0] == "unlock")
@@ -127,8 +157,8 @@ namespace HJEngine.editor
                             string objKey = allParams[1];
                             curObj = map.mapInterface.objectTemplates[objKey];
                             Bitmap newImage = curObj.images["default"][0].image;
-                            editCursor.ChangeTexture(newImage);
-                            cursor = editCursor;
+                            cursors["edit"].ChangeTexture(newImage);
+                            cursor = cursors["edit"];
                             this.mode = "place";
                         }
                         if (allParams[0] == "cursor")
@@ -148,8 +178,35 @@ namespace HJEngine.editor
                     if (this.mode == "place")
                     {
                         prim.Point pnt = graphics.mousePoint;
-                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(map.world, curObj, graphics, graphics.mousePoint );
-                        map.mapInterface.objectInstances.Add(objInstance);    
+                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(map.world, curObj, graphics, graphics.mousePoint);
+                        map.mapInterface.objectInstances.Add(objInstance);
+                    }
+                    else if (this.mode == "remove")
+                    {
+                        List<gfx.ObjectEntity> insts = getCursorAdjInstances();
+                        if (insts.Count > 0)
+                            map.mapInterface.objectInstances.Remove(insts[0]);
+                    }
+                    else if (this.mode == "move progress")
+                    {
+                        this.mode = "move";
+                    }
+                }
+                if (graphics.leftClick.currentState == "mouse down")
+                {
+                    if (this.mode == "move")
+                    {
+                        List<gfx.ObjectEntity> insts = getCursorAdjInstances();
+                        if (insts.Count > 0)
+                        {
+                            heldObject = insts[0];
+                            this.mode = "move progress";
+                        }
+                    }
+                    if (this.mode == "move progress")
+                    {
+                        heldObject.UpdatePoint(graphics.mousePoint);
+                        heldObject.Update();
                     }
                 }
             }
