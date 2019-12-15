@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Drawing;
+﻿using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK;
@@ -27,7 +22,7 @@ namespace HJEngine.gfx
             this.vertices = vertices;
             this.indices = indices;
             this.graphics = graphics;
-            this.shader = new Shader(shaderName);
+            this.shader = new Shader(shaderName, graphics.shaders);
         }
 
         private Matrix4 Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
@@ -49,6 +44,14 @@ namespace HJEngine.gfx
 
             this.shader.SetMatrix4("projection", proj);
             this.shader.SetMatrix4("model", model);
+        }
+
+        protected void SetProjections(prim.Point s)
+        {
+            //Matrix4 model = Matrix4.Identity;
+            Matrix4 proj = Ortho(0f + s.x, 1f + s.x, 1f + s.y, 0f + s.y, 0f, 1f);
+
+            this.shader.SetMatrix4("projection", proj);
         }
 
         protected virtual void ToVAO()
@@ -111,6 +114,8 @@ namespace HJEngine.gfx
 
     class ImageTexture : Texture
     {
+        private float brightness;
+
         public ImageTexture(gfx.Graphics graphics, Bitmap bitmap, float[] vertices, uint[] indices) 
             : base(graphics, "texture", vertices, indices)
         {
@@ -135,6 +140,7 @@ namespace HJEngine.gfx
         {
             base.ToVAO();
             int stride = 5;
+            brightness = 1f;
             this.GenVertexArray();
             var vertexLocation = this.shader.GetAttributeLocation("aPosition");
             GL.EnableVertexAttribArray(vertexLocation);
@@ -144,17 +150,17 @@ namespace HJEngine.gfx
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
             GL.EnableVertexAttribArray(0);
             SetProjections();
-            this.shader.SetFloat("brightness", 1.0f);
         }
 
         public void ChangeColor(float m)
         {
-            this.shader.SetFloat("brightness", m);
+            this.brightness = m;
         }
 
         public override void Draw()
         {
             base.Draw();
+            this.shader.SetFloat("brightness", this.brightness);
             this.Use();
             this.shader.Use();
             GL.BindVertexArray(arrayObj);
@@ -183,6 +189,7 @@ namespace HJEngine.gfx
         public Color fillColor;
         public Color borderColor;
         public Vector2 borderSize;
+        private float brightness;
 
         public ColorTexture(gfx.Graphics graphics, Color fillColor, float[] vertices, uint[] indices)
             : base(graphics, "triangle", vertices, indices)
@@ -191,6 +198,7 @@ namespace HJEngine.gfx
             this.fillColor = fillColor;
             borderSize = new Vector2(0, 0);
             borderColor = Color.FromArgb(0);
+            brightness = 1f;
             ToVAO();
         }
 
@@ -201,6 +209,7 @@ namespace HJEngine.gfx
             this.fillColor = fillColor;
             this.borderSize = borderSize;
             this.borderColor = borderColor;
+            brightness = 1f;
             ToVAO();
         }
 
@@ -215,26 +224,21 @@ namespace HJEngine.gfx
             var texCoordLocation = this.shader.GetAttributeLocation("aTexCoord");
             GL.EnableVertexAttribArray(texCoordLocation);
             GL.VertexAttribPointer(texCoordLocation, 2, VertexAttribPointerType.Float, false, stride * sizeof(float), 3 * sizeof(float));
-            //var texColorLocation = this.shader.GetAttributeLocation("aTexColor");
-            //GL.EnableVertexAttribArray(texColorLocation);
-            //GL.VertexAttribPointer(texColorLocation, 4, VertexAttribPointerType.Float, false, stride * sizeof(float), 5 * sizeof(float));
-            //GL.EnableVertexAttribArray(0);
             SetProjections();
-            //shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
-            this.shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
-            this.shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
-            this.shader.SetVec2("borderSize", borderSize);
-            this.shader.SetFloat("brightness", 1.0f);
         }
 
         public void ChangeBrightness(float m)
         {
-            this.shader.SetFloat("brightness", m);
+            this.brightness = m;
         }
 
         public override void Draw()
         {
             base.Draw();
+            this.shader.SetVec4("fillColor", graphics.ColorToVec4(this.fillColor));
+            this.shader.SetVec4("borderColor", this.graphics.ColorToVec4(this.borderColor));
+            this.shader.SetVec2("borderSize", borderSize);
+            this.shader.SetFloat("brightness", this.brightness);
             this.shader.Use();
             GL.BindVertexArray(arrayObj);
             GL.BindBuffer(BufferTarget.ArrayBuffer, vertexBuffer);

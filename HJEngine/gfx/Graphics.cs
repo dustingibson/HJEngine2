@@ -14,7 +14,7 @@ namespace HJEngine.gfx
     class Graphics
     {
         public prim.Size size;
-        //public gfx.ShaderFactory shaders;
+        public gfx.ShaderFactory shaders;
         public Dictionary<string,PrivateFontCollection> fonts;
         public prim.Point mousePoint;
         public double fps;
@@ -52,10 +52,10 @@ namespace HJEngine.gfx
             rightClick = new prim.ClickStateMachine();
             middleClick = new prim.ClickStateMachine();
             mousePoint = new prim.Point(0,0);
+            shaders = new ShaderFactory();
 
             this.size = size;
             fonts = new Dictionary<string, PrivateFontCollection>();
-
 
             foreach (string fname in Directory.GetFiles("res/fonts"))
             {
@@ -153,6 +153,11 @@ namespace HJEngine.gfx
             float b = (float)color.B / 255f;
             float a = (float)color.A / 255f;
             return new Vector4(r, g, b, a);
+        }
+
+        public void MoveCamera()
+        {
+            
         }
 
         public void UpdateKeyBuffer(string buffer)

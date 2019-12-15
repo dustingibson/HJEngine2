@@ -35,16 +35,6 @@ namespace HJEngine.gfx
 
             LoadStarfield();
 
-            //this.vertices = new float[] {
-            //    pnt.x + size.w, pnt.y + size.h, 0.0f, /*tCoord*/ 1.0f, 1.0f, /*color*/ 1.0f, 0.0f, 0.0f, 1.0f,/*velocity*/0.15f,
-            //    pnt.x + size.w, pnt.y, 0.0f, /*tCoord*/ 1.0f, 0.0f, /*color*/ 1.0f, 0.0f, 0.0f, 1.0f,/*velocity*/0.15f,
-            //    pnt.x, pnt.y, 0.0f,/*tCoord*/ 0.0f, 0.0f, /*color*/ 1.0f, 0.0f, 0.0f, 1.0f,/*velocity*/0.15f,
-            //    pnt.x, pnt.y + size.h, 0.0f, /*tCoord*/ 0.0f, 1.0f, /*color*/ 1.0f, 0.0f, 0.0f, 1.0f,/*velocity*/0.15f,
-            //};
-            //this.indices = new uint[] {  // note that we start from 0!
-            //    0, 1, 3,   // first triangle
-            //    1, 2, 3    // second triangle
-            //};
             ToVAO();
         }
 
@@ -170,10 +160,6 @@ namespace HJEngine.gfx
             GL.EnableVertexAttribArray(0);
             SetProjections();
             this.shader.SetFloat("sec", (float)this.graphics.sec);
-
-            //this.shader.SetVec4(("fillColor"), graphics.ColorToVec4(Color.Red));
-            //this.shader.SetFloat("brightness", 1.0f);
-
         }
 
         public override void Draw()

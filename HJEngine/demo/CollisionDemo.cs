@@ -17,7 +17,7 @@ namespace HJEngine.demo
             this.graphics = graphics;
             initState = new prim.InitStateMachine();
             map = new gfx.GameMap(graphics);
-            map.LoadMap(graphics, "res/maps/demo.hjm");
+            map.LoadMap(graphics, "res/maps/CollisionDemo.hjm");
             map.AddControlEntity(graphics, "test");
         }
 

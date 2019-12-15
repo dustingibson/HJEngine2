@@ -12,26 +12,34 @@ namespace HJEngine.gfx
 
     class ShaderFactory
     {
-        private Dictionary<string, Shader> shaders;
+        private Dictionary<string, int> shaders;
 
         public ShaderFactory()
         {
-            shaders = new Dictionary<string, Shader>();
-            shaders.Add("texture", new gfx.Shader("texture"));
-            shaders.Add("triangle", new gfx.Shader("triangle"));
+            shaders = new Dictionary<string, int>();
         }
 
-        public Shader GetShader(string name)
+        public int GetShader(string name)
         {
             if (shaders.ContainsKey(name))
                 return shaders[name];
             else
-                return null;
+                return -1;
         }
 
-        public void Use(string name)
+        public void AddShader(string name, int program)
         {
-            shaders[name].Use();
+            shaders.Add(name, program);
+        }
+
+        public bool containsShader(string name)
+        {
+            return shaders.ContainsKey(name);
+        }
+
+        public int Get(string name)
+        {
+            return shaders[name];
         }
     }
 
@@ -44,31 +52,38 @@ namespace HJEngine.gfx
         private Dictionary<string, int> uniforms;
         private Dictionary<string, int> attributes;
 
-        public Shader(string name)
+        public Shader(string name, ShaderFactory shaderFactory)
         {
             string vertexShaderSrc;
             string fragmentShaderSrc;
             uniforms = new Dictionary<string, int>();
             attributes = new Dictionary<string, int>();
             this.name = name;
-            using (StreamReader reader = new StreamReader("shaders/" + name + ".glvs", Encoding.UTF8))
+            if (!shaderFactory.containsShader(this.name))
             {
-                vertexShaderSrc = reader.ReadToEnd();
+                using (StreamReader reader = new StreamReader("shaders/" + name + ".glvs", Encoding.UTF8))
+                {
+                    vertexShaderSrc = reader.ReadToEnd();
+                }
+                using (StreamReader reader = new StreamReader("shaders/" + name + ".glfs", Encoding.UTF8))
+                {
+                    fragmentShaderSrc = reader.ReadToEnd();
+                }
+                vertexShader = GL.CreateShader(ShaderType.VertexShader);
+                GL.ShaderSource(vertexShader, vertexShaderSrc);
+                CompileShader(vertexShader);
+
+                fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
+                GL.ShaderSource(fragmentShader, fragmentShaderSrc);
+                CompileShader(fragmentShader);
+
+                handle = GL.CreateProgram();
+                shaderFactory.AddShader(name, handle);
             }
-            using (StreamReader reader = new StreamReader("shaders/" + name + ".glfs", Encoding.UTF8))
+            else
             {
-                fragmentShaderSrc = reader.ReadToEnd();
+                handle = shaderFactory.Get(name);
             }
-
-            vertexShader = GL.CreateShader(ShaderType.VertexShader);
-            GL.ShaderSource(vertexShader, vertexShaderSrc);
-            CompileShader(vertexShader);
-
-            fragmentShader = GL.CreateShader(ShaderType.FragmentShader);
-            GL.ShaderSource(fragmentShader, fragmentShaderSrc);
-            CompileShader(fragmentShader);
-
-            handle = GL.CreateProgram();
             GL.AttachShader(handle, vertexShader);
             GL.AttachShader(handle, fragmentShader);
             GL.LinkProgram(handle);

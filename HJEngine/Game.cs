@@ -47,7 +47,7 @@ namespace HJEngine
             graphics = new gfx.Graphics(new prim.Size(width, height), mainConfig);
             mapEditor = new editor.MapEditor(graphics);
             menuFactory = new ui.MenuFactory(graphics);
-            //collisionDemo = new demo.CollisionDemo(graphics);
+            collisionDemo = new demo.CollisionDemo(graphics);
             menuFactory.GotoMenu("main menu");
 
             graphics.size.w = this.width;

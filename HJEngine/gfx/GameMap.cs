@@ -21,6 +21,7 @@ namespace HJEngine.gfx
         public MapInterface.MapInterface mapInterface;
         public ControlEntity controlEntity;
         public World world;
+        public prim.Point scroll;
         private AABB worldAABB;
         private Graphics graphics;
         private bool run;
@@ -28,6 +29,7 @@ namespace HJEngine.gfx
         public GameMap(Graphics graphics)
         {
             this.graphics = graphics;
+            this.scroll = new prim.Point(0, 0);
             mapInterface = new MapInterface.MapInterface();
             controlEntity = new ControlEntity();
             run = true;
@@ -138,8 +140,8 @@ namespace HJEngine.gfx
             this.active = true;
             this.graphics = graphics;
             controlObject = new ObjectEntity(world, template, graphics, new prim.Point(0f, 0f), true);
-            vx = 0.5f;
-            vy = 0.5f;
+            vx = 1.5f;
+            vy = 1.5f;
         }
 
         public ControlEntity()
@@ -308,7 +310,7 @@ namespace HJEngine.gfx
             this.body.CreateShape(polyDef);
             if(isDynamic)
                 this.body.SetMassFromShapes();
-            //this.body.SetLinearVelocity(new Vec2(0.0f,0f));
+            this.body.SetLinearVelocity(new Vec2(0.5f,0f));
         }
 
         public void UpdatePoint(prim.Point pnt)
@@ -321,9 +323,12 @@ namespace HJEngine.gfx
             Vec2 vel = body.GetLinearVelocity();
             vel.X = dx;
             vel.Y = dy;
-            this.body.SetLinearVelocity(vel);
+            body.SetLinearVelocity(vel);
+            if (dx > 0 || dy > 0)
+                Console.WriteLine("Should be moving");
             point.x = body.GetPosition().X;
             point.y = body.GetPosition().Y;
+            Console.WriteLine(point.x.ToString() + " , " + point.y.ToString());
             //Console.WriteLine(this.body.GetPosition().X + " , " + this.body.GetPosition().Y);
             float[] vertices = {
                  point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
