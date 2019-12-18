@@ -45,7 +45,7 @@ namespace HJEngine.ui
             {
                 ProcessSignal(components);
             }
-            cursor.Update();
+            cursor.Update(graphics.mousePoint);
         }
 
         public void Draw()

@@ -12,24 +12,24 @@ namespace HJEngine.gfx
 
     class ShaderFactory
     {
-        private Dictionary<string, int> shaders;
+        public Dictionary<string, Shader> shaders;
 
         public ShaderFactory()
         {
-            shaders = new Dictionary<string, int>();
+            shaders = new Dictionary<string, Shader>();
         }
 
-        public int GetShader(string name)
+        public Shader GetShader(string name)
         {
             if (shaders.ContainsKey(name))
                 return shaders[name];
             else
-                return -1;
+                return null;
         }
 
-        public void AddShader(string name, int program)
+        public void AddShader(string name, Shader shader)
         {
-            shaders.Add(name, program);
+            shaders.Add(name, shader);
         }
 
         public bool containsShader(string name)
@@ -39,7 +39,7 @@ namespace HJEngine.gfx
 
         public int Get(string name)
         {
-            return shaders[name];
+            return shaders[name].handle;
         }
     }
 
@@ -78,7 +78,7 @@ namespace HJEngine.gfx
                 CompileShader(fragmentShader);
 
                 handle = GL.CreateProgram();
-                shaderFactory.AddShader(name, handle);
+                shaderFactory.AddShader(name, this);
             }
             else
             {

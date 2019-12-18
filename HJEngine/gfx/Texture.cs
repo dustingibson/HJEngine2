@@ -92,7 +92,7 @@ namespace HJEngine.gfx
 
         public virtual void Draw()
         {
-
+            //SetProjections();
         }
 
         public virtual void Update(float[] vertices)

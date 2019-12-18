@@ -65,6 +65,27 @@ namespace HJEngine.gfx
             }
         }
 
+        private Matrix4 Ortho(float left, float right, float bottom, float top, float zNear, float zFar)
+        {
+            Matrix4 result = Matrix4.Identity;
+            result[0, 0] = 2f / (right - left);
+            result[1, 1] = 2f / (top - bottom);
+            result[2, 2] = -2f / (zFar - zNear);
+            result[0, 3] = -(right + left) / (right - left);
+            result[1, 3] = -(top + bottom) / (top - bottom);
+            result[2, 3] = -(zFar + zNear) / (zFar - zNear);
+            return result;
+        }
+
+        public void Scroll(prim.Point scroll)
+        {
+            foreach(Shader curShader in shaders.shaders.Values)
+            {
+                Matrix4 proj = Ortho(0f + scroll.x, 1f + scroll.x, 1f + scroll.y, 0f + scroll.y, 0f, 1f);
+                curShader.SetMatrix4("projection", proj);
+            }
+        }
+
         public Dictionary<string, string> GetConfigValues()
         {
             config.Load();

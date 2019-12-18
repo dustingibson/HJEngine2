@@ -3,6 +3,7 @@ using System.IO;
 using System.Diagnostics;
 using System.Collections.Generic;
 using System.Drawing;
+using OpenTK.Input;
 
 namespace HJEngine.editor
 {
@@ -21,6 +22,8 @@ namespace HJEngine.editor
         private MapInterface.ObjectTemplate curObj;
         private gfx.ObjectEntity heldObject;
         public string signal;
+        private prim.Point scroll;
+        private float scrollVelocity;
 
         public MapEditor(gfx.Graphics graphics)
         {
@@ -40,6 +43,8 @@ namespace HJEngine.editor
             mode = "cursor";
             prevMode = "";
             map = new gfx.GameMap(graphics);
+            scroll = new prim.Point(0, 0);
+            scrollVelocity = 0.025f;
         }
 
         public void Launch()
@@ -58,13 +63,33 @@ namespace HJEngine.editor
             cursor.Draw();
         }
 
+        public void Pan()
+        {
+            if (graphics.actionKeyBuffer.Contains((uint)Key.W)) 
+                scroll.y -= scrollVelocity;
+            if (graphics.actionKeyBuffer.Contains((uint)Key.S))
+                scroll.y += scrollVelocity;
+            if (graphics.actionKeyBuffer.Contains((uint)Key.A))
+                scroll.x -= scrollVelocity;
+            if (graphics.actionKeyBuffer.Contains((uint)Key.D))
+                scroll.x += scrollVelocity;
+            graphics.Scroll(scroll);
+        }
+
+        private prim.Point AbsMouse()
+        {
+            return new prim.Point(graphics.mousePoint.x + scroll.x,
+                graphics.mousePoint.y + scroll.y);
+        }
+
         public List<gfx.ObjectEntity> getCursorAdjInstances()
         {
+            prim.Point absMouse = AbsMouse();
             List<gfx.ObjectEntity> results = new List<gfx.ObjectEntity>();
             foreach ( gfx.ObjectEntity inst in this.map.mapInterface.objectInstances)
             {
-                if (graphics.mousePoint.x >= inst.point.x && graphics.mousePoint.x <= inst.point.x + inst.size.w)
-                    if (graphics.mousePoint.y >= inst.point.y && graphics.mousePoint.y <= inst.point.y + inst.size.h)
+                if (absMouse.x >= inst.point.x && absMouse.x <= inst.point.x + inst.size.w)
+                    if (absMouse.y >= inst.point.y && absMouse.y <= inst.point.y + inst.size.h)
                         results.Add(inst);
             }
             return results;
@@ -72,6 +97,7 @@ namespace HJEngine.editor
 
         public void Update()
         {
+            Pan();
             if (initState.currentState == "init")
             {
                 Launch();
@@ -177,8 +203,8 @@ namespace HJEngine.editor
                 {
                     if (this.mode == "place")
                     {
-                        prim.Point pnt = graphics.mousePoint;
-                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(map.world, curObj, graphics, graphics.mousePoint);
+                        prim.Point pnt = AbsMouse();
+                        gfx.ObjectEntity objInstance = new gfx.ObjectEntity(map.world, curObj, graphics, AbsMouse());
                         map.mapInterface.objectInstances.Add(objInstance);
                     }
                     else if (this.mode == "remove")
@@ -205,12 +231,12 @@ namespace HJEngine.editor
                     }
                     if (this.mode == "move progress")
                     {
-                        heldObject.UpdatePoint(graphics.mousePoint);
+                        heldObject.UpdatePoint(AbsMouse());
                         heldObject.Update();
                     }
                 }
             }
-            cursor.Update();
+            cursor.Update(AbsMouse());
         }
 
         ~MapEditor()

@@ -58,9 +58,9 @@ namespace HJEngine.gfx
             cursorTexture.Draw();
         }
 
-        public void Update()
+        public void Update(prim.Point point)
         {
-            point = graphics.mousePoint;
+            //point = graphics.mousePoint;
 
             float[] vertices =
             {
