@@ -38,6 +38,7 @@ namespace HJEngine.editor
             cursors.Add("edit", new gfx.Cursor(graphics, "edit"));
             cursors.Add("remove", new gfx.Cursor(graphics, "remove"));
             cursors.Add("move", new gfx.Cursor(graphics, "move"));
+            cursors.Add("details", new gfx.Cursor(graphics, "details"));
             defaultCursor = new gfx.Cursor(graphics);
             cursor = defaultCursor;
             mode = "cursor";
@@ -216,6 +217,15 @@ namespace HJEngine.editor
                     else if (this.mode == "move progress")
                     {
                         this.mode = "move";
+                    }
+                    else if (this.mode == "details")
+                    {
+                        List<gfx.ObjectEntity> insts = getCursorAdjInstances();
+                        if (insts.Count > 0)
+                        {
+                            int index = map.mapInterface.objectInstances.IndexOf(insts[0]);
+                            ipc.SendMessage("launch details," + index.ToString());
+                        }
                     }
                 }
                 if (graphics.leftClick.currentState == "mouse down")

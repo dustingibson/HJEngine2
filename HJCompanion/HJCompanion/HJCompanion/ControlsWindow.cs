@@ -40,7 +40,7 @@ namespace HJCompanion
             this.buttonList.Add(placeButton);
             this.buttonList.Add(removeButton);
             this.buttonList.Add(moveButton);
-            this.buttonList.Add(removeButton);
+            this.buttonList.Add(detailsButton);
 
             activeButton = "";
         }
@@ -108,6 +108,15 @@ namespace HJCompanion
                     if (line == "reload map")
                     {
                         ReloadMap();
+                    }
+                    else if (line.Contains("launch details"))
+                    {
+                        this.writer.WriteLine("save instances");
+                        this.writer.Flush();
+                        int instNum = Int32.Parse( line.Split(',')[1] );
+                        //TODO: Launch object instnace
+                        ObjectInstanceForm objForm = new ObjectInstanceForm(mapInterface.objectInstances[instNum]);
+                        objForm.ShowDialog();
                     }
                     else if (line == "lock")
                     {
@@ -246,7 +255,7 @@ namespace HJCompanion
 
         private void detailsButton_Click(object sender, EventArgs e)
         {
-            this.writer.WriteLine("details instance");
+            this.writer.WriteLine("instance details");
             this.writer.Flush();
             resetButtons(((Button)sender).Name);
         }

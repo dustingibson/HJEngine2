@@ -64,6 +64,12 @@
     <Compile Include="ControlsWindow.Designer.cs">
       <DependentUpon>ControlsWindow.cs</DependentUpon>
     </Compile>
+    <Compile Include="ObjectInstanceForm.cs">
+      <SubType>Form</SubType>
+    </Compile>
+    <Compile Include="ObjectInstanceForm.Designer.cs">
+      <DependentUpon>ObjectInstanceForm.cs</DependentUpon>
+    </Compile>
     <Compile Include="ObjectTemplateForm.cs">
       <SubType>Form</SubType>
     </Compile>
@@ -86,6 +92,9 @@
     </EmbeddedResource>
     <EmbeddedResource Include="ControlsWindow.resx">
       <DependentUpon>ControlsWindow.cs</DependentUpon>
+    </EmbeddedResource>
+    <EmbeddedResource Include="ObjectInstanceForm.resx">
+      <DependentUpon>ObjectInstanceForm.cs</DependentUpon>
     </EmbeddedResource>
     <EmbeddedResource Include="ObjectTemplateForm.resx">
       <DependentUpon>ObjectTemplateForm.cs</DependentUpon>
