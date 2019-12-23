@@ -433,7 +433,7 @@ namespace MapInterface
 
         public ObjectInstance(ObjectTemplate objTemp)
         {
-            instance = objTemp;
+            instance = new ObjectTemplate(objTemp);
             x = 0;
             y = 0;
         }
@@ -470,6 +470,18 @@ namespace MapInterface
             properties = new Dictionary<string, Property>();
             images = new Dictionary<string, List<ImageData>>();
             SetDefaultImage();
+        }
+
+        public ObjectTemplate(ObjectTemplate objTemplate)
+        {
+            this.images = objTemplate.images;
+            this.properties = new Dictionary<string,Property>();
+            foreach(KeyValuePair<string, Property> keyVal in objTemplate.properties)
+            {
+                this.properties.Add(keyVal.Key, new Property(keyVal.Value));
+            }
+            this.name = objTemplate.name;
+            this.visibility = objTemplate.visibility;
         }
 
         private void SetDefaultImage()
@@ -611,6 +623,13 @@ namespace MapInterface
             this.name = name;
             this.type = type;
             this.value = value;
+        }
+
+        public Property(Property prop)
+        {
+            this.name = prop.name;
+            this.type = prop.type;
+            this.value = prop.value;
         }
 
     }

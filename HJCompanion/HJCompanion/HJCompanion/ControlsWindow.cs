@@ -111,12 +111,14 @@ namespace HJCompanion
                     }
                     else if (line.Contains("launch details"))
                     {
-                        this.writer.WriteLine("save instances");
-                        this.writer.Flush();
+                        mapInterface.Load();
                         int instNum = Int32.Parse( line.Split(',')[1] );
-                        //TODO: Launch object instnace
                         ObjectInstanceForm objForm = new ObjectInstanceForm(mapInterface.objectInstances[instNum]);
                         objForm.ShowDialog();
+                        //mapInterface.Save();
+                        this.writer.WriteLine("load instances");
+                        this.writer.Flush();
+
                     }
                     else if (line == "lock")
                     {

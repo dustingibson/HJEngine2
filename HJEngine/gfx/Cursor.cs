@@ -15,12 +15,14 @@ namespace HJEngine.gfx
     {
         public prim.Point point;
         public prim.Size size;
+        public string name;
         private gfx.ImageTexture cursorTexture;
         private gfx.Graphics graphics;
 
         public Cursor(gfx.Graphics graphics, string name="cursor")
         {
             this.graphics = graphics;
+            this.name = name;
             string cursorPath = Directory.GetCurrentDirectory() + "/res/img/" + name + ".png";
             Bitmap cursorBmp = new Bitmap(cursorPath);
             NewTexture(cursorBmp);

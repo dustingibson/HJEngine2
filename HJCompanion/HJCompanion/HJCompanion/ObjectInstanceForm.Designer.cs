@@ -49,6 +49,7 @@
             this.saveButton.TabIndex = 28;
             this.saveButton.Text = "Save";
             this.saveButton.UseVisualStyleBackColor = true;
+            this.saveButton.Click += new System.EventHandler(this.saveButton_Click);
             // 
             // browseButton
             // 
@@ -123,6 +124,7 @@
             this.okButton.TabIndex = 31;
             this.okButton.Text = "OK";
             this.okButton.UseVisualStyleBackColor = true;
+            this.okButton.Click += new System.EventHandler(this.okButton_Click);
             // 
             // ObjectInstanceForm
             // 

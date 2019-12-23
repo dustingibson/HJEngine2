@@ -312,6 +312,8 @@ namespace HJEngine.gfx
             body.SetLinearVelocity(vel);
             point.x = body.GetPosition().X;
             point.y = body.GetPosition().Y;
+            this.x = point.x;
+            this.y = point.y;
             float[] vertices = {
                  point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
                  point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right

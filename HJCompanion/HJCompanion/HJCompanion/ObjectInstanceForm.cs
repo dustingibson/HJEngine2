@@ -28,7 +28,7 @@ namespace HJCompanion
 
         private void PopulateItems(string key)
         {
-            string val = instance.instance.properties[key].ToString();
+            string val = Encoding.ASCII.GetString(instance.instance.properties[key].value);
             valText.Text = val; 
         }
 
@@ -46,9 +46,31 @@ namespace HJCompanion
         {
             if (propertyListView.SelectedItems.Count > 0)
             {
-                string key = propertyListView.SelectedItems[0].SubItems[0].ToString();
+                string key = propertyListView.SelectedItems[0].SubItems[0].Text;
+
                 PopulateItems(key);
             }
+        }
+
+        private void saveButton_Click(object sender, EventArgs e)
+        {
+            if (propertyListView.SelectedItems.Count > 0)
+            {
+                string key = propertyListView.SelectedItems[0].SubItems[0].Text;
+
+                instance.instance.properties[key].value = Encoding.ASCII.GetBytes(valText.Text);
+            }
+        }
+
+        private void okButton_Click(object sender, EventArgs e)
+        {
+            if (propertyListView.SelectedItems.Count > 0)
+            {
+                string key = propertyListView.SelectedItems[0].SubItems[0].Text;
+
+                PopulateItems(key);
+            }
+            this.Close();
         }
     }
 }
