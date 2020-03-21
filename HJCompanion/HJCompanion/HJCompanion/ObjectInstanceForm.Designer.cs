@@ -43,7 +43,7 @@
             // 
             // saveButton
             // 
-            this.saveButton.Location = new System.Drawing.Point(349, 412);
+            this.saveButton.Location = new System.Drawing.Point(25, 411);
             this.saveButton.Name = "saveButton";
             this.saveButton.Size = new System.Drawing.Size(52, 23);
             this.saveButton.TabIndex = 28;
@@ -59,6 +59,7 @@
             this.browseButton.TabIndex = 27;
             this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 
             // fileText
             // 
@@ -97,6 +98,7 @@
             this.propertyListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
             this.columnHeader1,
             this.columnHeader2});
+            this.propertyListView.FullRowSelect = true;
             this.propertyListView.HideSelection = false;
             this.propertyListView.Location = new System.Drawing.Point(13, 13);
             this.propertyListView.Name = "propertyListView";

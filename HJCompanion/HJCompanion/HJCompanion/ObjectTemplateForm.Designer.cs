@@ -33,6 +33,8 @@
             this.columnHeader2 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.tabControl1 = new System.Windows.Forms.TabControl();
             this.valueText = new System.Windows.Forms.TabPage();
+            this.softCheckbox = new System.Windows.Forms.CheckBox();
+            this.visibleCheckbox = new System.Windows.Forms.CheckBox();
             this.deletePropButton = new System.Windows.Forms.Button();
             this.previewPicture = new System.Windows.Forms.PictureBox();
             this.addButton = new System.Windows.Forms.Button();
@@ -45,6 +47,10 @@
             this.label1 = new System.Windows.Forms.Label();
             this.nameText = new System.Windows.Forms.TextBox();
             this.tabPage2 = new System.Windows.Forms.TabPage();
+            this.saveStepImage = new System.Windows.Forms.Button();
+            this.addStepButton = new System.Windows.Forms.Button();
+            this.stepListView = new System.Windows.Forms.ListView();
+            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
             this.deleteImageButton = new System.Windows.Forms.Button();
             this.previewImagePicture = new System.Windows.Forms.PictureBox();
             this.imageListView = new System.Windows.Forms.ListView();
@@ -60,10 +66,6 @@
             this.label5 = new System.Windows.Forms.Label();
             this.propOpenDialog = new System.Windows.Forms.OpenFileDialog();
             this.imgFileOpenDlg = new System.Windows.Forms.OpenFileDialog();
-            this.stepListView = new System.Windows.Forms.ListView();
-            this.columnHeader4 = ((System.Windows.Forms.ColumnHeader)(new System.Windows.Forms.ColumnHeader()));
-            this.addStepButton = new System.Windows.Forms.Button();
-            this.saveStepImage = new System.Windows.Forms.Button();
             this.tabControl1.SuspendLayout();
             this.valueText.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.previewPicture)).BeginInit();
@@ -111,6 +113,8 @@
             // 
             // valueText
             // 
+            this.valueText.Controls.Add(this.softCheckbox);
+            this.valueText.Controls.Add(this.visibleCheckbox);
             this.valueText.Controls.Add(this.deletePropButton);
             this.valueText.Controls.Add(this.previewPicture);
             this.valueText.Controls.Add(this.addButton);
@@ -131,6 +135,28 @@
             this.valueText.Text = "Properties";
             this.valueText.UseVisualStyleBackColor = true;
             this.valueText.Click += new System.EventHandler(this.valueText_Click);
+            // 
+            // softCheckbox
+            // 
+            this.softCheckbox.AutoSize = true;
+            this.softCheckbox.Location = new System.Drawing.Point(25, 452);
+            this.softCheckbox.Name = "softCheckbox";
+            this.softCheckbox.Size = new System.Drawing.Size(45, 17);
+            this.softCheckbox.TabIndex = 20;
+            this.softCheckbox.Text = "Soft";
+            this.softCheckbox.UseVisualStyleBackColor = true;
+            this.softCheckbox.CheckedChanged += new System.EventHandler(this.softCheckbox_CheckedChanged);
+            // 
+            // visibleCheckbox
+            // 
+            this.visibleCheckbox.AutoSize = true;
+            this.visibleCheckbox.Location = new System.Drawing.Point(25, 414);
+            this.visibleCheckbox.Name = "visibleCheckbox";
+            this.visibleCheckbox.Size = new System.Drawing.Size(56, 17);
+            this.visibleCheckbox.TabIndex = 19;
+            this.visibleCheckbox.Text = "Visible";
+            this.visibleCheckbox.UseVisualStyleBackColor = true;
+            this.visibleCheckbox.CheckedChanged += new System.EventHandler(this.visibleCheckbox_CheckedChanged);
             // 
             // deletePropButton
             // 
@@ -168,6 +194,7 @@
             this.browseButton.TabIndex = 8;
             this.browseButton.Text = "Browse";
             this.browseButton.UseVisualStyleBackColor = true;
+            this.browseButton.Click += new System.EventHandler(this.browseButton_Click);
             // 
             // fileText
             // 
@@ -256,6 +283,44 @@
             this.tabPage2.Text = "Images";
             this.tabPage2.UseVisualStyleBackColor = true;
             this.tabPage2.Click += new System.EventHandler(this.tabPage2_Click);
+            // 
+            // saveStepImage
+            // 
+            this.saveStepImage.Location = new System.Drawing.Point(267, 368);
+            this.saveStepImage.Name = "saveStepImage";
+            this.saveStepImage.Size = new System.Drawing.Size(54, 23);
+            this.saveStepImage.TabIndex = 20;
+            this.saveStepImage.Text = "Save";
+            this.saveStepImage.UseVisualStyleBackColor = true;
+            this.saveStepImage.Click += new System.EventHandler(this.saveStepImage_Click);
+            // 
+            // addStepButton
+            // 
+            this.addStepButton.Location = new System.Drawing.Point(404, 368);
+            this.addStepButton.Name = "addStepButton";
+            this.addStepButton.Size = new System.Drawing.Size(54, 23);
+            this.addStepButton.TabIndex = 19;
+            this.addStepButton.Text = "Add";
+            this.addStepButton.UseVisualStyleBackColor = true;
+            this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
+            // 
+            // stepListView
+            // 
+            this.stepListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
+            this.columnHeader4});
+            this.stepListView.HideSelection = false;
+            this.stepListView.Location = new System.Drawing.Point(267, 217);
+            this.stepListView.Name = "stepListView";
+            this.stepListView.Size = new System.Drawing.Size(191, 145);
+            this.stepListView.TabIndex = 18;
+            this.stepListView.UseCompatibleStateImageBehavior = false;
+            this.stepListView.View = System.Windows.Forms.View.Details;
+            this.stepListView.SelectedIndexChanged += new System.EventHandler(this.stepListView_SelectedIndexChanged);
+            // 
+            // columnHeader4
+            // 
+            this.columnHeader4.Text = "Step";
+            this.columnHeader4.Width = 176;
             // 
             // deleteImageButton
             // 
@@ -383,44 +448,6 @@
             // 
             this.imgFileOpenDlg.FileName = "openFileDialog2";
             // 
-            // stepListView
-            // 
-            this.stepListView.Columns.AddRange(new System.Windows.Forms.ColumnHeader[] {
-            this.columnHeader4});
-            this.stepListView.HideSelection = false;
-            this.stepListView.Location = new System.Drawing.Point(267, 217);
-            this.stepListView.Name = "stepListView";
-            this.stepListView.Size = new System.Drawing.Size(191, 145);
-            this.stepListView.TabIndex = 18;
-            this.stepListView.UseCompatibleStateImageBehavior = false;
-            this.stepListView.View = System.Windows.Forms.View.Details;
-            this.stepListView.SelectedIndexChanged += new System.EventHandler(this.stepListView_SelectedIndexChanged);
-            // 
-            // columnHeader4
-            // 
-            this.columnHeader4.Text = "Step";
-            this.columnHeader4.Width = 176;
-            // 
-            // addStepButton
-            // 
-            this.addStepButton.Location = new System.Drawing.Point(404, 368);
-            this.addStepButton.Name = "addStepButton";
-            this.addStepButton.Size = new System.Drawing.Size(54, 23);
-            this.addStepButton.TabIndex = 19;
-            this.addStepButton.Text = "Add";
-            this.addStepButton.UseVisualStyleBackColor = true;
-            this.addStepButton.Click += new System.EventHandler(this.addStepButton_Click);
-            // 
-            // saveStepImage
-            // 
-            this.saveStepImage.Location = new System.Drawing.Point(267, 368);
-            this.saveStepImage.Name = "saveStepImage";
-            this.saveStepImage.Size = new System.Drawing.Size(54, 23);
-            this.saveStepImage.TabIndex = 20;
-            this.saveStepImage.Text = "Save";
-            this.saveStepImage.UseVisualStyleBackColor = true;
-            this.saveStepImage.Click += new System.EventHandler(this.saveStepImage_Click);
-            // 
             // ObjectTemplateForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
@@ -484,5 +511,7 @@
         private System.Windows.Forms.ColumnHeader columnHeader4;
         private System.Windows.Forms.Button addStepButton;
         private System.Windows.Forms.Button saveStepImage;
+        private System.Windows.Forms.CheckBox softCheckbox;
+        private System.Windows.Forms.CheckBox visibleCheckbox;
     }
 }

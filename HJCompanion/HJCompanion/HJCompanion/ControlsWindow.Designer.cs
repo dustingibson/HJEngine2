@@ -40,6 +40,7 @@
             this.detailsButton = new System.Windows.Forms.Button();
             this.saveInstanceButton = new System.Windows.Forms.Button();
             this.delInstanceButton = new System.Windows.Forms.Button();
+            this.shapeButton = new System.Windows.Forms.Button();
             this.SuspendLayout();
             // 
             // cursorButton
@@ -135,7 +136,7 @@
             // saveInstanceButton
             // 
             this.saveInstanceButton.Image = ((System.Drawing.Image)(resources.GetObject("saveInstanceButton.Image")));
-            this.saveInstanceButton.Location = new System.Drawing.Point(12, 118);
+            this.saveInstanceButton.Location = new System.Drawing.Point(52, 32);
             this.saveInstanceButton.Name = "saveInstanceButton";
             this.saveInstanceButton.Size = new System.Drawing.Size(34, 37);
             this.saveInstanceButton.TabIndex = 9;
@@ -152,11 +153,22 @@
             this.delInstanceButton.UseVisualStyleBackColor = true;
             this.delInstanceButton.Click += new System.EventHandler(this.delInstanceButton_Click);
             // 
+            // shapeButton
+            // 
+            this.shapeButton.Image = ((System.Drawing.Image)(resources.GetObject("shapeButton.Image")));
+            this.shapeButton.Location = new System.Drawing.Point(12, 118);
+            this.shapeButton.Name = "shapeButton";
+            this.shapeButton.Size = new System.Drawing.Size(34, 37);
+            this.shapeButton.TabIndex = 11;
+            this.shapeButton.UseVisualStyleBackColor = true;
+            this.shapeButton.Click += new System.EventHandler(this.shapeButton_Click);
+            // 
             // ControlsWindow
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(262, 563);
+            this.Controls.Add(this.shapeButton);
             this.Controls.Add(this.delInstanceButton);
             this.Controls.Add(this.saveInstanceButton);
             this.Controls.Add(this.detailsButton);
@@ -188,5 +200,6 @@
         private System.Windows.Forms.Button detailsButton;
         private System.Windows.Forms.Button saveInstanceButton;
         private System.Windows.Forms.Button delInstanceButton;
+        private System.Windows.Forms.Button shapeButton;
     }
 }

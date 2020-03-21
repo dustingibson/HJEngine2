@@ -62,7 +62,7 @@ namespace HJCompanion
             if (exist != "")
             {
                 //FileStream fs = File.Create(mapDir + "/" + nameText.Text + ".hjm");
-                mapInterface.Save(mapDir + "/" + nameText.Text + ".hjm");
+                mapInterface.NewMap(mapDir + "/" + nameText.Text + ".hjm");
                 UpdateMapsList();
                 //fs.Close();
             }

@@ -17,8 +17,10 @@ namespace HJEngine.editor
         private Dictionary<string, gfx.Cursor> cursors;
         private gfx.Cursor defaultCursor;
         private gfx.Graphics graphics;
+        private gfx.ImageTexture shapeTexture;
         private string mode;
         private string prevMode;
+        private prim.Point startShapePoint;
         private gfx.GameMap map;
         private MapInterface.ObjectTemplate curObj;
         private gfx.ObjectEntity heldObject;
@@ -43,6 +45,7 @@ namespace HJEngine.editor
             cursors.Add("remove", new gfx.Cursor(graphics, "remove"));
             cursors.Add("move", new gfx.Cursor(graphics, "move"));
             cursors.Add("details", new gfx.Cursor(graphics, "details"));
+            cursors.Add("shape", new gfx.Cursor(graphics, "shape"));
             defaultCursor = new gfx.Cursor(graphics);
             cursor = defaultCursor;
             mode = "cursor";
@@ -64,6 +67,14 @@ namespace HJEngine.editor
             foreach(MapInterface.ObjectInstance inst in this.map.mapInterface.objectInstances)
             {
                 inst.Draw();
+            }
+            foreach (MapInterface.ObjectWall inst in this.map.mapInterface.objectWalls)
+            {
+                inst.Draw();
+            }
+            if (shapeTexture != null)
+            {
+                shapeTexture.Draw();
             }
             cursor.Draw();
         }
@@ -114,10 +125,12 @@ namespace HJEngine.editor
         {
             LockClient();
             List<MapInterface.ObjectInstance> instance = new List<MapInterface.ObjectInstance>(map.mapInterface.objectInstances);
+            List<MapInterface.ObjectWall> walls = new List<MapInterface.ObjectWall>(map.mapInterface.objectWalls);
             //Load with latest
             map.LoadMap(this.graphics);
             //Save
             map.mapInterface.objectInstances = instance;
+            map.mapInterface.objectWalls = walls;
             map.mapInterface.Save();
             UnlockClient();
             //Now client must have latest
@@ -149,6 +162,15 @@ namespace HJEngine.editor
                         {
                             cursor = cursors["remove"];
                             mode = "remove";
+                        }
+                        if (allParams[0] == "shape instance")
+                        {
+                            cursor = cursors["shape"];
+                            string objKey = allParams[1];
+                            curObj = map.mapInterface.objectTemplates[objKey];
+                            Bitmap curTexture = map.mapInterface.objectTemplates[objKey].images["default"][0].image;
+                            shapeTexture = new gfx.ImageTexture(this.graphics, curTexture);
+                            mode = "shape";
                         }
                         if (allParams[0] == "move instance")
                         {
@@ -252,6 +274,15 @@ namespace HJEngine.editor
                         this.mode = "move";
                         SaveInstances();
                     }
+                    else if (this.mode == "shape progress")
+                    {
+                        this.mode = "shape";
+                        prim.Size wallSize = new prim.Size(shapeTexture.size);
+                        prim.Point wallPoint = new prim.Point(startShapePoint);
+                        gfx.WallEntity objInstance = new gfx.WallEntity(map.world, curObj, graphics, wallPoint, wallSize);
+                        map.mapInterface.objectWalls.Add(objInstance);
+                        shapeTexture = null;
+                    }
                     else if (this.mode == "details")
                     {
                         List<gfx.ObjectEntity> insts = getCursorAdjInstances();
@@ -273,6 +304,17 @@ namespace HJEngine.editor
                             heldObject = insts[0];
                             this.mode = "move progress";
                         }
+                    }
+                    if (this.mode == "shape")
+                    {
+                        this.mode = "shape progress";
+                        startShapePoint = new prim.Point(graphics.mousePoint);
+                    }
+                    if (this.mode == "shape progress")
+                    {
+                        prim.Size newSize = new prim.Size(Math.Abs(startShapePoint.x - this.graphics.mousePoint.x),
+                            Math.Abs(startShapePoint.y - this.graphics.mousePoint.y));
+                        shapeTexture.Update(startShapePoint, newSize);
                     }
                     if (this.mode == "move progress")
                     {

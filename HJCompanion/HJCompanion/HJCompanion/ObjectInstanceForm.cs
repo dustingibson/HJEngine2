@@ -57,7 +57,6 @@ namespace HJCompanion
             if (propertyListView.SelectedItems.Count > 0)
             {
                 string key = propertyListView.SelectedItems[0].SubItems[0].Text;
-
                 instance.instance.properties[key].value = Encoding.ASCII.GetBytes(valText.Text);
             }
         }
@@ -71,6 +70,11 @@ namespace HJCompanion
                 PopulateItems(key);
             }
             this.Close();
+        }
+
+        private void browseButton_Click(object sender, EventArgs e)
+        {
+            
         }
     }
 }

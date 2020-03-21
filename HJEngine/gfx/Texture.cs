@@ -1,4 +1,5 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using OpenTK.Graphics.OpenGL4;
 using OpenTK;
@@ -21,6 +22,24 @@ namespace HJEngine.gfx
         {
             this.vertices = vertices;
             this.indices = indices;
+            this.graphics = graphics;
+            this.shader = new Shader(shaderName, graphics.shaders);
+        }
+
+        public Texture(gfx.Graphics graphics, string shaderName)
+        {
+           uint[] defaultIndices =  {  // note that we start from 0!
+                0, 1, 3,   // first triangle
+                1, 2, 3    // second triangle
+            };
+            float[] defaultVertices = {
+                0f, 0f, 0f, 1f, 1f,
+                0f, 0f, 0f, 1f, 0f,
+                0f, 0f, 0f, 0f, 0f,
+                0f, 0f, 0f, 0f, 1f
+            };
+            this.indices = defaultIndices;
+            this.vertices = defaultVertices;
             this.graphics = graphics;
             this.shader = new Shader(shaderName, graphics.shaders);
         }
@@ -105,6 +124,16 @@ namespace HJEngine.gfx
 
         }
 
+        public virtual void Update(prim.Point point)
+        {
+
+        }
+
+        public virtual void Update(prim.Point point, prim.Size size, bool repeat = true)
+        {
+
+        }
+
         public void Use(TextureUnit unit = TextureUnit.Texture0)
         {
             GL.ActiveTexture(unit);
@@ -115,10 +144,26 @@ namespace HJEngine.gfx
     class ImageTexture : Texture
     {
         private float brightness;
+        public prim.Size size;
+        public prim.Size bitmapSize;
 
         public ImageTexture(gfx.Graphics graphics, Bitmap bitmap, float[] vertices, uint[] indices) 
             : base(graphics, "texture", vertices, indices)
         {
+            InitTexture(bitmap);
+        }
+
+        public ImageTexture(gfx.Graphics graphics, Bitmap bitmap)
+    : base(graphics, "texture")
+        {
+            InitTexture(bitmap);
+        }
+
+        private void InitTexture(Bitmap bitmap)
+        {
+            size = new prim.Size(bitmap.Width / (float)graphics.size.w,
+                bitmap.Height / (float)graphics.size.h);
+            bitmapSize = new prim.Size(size);
             this.texHandle = GL.GenTexture();
             this.Use();
             GL.BindTexture(TextureTarget.Texture2D, texHandle);
@@ -182,6 +227,47 @@ namespace HJEngine.gfx
             base.Update(vertices);
         }
 
+        public override void Update(prim.Point point)
+        {
+            float[] newVertices =
+{
+                 point.x + size.w,  point.y + size.h, 0.0f, 1.0f, 1.0f,  // top right
+                 point.x + size.w, point.y, 0.0f, 1.0f, 0.0f,  // bottom right
+                point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left
+                point.x,  point.y + size.h, 0.0f, 0.0f, 1.0f   // top left
+            };
+
+            uint[] newIndices = {  // note that we start from 0!
+                0, 1, 3,   // first triangle
+                1, 2, 3    // second triangle
+            };
+
+            this.vertices = newVertices;
+            this.indices = newIndices;
+        }
+
+        public override void Update(prim.Point point, prim.Size newSize, bool repeat = true)
+        {
+            this.size = newSize;
+            if (repeat)
+            {
+                float nx = size.w / bitmapSize.w;
+                float ny = size.h  / bitmapSize.h;
+                Console.WriteLine(nx.ToString() + " , " + ny.ToString());
+                float[] newVertices =
+                {
+                 point.x + size.w,  point.y + size.h, 0.0f, nx, ny,  // top right
+                 point.x + size.w, point.y, 0.0f, nx, 0.0f,  // bottom right
+                point.x, point.y, 0.0f, 0.0f, 0.0f,  // bottom left
+                point.x,  point.y + size.h, 0.0f, 0.0f, ny   // top left
+            };
+                this.vertices = newVertices;
+                this.size = new prim.Size(size.w / (float)graphics.size.w,
+                    size.h / (float)graphics.size.h);
+            }
+            else
+                Update(point);
+        }
     }
 
     class ColorTexture : Texture

@@ -41,6 +41,7 @@ namespace HJCompanion
             this.buttonList.Add(removeButton);
             this.buttonList.Add(moveButton);
             this.buttonList.Add(detailsButton);
+            this.buttonList.Add(shapeButton);
 
             activeButton = "";
         }
@@ -115,7 +116,7 @@ namespace HJCompanion
                         int instNum = Int32.Parse( line.Split(',')[1] );
                         ObjectInstanceForm objForm = new ObjectInstanceForm(mapInterface.objectInstances[instNum]);
                         objForm.ShowDialog();
-                        //mapInterface.Save();
+                        mapInterface.Save();
                         this.writer.WriteLine("load instances");
                         this.writer.Flush();
 
@@ -260,6 +261,16 @@ namespace HJCompanion
             this.writer.WriteLine("instance details");
             this.writer.Flush();
             resetButtons(((Button)sender).Name);
+        }
+
+        private void shapeButton_Click(object sender, EventArgs e)
+        {
+            if (objKey != "")
+            {
+                this.writer.WriteLine("shape instance," + objKey);
+                this.writer.Flush();
+                resetButtons(((Button)sender).Name);
+            }
         }
     }
 

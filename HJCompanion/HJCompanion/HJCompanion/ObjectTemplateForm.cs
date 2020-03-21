@@ -19,6 +19,7 @@ namespace HJCompanion
         public MapInterface.MapInterface mapInterface;
         public Bitmap uploadedImage;
         public Bitmap currentImage;
+        public Bitmap currentPropImage;
         public string name;
 
         public ObjectTemplateForm(MapInterface.MapInterface mapInterface)
@@ -75,6 +76,7 @@ namespace HJCompanion
             nameText.Text = "";
             typeCombo.SelectedItem = "";
             valText.Text = "";
+            previewPicture.Image = null;
         }
 
         public void ClearImageUI()
@@ -85,6 +87,7 @@ namespace HJCompanion
 
         public void updateUI()
         {
+            uploadedImage = null;
             if (propListView.SelectedItems.Count > 0)
             {
                 string selectedItem = propListView.SelectedItems[0].Text;
@@ -103,6 +106,7 @@ namespace HJCompanion
                     valText.Text = property.getBool().ToString();
                 else if (property.type == "image")
                     uploadedImage = property.getBitmap();
+                previewPicture.Image = uploadedImage;
             }
             else
             {
@@ -251,7 +255,8 @@ namespace HJCompanion
 
         private void ObjectTemplateForm_Load(object sender, EventArgs e)
         {
-           
+            softCheckbox.Checked = objTemplate.isSoft;
+            visibleCheckbox.Checked = objTemplate.visibility;
         }
 
         private void imageListView_SelectedIndexChanged(object sender, EventArgs e)
@@ -331,6 +336,27 @@ namespace HJCompanion
             {
                 int step = stepListView.SelectedIndices[0];
                 addImage(step);
+            }
+        }
+
+        private void visibleCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            objTemplate.visibility = visibleCheckbox.Checked;
+        }
+
+        private void softCheckbox_CheckedChanged(object sender, EventArgs e)
+        {
+            objTemplate.isSoft = softCheckbox.Checked;
+        }
+
+        private void browseButton_Click(object sender, EventArgs e)
+        {
+            if(propOpenDialog.ShowDialog() == DialogResult.OK)
+            {
+                fileText.Text = propOpenDialog.FileName;
+                uploadedImage = new Bitmap(fileText.Text);
+                previewPicture.Image = uploadedImage;
+                previewPicture.Refresh();
             }
         }
     }
